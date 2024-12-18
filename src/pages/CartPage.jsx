@@ -4,19 +4,17 @@ import { Link } from 'react-router-dom';
 import PageContainer from '../components/PageContainer';
 import PageHeader from '../components/PageHeader';
 import { useAppContext } from '../context/AppContext';
-import formatPrice from '../utils/formatPrice';
+
 import CartItem from '../components/CartItem';
 import { getCartSummary } from '../helpers/cartHelpers';
-
+import OrderDetails from '../components/OrderDetails';
 
 
 const CartPage = () => {
-	const [orderSummary, setOrderSummary] = useState([]);
 	const [isEmptyCart, setIsEmptyCart] = useState(true);
 	const [isLoading, setIsLoading] = useState(false);
 	
-	const { cart } = useAppContext();
-	console.log(cart)
+	const { cart,  updateOrderDetails } = useAppContext();
 
 
 	useEffect(() => {
@@ -24,7 +22,7 @@ const CartPage = () => {
 			setIsLoading(true)
 
 			const { subtotal, taxes, total, shipping } = await getCartSummary(cart)
-			setOrderSummary(
+			updateOrderDetails(
 				{
 					subtotal,
 					taxes,
@@ -44,13 +42,7 @@ const CartPage = () => {
 		setIsEmptyCart(cart.length === 0);
 	}, [cart])
 	
-	const getFormattedValues = () => {
-		const subtotal = formatPrice(orderSummary.subtotal);
-		const taxes = formatPrice(orderSummary.taxes);
-		const shipping = formatPrice(orderSummary.shipping);
-		const total = formatPrice(orderSummary.total);
-		return { subtotal, taxes, shipping, total };
-	}
+	
 
 
 	if (isEmptyCart && !isLoading) return <PageContainer>
@@ -87,26 +79,7 @@ const CartPage = () => {
 				</List>
 
 				<Divider sx={{ margin: 2, }} />
-				{
-					<>
-							<Box sx={{ display: 'flex', justifyContent: 'end'}}>
-								<Typography sx={{ width: '100px' }}>Subtotal</Typography>
-								<Typography sx={{ width: '100px', textAlign: 'right' }}>{getFormattedValues().subtotal}</Typography>
-							</Box>
-							<Box sx={{ display: 'flex', justifyContent: 'end'}}>
-								<Typography sx={{ width: '100px' }}>Impuestos</Typography>
-								<Typography sx={{ width: '100px', textAlign: 'right' }}>{getFormattedValues().taxes}</Typography>
-							</Box>
-							<Box sx={{ display: 'flex', justifyContent: 'end'}}>
-								<Typography sx={{ width: '100px' }}>Envío</Typography>
-								<Typography sx={{ width: '100px', textAlign: 'right' }}>{getFormattedValues().shipping}</Typography>
-							</Box>
-							<Box sx={{ display: 'flex', justifyContent: 'end',  marginTop: 2, paddingTop: 2, borderTop: '1px solid black', fontWeight: 'bold' }}>
-								<Typography sx={{ width: '100px' }}>Total</Typography>
-								<Typography sx={{ width: '100px', textAlign: 'right' }}>{getFormattedValues().total}</Typography>
-							</Box>
-						</>
-				}
+				<OrderDetails />
 			</Box>
 		</PageContainer >
 	);

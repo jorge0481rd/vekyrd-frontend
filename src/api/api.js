@@ -1,100 +1,135 @@
 import axios from 'axios';
 
 const api = axios.create({
-	baseURL: 'http://localhost:5000',
+  baseURL: 'http://localhost:5000',
 });
 
 // interceptors
 api.interceptors.request.use(
-	(config) => {
-		const token = localStorage.getItem('token');
-		if (token) {
-			config.headers.Authorization = `Bearer ${token}`;
-		}
-		return config;
-	},
-	(error) => Promise.reject(error)
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
 );
 
 api.interceptors.response.use(
-	(response) => response,
-	async (error) => {
-		const originalRequest = error.config;
-		if (error.response?.status === 400 && error.response?.data?.message === 'Token inválido') {
-			try {
-				const refreshToken = localStorage.getItem('refreshToken');
-				if (!refreshToken) {
-					throw new Error('No refresh token available');
-				}
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+    if (
+      error.response?.status === 400 &&
+      error.response?.data?.message === 'Token inválido'
+    ) {
+      try {
+        const refreshToken = localStorage.getItem('refreshToken');
+        if (!refreshToken) {
+          throw new Error('No refresh token available');
+        }
 
-				const { data } = await axios.post('http://localhost:5000/auth/refresh', { refreshToken });
+        const { data } = await axios.post(
+          'http://localhost:5000/auth/refresh',
+          { refreshToken }
+        );
 
-				localStorage.setItem('token', data.token);
-				originalRequest.headers.Authorization = `Bearer ${data.token}`;
+        localStorage.setItem('token', data.token);
+        originalRequest.headers.Authorization = `Bearer ${data.token}`;
 
-				return api(originalRequest);
-			} catch (refreshError) {
-				console.error('Refresh token failed:', refreshError);
-				localStorage.removeItem('token');
-				localStorage.removeItem('refreshToken');
-				window.location.href = '/login';
-				return Promise.reject(refreshError);
-			}
-		}
+        return api(originalRequest);
+      } catch (refreshError) {
+        console.error('Refresh token failed:', refreshError);
+        localStorage.removeItem('token');
+        localStorage.removeItem('refreshToken');
+        window.location.href = '/login';
+        return Promise.reject(refreshError);
+      }
+    }
 
-		return Promise.reject(error);
-	}
+    return Promise.reject(error);
+  }
 );
 
 // orders
 
 export const apiCreateOrder = async () => {
-	const response = await api.get('http://localhost:5000/orders/createOrder');
-	return response.data;
-}
+  const response = await api.get('http://localhost:5000/orders/createOrder');
+  return response.data;
+};
 
 export const apiPayment = async (paymentPayload) => {
-	const response = await api.post('http://localhost:5000/orders/payment', paymentPayload);
-	return response.data;
-}
+  const response = await api.post(
+    'http://localhost:5000/orders/payment',
+    paymentPayload
+  );
+  return response.data;
+};
 
 // auth
 export const apiLogin = async (username, password) => {
-	const response = await api.post('http://localhost:5000/auth/login', { username, password });
-	localStorage.setItem('token', response.data.token);
-	localStorage.setItem('refreshToken', response.data.refreshToken);
-	return response.data;
-}
+  const response = await api.post('http://localhost:5000/auth/login', {
+    username,
+    password,
+  });
+  localStorage.setItem('token', response.data.token);
+  localStorage.setItem('refreshToken', response.data.refreshToken);
+  return response.data;
+};
 
 export const apiRegister = async (username, password) => {
-	const response = await api.post('http://localhost:5000/auth/register', { username, password });
-	localStorage.setItem('token', response.data.token);
-	localStorage.setItem('refreshToken', response.data.refreshToken);
-	return response.data;
-}
+  const response = await api.post('http://localhost:5000/auth/register', {
+    username,
+    password,
+  });
+  localStorage.setItem('token', response.data.token);
+  localStorage.setItem('refreshToken', response.data.refreshToken);
+  return response.data;
+};
 
 export const apiLogout = async () => {
-	localStorage.removeItem('token');
-	localStorage.removeItem('refreshToken');
-	window.location.href = '/login';
-}
+  localStorage.removeItem('token');
+  localStorage.removeItem('refreshToken');
+  window.location.href = '/login';
+};
 
-// cart 
+// cart
 export const apiUpdateCart = async (items) => {
-	const response = await api.post('http://localhost:5000/orders/updatecart', items);
-	return response.data;
-}
+  const response = await api.post(
+    'http://localhost:5000/orders/updatecart',
+    items
+  );
+  return response.data;
+};
 
 export const apiAddToCart = async (productId, quantity) => {
-	const response = await api.post('http://localhost:5000/cart/add', { product_id: productId, quantity: quantity });
-	return response.data;
-}
+  const response = await api.post('http://localhost:5000/cart/add', {
+    product_id: productId,
+    quantity: quantity,
+  });
+  return response.data;
+};
 
-
-// products 
+// products
 export const apiFetchProducts = async () => {
-	const response = await api.get('http://localhost:5000/products') || [];
-	return response.data;
-}
+  const response = (await api.get('http://localhost:5000/products')) || [];
+  return response.data;
+};
+
+// inventory
+export const apiFetchInventory = async () => {
+  const data =
+    (await api.get('http://localhost:5000/products/inventory')) || [];
+  return data;
+};
+
+export const updateInventory = async (productId, quantity) => {
+  const response = await api.put(
+    `http://localhost:5000/products/updateInventory/${productId}`,
+    { quantity }
+  );
+  return response.data;
+};
 
 export default api;
