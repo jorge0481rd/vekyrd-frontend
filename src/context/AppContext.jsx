@@ -51,6 +51,7 @@ export const AppProvider = ({ children }) => {
     localStorage.removeItem('isAuthenticated');
     localStorage.removeItem('cart');
     localStorage.removeItem('orderDetails');
+    localStorage.removeItem('token');
     window.location.href = '/login';
   };
 

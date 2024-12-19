@@ -1,5 +1,7 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
+import ProtectedRoute from './components/ProtectedRoute';
+
 import CartPage from './pages/CartPage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
@@ -13,13 +15,28 @@ const App = () => {
     <AppProvider>
       <Router>
         <Routes>
-          <Route path="/" exact Component={HomePage} />
-          <Route path="/products" exact Component={ProductsPage} />
-          <Route path="/orders" exact Component={OrdersPage} />
-          <Route path="/cart" exact Component={CartPage} />
-          <Route path="/login" exact Component={LoginPage} />
-          <Route path="/register" exact Component={RegisterPage} />
-          <Route path="/inventory" exact Component={InventoryPage} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/products" element={<ProductsPage />} />
+          <Route
+            path="/orders"
+            element={
+              <ProtectedRoute>
+                <OrdersPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route
+            path="/inventory"
+            element={
+              <ProtectedRoute>
+                <InventoryPage />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </Router>
     </AppProvider>

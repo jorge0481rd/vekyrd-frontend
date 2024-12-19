@@ -28,23 +28,27 @@ const Navbar = () => {
             Carrito &nbsp;
           </Badge>
         </Button>
-        <Button color="inherit" component={Link} to="/inventory">
-          Inventario
-        </Button>
         {!isAuthenticated && (
           <Button color="inherit" component={Link} to="/login">
             Iniciar session
           </Button>
         )}
+
+        {/* iAuthenticated  */}
         {isAuthenticated && (
-          <Button
-            color="inherit"
-            component={Link}
-            onClick={logout}
-            title="Cerrar sesión"
-          >
-            Salir
-          </Button>
+          <>
+            <Button color="inherit" component={Link} to="/inventory">
+              Inventario
+            </Button>
+            <Button
+              color="inherit"
+              component={Link}
+              onClick={logout}
+              title="Cerrar sesión"
+            >
+              Salir
+            </Button>
+          </>
         )}
       </Toolbar>
     </AppBar>
