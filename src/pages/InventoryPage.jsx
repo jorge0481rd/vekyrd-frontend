@@ -94,7 +94,7 @@ const InventoryPage = () => {
   return (
     <PageContainer>
       <PageHeader
-        text="Inventario"
+        title="Inventario"
         isLoading={loading}
         isLoadingText="Cargando inventario..."
       >

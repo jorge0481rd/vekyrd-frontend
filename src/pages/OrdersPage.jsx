@@ -171,7 +171,11 @@ const OrderPage = () => {
 
   return (
     <PageContainer>
-      <PageHeader text="Pago" isLoading={isLoading} isLoadingText="Cargando...">
+      <PageHeader
+        title="Pago"
+        isLoading={isLoading}
+        isLoadingText="Cargando..."
+      >
         <Typography variant="body1" gutterBottom sx={{ textAlign: 'right' }}>
           Pedido #: {orderHash}
         </Typography>

@@ -44,7 +44,7 @@ const CartPage = () => {
   if (isEmptyCart && !isLoading)
     return (
       <PageContainer>
-        <PageHeader text="Carrito" isLoading={isLoading}></PageHeader>
+        <PageHeader title="Carrito" isLoading={isLoading}></PageHeader>
         <Box
           sx={{
             display: 'flex',
@@ -84,7 +84,7 @@ const CartPage = () => {
 
   return (
     <PageContainer>
-      <PageHeader text="Carrito" isLoading={isLoading}>
+      <PageHeader title="Carrito" isLoading={isLoading}>
         <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
           <Button component={Link} variant="contained" to="/products">
             ◄ Productos

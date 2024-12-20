@@ -2,7 +2,13 @@ import { Box, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import IsloadingFallback from './IsloadingFallback';
 
-const PageHeader = ({ text, children, isLoading = false, isLoadingText }) => {
+const PageHeader = ({
+  title,
+  subtitle = '',
+  children,
+  isLoading = false,
+  isLoadingText,
+}) => {
   return (
     <Box
       id="page-header"
@@ -29,7 +35,10 @@ const PageHeader = ({ text, children, isLoading = false, isLoadingText }) => {
         </Box>
       )}
       <Typography variant="h4" textAlign={'center'}>
-        {text}
+        {title}
+      </Typography>
+      <Typography variant="h6" textAlign={'center'} mt={2}>
+        {subtitle}
       </Typography>
       <>{children}</>
     </Box>
@@ -37,7 +46,8 @@ const PageHeader = ({ text, children, isLoading = false, isLoadingText }) => {
 };
 
 PageHeader.propTypes = {
-  text: PropTypes.string,
+  title: PropTypes.string.isRequired,
+  subtitle: PropTypes.string,
   children: PropTypes.node,
   isLoading: PropTypes.bool,
   isLoadingText: PropTypes.string,

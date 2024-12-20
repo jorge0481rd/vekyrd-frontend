@@ -66,7 +66,7 @@ const LoginPage = () => {
 
   return (
     <PageContainer>
-      <PageHeader text="Iniciar sesión">
+      <PageHeader title="Iniciar sesión">
         <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
           <NavigationButton href="/products" text="Productos ►" />
         </Box>

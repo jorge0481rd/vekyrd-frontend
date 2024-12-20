@@ -6,7 +6,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useAppContext } from '../../context/AppContext';
 import PropTypes from 'prop-types';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const ProductCard = memo(
   ({ product, isProductInCart, disableLinkToDetails = false }) => {
@@ -15,6 +15,7 @@ const ProductCard = memo(
     const [liked, setLiked] = useState(false);
 
     const { addOrRemoveToCart } = useAppContext();
+    const navigate = useNavigate();
 
     const handleAddOrRemove = (product) => {
       addOrRemoveToCart(product);
@@ -109,21 +110,20 @@ const ProductCard = memo(
                   opacity: 0.8,
                 },
               }}
+              onClick={() => navigate(`/products/${product.id}`)}
             >
-              <Link to={`/products/${product.id}`}>
-                <VisibilityIcon sx={{ color: 'white', fontSize: '3.5rem' }} />
-                <Typography
-                  variant="p"
-                  sx={{
-                    color: 'white',
-                    fontWeight: 700,
-                    textAlign: 'center',
-                    marginBottom: '1rem',
-                  }}
-                >
-                  Detalles
-                </Typography>{' '}
-              </Link>
+              <VisibilityIcon sx={{ color: 'white', fontSize: '3.5rem' }} />
+              <Typography
+                variant="p"
+                sx={{
+                  color: 'white',
+                  fontWeight: 700,
+                  textAlign: 'center',
+                  marginBottom: '1rem',
+                }}
+              >
+                Detalles
+              </Typography>{' '}
             </Box>
           )}
         </Paper>

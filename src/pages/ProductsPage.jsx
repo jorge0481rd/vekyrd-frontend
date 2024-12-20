@@ -42,7 +42,8 @@ const ProductPage = () => {
   return (
     <PageContainer>
       <PageHeader
-        text="Productos"
+        title="Nuestros Productos"
+        subtitle="¡ES TIEMPO DE UN CABELLO HERMOSO!"
         isLoading={isLoading}
         isLoadingText="Cargando productos..."
       >
