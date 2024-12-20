@@ -117,6 +117,11 @@ export const apiFetchProducts = async () => {
   return response.data;
 };
 
+export const getProductDetails = async (productId) => {
+  const response = await api.get(`http://localhost:5000/products/${productId}`);
+  return response.data;
+};
+
 // inventory
 export const apiFetchInventory = async () => {
   const data =

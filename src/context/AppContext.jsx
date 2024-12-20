@@ -1,14 +1,17 @@
 import { createContext, useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { getCartSummary } from '../helpers/cartHelpers';
+import {
+  getCartFromLocalStorage,
+  getCartSummary,
+} from '../helpers/cartHelpers';
 import { apiLogin } from '../api/api';
 
 const AppContext = createContext();
 
 // AppProvider
 export const AppProvider = ({ children }) => {
-  const [cart, setCart] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [cartCount, setCartCount] = useState(getCartFromLocalStorage().length);
   const [orderDetails, setOrderDetails] = useState({
     total: 0,
     subtotal: 0,
@@ -16,21 +19,22 @@ export const AppProvider = ({ children }) => {
     shipping: 0,
   });
 
-  useEffect(() => {
-    const cartData = JSON.parse(localStorage.getItem('cart')) || [];
-    setCart(cartData);
-  }, []);
-
-  useEffect(() => {
+  const updateCartSummary = () => {
+    const cart = getCartFromLocalStorage();
     const details = getCartSummary(cart);
     setOrderDetails(details);
-  }, [cart]);
+  };
 
   useEffect(() => {
     // check if authenticated
     const isAuthenticated =
       JSON.parse(localStorage.getItem('isAuthenticated')) || false;
     setIsAuthenticated(isAuthenticated);
+  }, []);
+
+  useEffect(() => {
+    const cart = getCartFromLocalStorage();
+    setCartCount(cart.length);
   }, []);
 
   // authentication
@@ -57,20 +61,22 @@ export const AppProvider = ({ children }) => {
 
   // addOrRemoveToCart
   const addOrRemoveToCart = (product) => {
-    const isInCart = cart.some((item) => item.id === product.id);
+    const localStorageCart = JSON.parse(localStorage.getItem('cart')) || [];
+    const isInCart = localStorageCart.some((item) => item.id === product.id);
 
     const updatedCart = isInCart
-      ? cart.filter((item) => item.id !== product.id)
-      : [...cart, { ...product, productId: product.id, quantity: 1 }];
+      ? localStorageCart.filter((item) => item.id !== product.id)
+      : [
+          ...localStorageCart,
+          { ...product, productId: product.id, quantity: 1 },
+        ];
 
-    setCart(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
 
-    return !isInCart;
+    setCartCount(updatedCart.length);
   };
 
   const resetPurchase = () => {
-    setCart([]);
     setOrderDetails({});
     localStorage.removeItem('cart');
     localStorage.removeItem('orderDetails');
@@ -78,20 +84,20 @@ export const AppProvider = ({ children }) => {
 
   // updateQuantity
   const updateQuantity = (itemId, amount) => {
+    const cart = getCartFromLocalStorage();
     const updatedCart = cart.map((item) => {
       if (item.productId === itemId) {
         return { ...item, quantity: item.quantity + amount };
       }
       return item;
     });
-    setCart(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
 
   // removeFromCart
   const removeFromCart = (itemId) => {
+    const cart = getCartFromLocalStorage();
     const updatedCart = cart.filter((item) => item.productId !== itemId);
-    setCart(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
 
@@ -104,9 +110,9 @@ export const AppProvider = ({ children }) => {
   return (
     <AppContext.Provider
       value={{
-        cart: cart ?? [],
         orderDetails,
         updateOrderDetails,
+        updateCartSummary,
         addOrRemoveToCart,
         resetPurchase,
         updateQuantity,
@@ -114,6 +120,8 @@ export const AppProvider = ({ children }) => {
         login,
         logout,
         isAuthenticated,
+        cartCount,
+        setCartCount,
       }}
     >
       {children}

@@ -1,5 +1,13 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Box, Button, TextField, Typography, Grid } from '@mui/material';
+import {
+  Box,
+  Button,
+  TextField,
+  Typography,
+  Grid,
+  Checkbox,
+  FormControlLabel,
+} from '@mui/material';
 import { apiFetchInventory, updateInventory } from '../api/api';
 import PageContainer from '../components/PageContainer';
 import PageHeader from '../components/PageHeader';
@@ -14,6 +22,15 @@ const InventoryPage = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const [search, setSearch] = useState('');
 
+  // Filters states
+  const [stockStatus, setStockStatus] = useState({
+    inStock: true,
+    outOfStock: false,
+    lowStock: false,
+  });
+
+  const [priceRange, setPriceRange] = useState([0, 1000]);
+
   // Fetch products and stock levels
   useEffect(() => {
     const fetchInventory = async () => {
@@ -22,7 +39,7 @@ const InventoryPage = () => {
         setProducts(response.data);
       } catch (err) {
         setError('Fallo al cargar el inventario.');
-        console.log(err.message);
+        console.log(err);
       } finally {
         setLoading(false);
       }
@@ -30,12 +47,28 @@ const InventoryPage = () => {
     fetchInventory();
   }, []);
 
-  // Filter products based on search term
+  // Filter products based on search term and filters
   const filteredProducts = useMemo(() => {
-    return products.filter((product) =>
-      product.name.toLowerCase().includes(search.toLowerCase())
-    );
-  }, [products, search]);
+    return products.filter((product) => {
+      // Filter by search term
+      const matchesSearch = product.name
+        .toLowerCase()
+        .includes(search.toLowerCase());
+
+      // Filter by stock status
+      const matchesStockStatus =
+        (stockStatus.inStock && product.stock > 0) ||
+        (stockStatus.outOfStock && product.stock === 0) ||
+        (stockStatus.lowStock && product.stock > 0 && product.stock < 10);
+
+      // Filter by price range
+      const matchesPriceRange =
+        product.price >= priceRange[0] && product.price <= priceRange[1];
+
+      // Apply all filters
+      return matchesSearch && matchesStockStatus && matchesPriceRange;
+    });
+  }, [products, search, stockStatus, priceRange]);
 
   // Handle stock updates
   const handleStockUpdate = async (productId, blockProduct = false) => {
@@ -65,7 +98,15 @@ const InventoryPage = () => {
       <PageHeader text="Inventario">
         <NavigationButton href="/home" text="Inicio ►" />
       </PageHeader>
-      <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: 2 }}>
+
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          marginBottom: 2,
+          flexDirection: 'column',
+        }}
+      >
         <TextField
           id="search"
           label="Buscar producto"
@@ -74,8 +115,82 @@ const InventoryPage = () => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
+
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, marginTop: 2 }}>
+          {/* Stock Status Filters */}
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={stockStatus.inStock}
+                  onChange={() =>
+                    setStockStatus({
+                      ...stockStatus,
+                      inStock: !stockStatus.inStock,
+                    })
+                  }
+                />
+              }
+              label="En stock"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={stockStatus.outOfStock}
+                  onChange={() =>
+                    setStockStatus({
+                      ...stockStatus,
+                      outOfStock: !stockStatus.outOfStock,
+                    })
+                  }
+                />
+              }
+              label="Agotado"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={stockStatus.lowStock}
+                  onChange={() =>
+                    setStockStatus({
+                      ...stockStatus,
+                      lowStock: !stockStatus.lowStock,
+                    })
+                  }
+                />
+              }
+              label="Quedan pocos"
+            />
+          </Box>
+
+          {/* Price Range Filter */}
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            <TextField
+              label="Precio mínimo"
+              variant="outlined"
+              type="number"
+              value={priceRange[0]}
+              onChange={(e) =>
+                setPriceRange([Math.max(0, e.target.value), priceRange[1]])
+              }
+            />
+            <TextField
+              label="Precio máximo"
+              variant="outlined"
+              type="number"
+              value={priceRange[1]}
+              onChange={(e) =>
+                setPriceRange([
+                  priceRange[0],
+                  Math.max(priceRange[0], e.target.value),
+                ])
+              }
+            />
+          </Box>
+        </Box>
       </Box>
 
+      {/* Show error or success message */}
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, margin: '1rem 0' }}>
         {error && <Typography color="error">{error}</Typography>}
         {successMessage && (
@@ -83,16 +198,14 @@ const InventoryPage = () => {
         )}
       </Box>
 
+      {/* Products Grid */}
       <Grid container spacing={2}>
         {filteredProducts.map((product) => (
           <Grid item xs={12} sm={6} md={4} key={product.id}>
             <Box sx={{ border: '1px solid #ccc', padding: 2, borderRadius: 2 }}>
-              <Box id="product-info" sx={{ minHeight: '110px' }}>
+              <Box sx={{ minHeight: '110px' }}>
                 <Typography variant="h6">{product.name}</Typography>
-                <Typography variant="body1">
-                  Precio: ${product.price}
-                </Typography>
-                <Typography variant="body2">
+                <Typography variant="body1" fontWeight="bold">
                   En inventario:{' '}
                   {product.stock > 0 ? (
                     product.stock
@@ -100,13 +213,12 @@ const InventoryPage = () => {
                     <Box sx={{ color: 'red', display: 'inline' }}>Agotado</Box>
                   )}
                 </Typography>
+                <Typography variant="body2">
+                  Precio: ${product.price}
+                </Typography>
 
                 {product.stock < 10 && product.stock > 0 && (
-                  <Box
-                    sx={{
-                      fontSize: '0.8rem',
-                    }}
-                  >
+                  <Box sx={{ fontSize: '0.8rem' }}>
                     <Typography variant="body2" color="warning">
                       <b>Atención:</b> Quedan menos de 10 unidades
                     </Typography>
@@ -114,6 +226,7 @@ const InventoryPage = () => {
                 )}
               </Box>
 
+              {/* Update stock input */}
               <TextField
                 label="Actualizar inventario"
                 type="number"
@@ -122,9 +235,7 @@ const InventoryPage = () => {
                 value={updateStock[product.id] || ''}
                 onChange={(e) => {
                   let qty = parseInt(e.target.value);
-                  if (qty < 0) {
-                    qty = 0;
-                  }
+                  if (qty < 0) qty = 0;
                   setUpdateStock((prevState) => ({
                     ...prevState,
                     [product.id]: qty,
@@ -132,11 +243,14 @@ const InventoryPage = () => {
                 }}
                 sx={{ marginTop: 1 }}
                 onKeyDown={(e) =>
-                  e.key === 'Enter' && handleStockUpdate(product.id)
+                  e.key === 'Enter' &&
+                  parseInt(e.target.value) > 0 &&
+                  handleStockUpdate(product.id)
                 }
               />
 
-              <Box id="action-buttons" sx={{ display: 'flex', gap: 1 }}>
+              {/* Action buttons */}
+              <Box sx={{ display: 'flex', gap: 1 }}>
                 <Button
                   variant="contained"
                   color="primary"
@@ -153,7 +267,6 @@ const InventoryPage = () => {
                   color="primary"
                   size="small"
                   fullWidth
-                  title="Deshabilitar este producto"
                   disabled={!Number(product.stock) > 0}
                   sx={{ marginTop: 2, flex: 1 }}
                   onClick={() => handleStockUpdate(product.id, true)}

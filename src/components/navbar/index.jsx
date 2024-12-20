@@ -1,15 +1,9 @@
-import { useEffect, useState } from 'react';
 import { AppBar, Toolbar, Typography, Button, Badge } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useAppContext } from '../../context/AppContext';
 
 const Navbar = () => {
-  const [cartCount, setCartCount] = useState(0);
-  const { isAuthenticated, logout, cart } = useAppContext();
-
-  useEffect(() => {
-    setCartCount(cart.length);
-  }, [cart]);
+  const { isAuthenticated, logout, cartCount } = useAppContext();
 
   return (
     <AppBar sx={{ position: 'fixed', top: 0, left: 0, right: 0 }}>
@@ -37,7 +31,7 @@ const Navbar = () => {
         {/* iAuthenticated  */}
         {isAuthenticated && (
           <>
-            <Button color="inherit" component={Link} to="/inventory">
+            <Button color="inherit" component={Link} to="/products/inventory">
               Inventario
             </Button>
             <Button
