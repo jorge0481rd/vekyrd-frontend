@@ -91,14 +91,15 @@ const InventoryPage = () => {
     }
   };
 
-  if (loading) return <Typography>Loading...</Typography>;
-
   return (
     <PageContainer>
-      <PageHeader text="Inventario">
+      <PageHeader
+        text="Inventario"
+        isLoading={loading}
+        isLoadingText="Cargando inventario..."
+      >
         <NavigationButton href="/home" text="Inicio ►" />
       </PageHeader>
-
       <Box
         sx={{
           display: 'flex',
@@ -189,7 +190,6 @@ const InventoryPage = () => {
           </Box>
         </Box>
       </Box>
-
       {/* Show error or success message */}
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, margin: '1rem 0' }}>
         {error && <Typography color="error">{error}</Typography>}
@@ -197,14 +197,16 @@ const InventoryPage = () => {
           <Typography color="success">{successMessage}</Typography>
         )}
       </Box>
-
       {/* Products Grid */}
       <Grid container spacing={2}>
         {filteredProducts.map((product) => (
           <Grid item xs={12} sm={6} md={4} key={product.id}>
             <Box sx={{ border: '1px solid #ccc', padding: 2, borderRadius: 2 }}>
               <Box sx={{ minHeight: '110px' }}>
-                <Typography variant="h6">{product.name}</Typography>
+                <Typography variant="h6" fontWeight="bold">
+                  {product.name}
+                </Typography>
+                <Typography variant="body1">{product.sku}</Typography>
                 <Typography variant="body1" fontWeight="bold">
                   En inventario:{' '}
                   {product.stock > 0 ? (

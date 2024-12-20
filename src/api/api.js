@@ -60,11 +60,15 @@ export const apiCreateOrder = async () => {
 };
 
 export const apiPayment = async (paymentPayload) => {
-  const response = await api.post(
-    'http://localhost:5000/orders/payment',
-    paymentPayload
-  );
-  return response.data;
+  try {
+    const response = await api.post(
+      'http://localhost:5000/orders/payment',
+      paymentPayload
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 // auth

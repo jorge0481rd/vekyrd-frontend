@@ -1,5 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Typography, TextField, Button, Box } from '@mui/material';
+import {
+  Typography,
+  TextField,
+  Button,
+  Box,
+  CircularProgress,
+} from '@mui/material';
 import { apiCreateOrder, apiPayment } from '../api/api';
 import PageContainer from '../components/PageContainer';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -10,6 +16,7 @@ import Cards from 'react-credit-cards-2';
 import 'react-credit-cards-2/dist/es/styles-compiled.css';
 import { validatePaymentCardForm } from '../helpers/validatePaymentCardForm';
 import { requireAuth } from '../helpers/loginFirstAndReturn';
+import { getCartFromLocalStorage } from '../helpers/cartHelpers';
 
 const OrderPage = () => {
   const [orderHash, setOrderHash] = useState('');
@@ -33,6 +40,7 @@ const OrderPage = () => {
     country: 'República dominicana',
     zipcode: '99809',
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const { isAuthenticated, resetPurchase } = useAppContext();
 
@@ -77,12 +85,16 @@ const OrderPage = () => {
   };
 
   const handlePayment = async () => {
+    setIsLoading(true);
     if (!validatePaymentCardForm(cardDetails, setErrorMessage)) return;
+
+    const cart = getCartFromLocalStorage();
 
     try {
       const paymentData = await apiPayment({
         orderHash,
         ...orderDetails,
+        cart: cart,
         paymentDetails: cardDetails,
         shippingDetails,
       });
@@ -97,6 +109,8 @@ const OrderPage = () => {
     } catch (error) {
       setErrorMessage('Hubo un error al procesar el pago. Intente nuevamente.');
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -157,7 +171,7 @@ const OrderPage = () => {
 
   return (
     <PageContainer>
-      <PageHeader text="Pago">
+      <PageHeader text="Pago" isLoading={isLoading} isLoadingText="Cargando...">
         <Typography variant="body1" gutterBottom sx={{ textAlign: 'right' }}>
           Pedido #: {orderHash}
         </Typography>
@@ -269,7 +283,15 @@ const OrderPage = () => {
           />
           <OrderDetails />
           <Button variant="contained" color="primary" onClick={handlePayment}>
-            Pagar ahora
+            {isLoading ? (
+              <>
+                <CircularProgress color="#ffffff" size={20} />
+                &nbsp;
+                <span>Procesando...</span>
+              </>
+            ) : (
+              'Pagar ahora'
+            )}
           </Button>
 
           {errorMessage && (

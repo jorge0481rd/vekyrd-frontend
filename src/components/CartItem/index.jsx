@@ -38,6 +38,9 @@ function CartItem({ index, itemId }) {
     if (localQty + value > 0) {
       updateQuantity(productId, value);
       setLocalQty((prev) => prev + value);
+    } else {
+      updateQuantity(productId, 1);
+      setLocalQty(1);
     }
   };
 

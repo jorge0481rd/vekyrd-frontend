@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { useEffect, useState } from 'react';
 import NavigationButton from '../components/navigation-button';
 import PageContainer from '../components/PageContainer';
@@ -39,16 +39,12 @@ const ProductPage = () => {
     setIdsInCart(ids);
   }, [arrProducts]);
 
-  const productsPageFallback = (
-    <Typography variant="h6">Cargando productos...</Typography>
-  );
-
   return (
     <PageContainer>
       <PageHeader
         text="Productos"
         isLoading={isLoading}
-        fallback={productsPageFallback}
+        isLoadingText="Cargando productos..."
       >
         <NavigationButton href="/cart" text="Carrito ►" />
       </PageHeader>

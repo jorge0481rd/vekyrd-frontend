@@ -77,6 +77,7 @@ export const AppProvider = ({ children }) => {
   };
 
   const resetPurchase = () => {
+    setCartCount(0);
     setOrderDetails({});
     localStorage.removeItem('cart');
     localStorage.removeItem('orderDetails');
@@ -92,13 +93,7 @@ export const AppProvider = ({ children }) => {
       return item;
     });
     localStorage.setItem('cart', JSON.stringify(updatedCart));
-  };
-
-  // removeFromCart
-  const removeFromCart = (itemId) => {
-    const cart = getCartFromLocalStorage();
-    const updatedCart = cart.filter((item) => item.productId !== itemId);
-    localStorage.setItem('cart', JSON.stringify(updatedCart));
+    updateCartSummary();
   };
 
   // orderDetails
@@ -116,7 +111,6 @@ export const AppProvider = ({ children }) => {
         addOrRemoveToCart,
         resetPurchase,
         updateQuantity,
-        removeFromCart,
         login,
         logout,
         isAuthenticated,

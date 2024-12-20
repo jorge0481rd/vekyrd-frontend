@@ -1,7 +1,8 @@
-import { Box, CircularProgress, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
+import IsloadingFallback from './IsloadingFallback';
 
-const PageHeader = ({ text, children, isLoading = false, fallback = null }) => {
+const PageHeader = ({ text, children, isLoading = false, isLoadingText }) => {
   return (
     <Box
       id="page-header"
@@ -24,8 +25,7 @@ const PageHeader = ({ text, children, isLoading = false, fallback = null }) => {
             top: '50%',
           }}
         >
-          <CircularProgress />
-          {fallback}
+          <IsloadingFallback isLoadingText={isLoadingText} />
         </Box>
       )}
       <Typography variant="h4" textAlign={'center'}>
@@ -40,6 +40,7 @@ PageHeader.propTypes = {
   text: PropTypes.string,
   children: PropTypes.node,
   isLoading: PropTypes.bool,
+  isLoadingText: PropTypes.string,
   fallback: PropTypes.object,
 };
 
