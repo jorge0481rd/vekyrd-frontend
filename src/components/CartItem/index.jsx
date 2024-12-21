@@ -1,6 +1,5 @@
 import {
   Box,
-  Divider,
   IconButton,
   ListItem,
   ListItemText,
@@ -11,8 +10,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { useAppContext } from '../../context/AppContext';
 import PropTypes from 'prop-types';
-import { getCartFromLocalStorage } from '../../helpers/cartHelpers';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import ProductThumbnail from '../ProductCard/ProductThumbnail';
 
 const listItemStyle = {
   display: 'flex',
@@ -22,13 +22,12 @@ const listItemStyle = {
   margin: 0,
 };
 
-function CartItem({ index, itemId }) {
-  const [cart] = useState(getCartFromLocalStorage());
-  const item = cart.find((item) => item.id === itemId);
-  const { name, price, quantity, productId } = item;
+function CartItem({ index, item }) {
+  const { name, price, quantity, productId, imageurl } = item;
   const { updateQuantity, addOrRemoveToCart } = useAppContext();
   const [removed, setRemoved] = useState(false);
   const [localQty, setLocalQty] = useState(1);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setLocalQty(quantity || 1);
@@ -49,7 +48,18 @@ function CartItem({ index, itemId }) {
   return (
     <Box key={index}>
       <ListItem sx={listItemStyle}>
-        <ListItemText primary={name} secondary={`Precio: $${price}`} />
+        <ProductThumbnail imageurl={imageurl} productId={productId} />
+        <ListItemText
+          primary={name}
+          secondary={`Precio: $${price}`}
+          sx={{
+            cursor: 'pointer',
+            '&:hover': {
+              backgroundColor: 'rgba(0, 0, 0, 0.1)',
+            },
+          }}
+          onClick={() => navigate(`/products/${productId}`)}
+        />
         <Box
           sx={{
             display: 'flex',
@@ -85,14 +95,13 @@ function CartItem({ index, itemId }) {
           <DeleteIcon />
         </IconButton>
       </ListItem>
-      {index < cart.length - 1 && <Divider />}
     </Box>
   );
 }
 
 CartItem.propTypes = {
   index: PropTypes.number.isRequired,
-  itemId: PropTypes.number.isRequired,
+  item: PropTypes.object.isRequired,
 };
 
 export default CartItem;

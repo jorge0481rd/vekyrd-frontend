@@ -141,4 +141,8 @@ export const updateInventory = async (productId, quantity) => {
   return response.data;
 };
 
+export function saludarBackEnd() {
+  api.get('http://localhost:5000/saludar');
+}
+
 export default api;

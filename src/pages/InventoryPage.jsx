@@ -13,6 +13,7 @@ import PageContainer from '../components/PageContainer';
 import PageHeader from '../components/PageHeader';
 import NavigationButton from '../components/navigation-button';
 import BlockIcon from '@mui/icons-material/Block';
+import ProductThumbnail from '../components/ProductCard/ProductThumbnail';
 
 const InventoryPage = () => {
   const [products, setProducts] = useState([]);
@@ -56,6 +57,7 @@ const InventoryPage = () => {
         .includes(search.toLowerCase());
 
       // Filter by stock status
+
       const matchesStockStatus =
         (stockStatus.inStock && product.stock > 0) ||
         (stockStatus.outOfStock && product.stock === 0) ||
@@ -203,9 +205,16 @@ const InventoryPage = () => {
           <Grid item xs={12} sm={6} md={4} key={product.id}>
             <Box sx={{ border: '1px solid #ccc', padding: 2, borderRadius: 2 }}>
               <Box sx={{ minHeight: '110px' }}>
-                <Typography variant="h6" fontWeight="bold">
-                  {product.name}
-                </Typography>
+                <Box sx={{ display: 'flex', gap: 2 }}>
+                  <Typography variant="h6" sx={{ fontWeight: 'bold', flex: 1 }}>
+                    {product.name}
+                  </Typography>
+                  <ProductThumbnail
+                    imageurl={product.imageurl}
+                    productId={product.id}
+                    size="medium"
+                  />
+                </Box>
                 <Typography variant="body1">{product.sku}</Typography>
                 <Typography variant="body1" fontWeight="bold">
                   En inventario:{' '}

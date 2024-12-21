@@ -3,7 +3,6 @@ import { memo, useEffect, useState } from 'react';
 import AddRemoveProductButton from '../AddRemoveProductButton/';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { useAppContext } from '../../context/AppContext';
 import PropTypes from 'prop-types';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useNavigate } from 'react-router-dom';
@@ -14,13 +13,7 @@ const ProductCard = memo(
     const [isInCart, setIsInCart] = useState(isProductInCart);
     const [liked, setLiked] = useState(false);
 
-    const { addOrRemoveToCart } = useAppContext();
     const navigate = useNavigate();
-
-    const handleAddOrRemove = (product) => {
-      addOrRemoveToCart(product);
-      setIsInCart((prev) => !prev);
-    };
 
     useEffect(() => {
       setIsInCart(isProductInCart);
@@ -152,9 +145,8 @@ const ProductCard = memo(
 
         <AddRemoveProductButton
           product={product}
-          isInCart={isInCart}
-          handleAddOrRemove={handleAddOrRemove}
-          setIsInCart={setIsInCart}
+          isAlreadyIncart={isInCart}
+          onClick={() => setIsInCart((prev) => !prev)}
         />
       </Card>
     );

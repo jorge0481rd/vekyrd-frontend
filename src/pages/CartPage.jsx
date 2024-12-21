@@ -11,6 +11,7 @@ import {
   getCartSummary,
 } from '../helpers/cartHelpers';
 import OrderDetails from '../components/OrderDetails';
+import DisplayRandomProducts from '../components/DisplayRandomProducts';
 
 const CartPage = () => {
   const [isEmptyCart, setIsEmptyCart] = useState(true);
@@ -41,47 +42,6 @@ const CartPage = () => {
     setIsEmptyCart(cartCount === 0);
   }, [cartCount]);
 
-  if (isEmptyCart && !isLoading)
-    return (
-      <PageContainer>
-        <PageHeader title="Carrito" isLoading={isLoading}></PageHeader>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: 2,
-          }}
-        >
-          <Paper
-            elevation={0}
-            sx={{
-              width: '200px',
-              height: '200px',
-              backgroundColor: 'white',
-              borderRadius: '10px',
-              transform: 'translateX(-25px)',
-            }}
-          >
-            <img
-              style={{ width: '100%' }}
-              src="/empty_cart.jpg"
-              alt="Carrito vacío"
-            />
-          </Paper>
-          <Typography variant="h5" gutterBottom>
-            Su carrito está vacío
-          </Typography>
-          <Typography variant="body1">
-            Puede agregar productos a su carrito para poder realizar un pedido.
-          </Typography>
-          <Button component={Link} variant="contained" to="/products">
-            Ver Productos
-          </Button>
-        </Box>
-      </PageContainer>
-    );
-
   return (
     <PageContainer>
       <PageHeader title="Carrito" isLoading={isLoading}>
@@ -110,13 +70,14 @@ const CartPage = () => {
       >
         <List>
           {cart.map((item, index) => (
-            <CartItem index={index} key={item.id} const itemId={item.id} />
+            <CartItem index={index} key={item.id} const item={item} />
           ))}
         </List>
 
         <Divider sx={{ margin: 2 }} />
         <OrderDetails />
       </Box>
+      <DisplayRandomProducts />
     </PageContainer>
   );
 };
