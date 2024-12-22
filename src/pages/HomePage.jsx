@@ -119,9 +119,9 @@ const HomePage = () => {
               link: '/products?category=acondicionador',
             },
             {
-              title: 'Tratamientos',
+              title: 'Sprays',
               image: '/home_page_product3.jpg',
-              link: '/products?category=tratamiento',
+              link: '/products?category=spray',
             },
           ].map((category, index) => (
             <Grid item xs={12} sm={4} key={index}>

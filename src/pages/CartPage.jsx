@@ -1,4 +1,4 @@
-import { Box, Button, Divider, List, Paper, Typography } from '@mui/material';
+import { Box, Button, List, Paper, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import PageContainer from '../components/PageContainer';
@@ -124,8 +124,6 @@ const CartPage = () => {
                 <CartItem index={index} key={item.id} const item={item} />
               ))}
             </List>
-
-            <Divider sx={{ margin: 2 }} />
             <OrderDetails />
           </Box>
         </>

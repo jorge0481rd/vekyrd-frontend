@@ -37,7 +37,7 @@ const DisplayRandomProducts = ({ quantity = 3 }) => {
     >
       <Box
         className="drp-divider"
-        sx={{ borderTop: '1px solid lightgray', margin: 2, width: '100%' }}
+        sx={{ borderTop: '1px solid lightgray', margin: 4, width: '100%' }}
       />
 
       <Typography variant="h5">Nuestros productos recomendados</Typography>

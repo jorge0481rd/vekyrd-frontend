@@ -27,7 +27,11 @@ const ProductPage = () => {
       try {
         const products = await apiFetchProducts();
         setArrProducts(products);
-        setFilteredProducts(products);
+
+        // if query param, filter products by category
+        const searchParams = new URLSearchParams(location.search);
+        const category = searchParams.get('category');
+        filterProducts(category, products);
       } catch (error) {
         console.error('Error fetching products:', error);
       } finally {
@@ -50,10 +54,10 @@ const ProductPage = () => {
     const category = searchParams.get('category');
 
     setSearch(category || '');
-    filterProducts(category);
+    filterProducts(category, arrProducts);
   }, [location.search]);
 
-  const filterProducts = (searchTerm) => {
+  const filterProducts = (searchTerm, arrProducts) => {
     let filtered = arrProducts;
 
     if (searchTerm) {
@@ -70,7 +74,7 @@ const ProductPage = () => {
   const handleSearchChange = (e) => {
     const value = e.target.value;
     setSearch(value);
-    filterProducts(value, new URLSearchParams(location.search).get('category'));
+    filterProducts(value, arrProducts);
   };
 
   return (
@@ -85,27 +89,25 @@ const ProductPage = () => {
       </PageHeader>
 
       {/* Search box */}
-      <Box sx={{ margin: '1rem auto', maxWidth: '400px' }}>
-        <TextField
-          id="search"
-          label="Buscar producto"
-          variant="outlined"
-          fullWidth
-          value={search}
-          onChange={handleSearchChange}
-        />
-      </Box>
+      {!isLoading && (
+        <Box sx={{ margin: '1rem  auto 4rem', maxWidth: '400px' }}>
+          <TextField
+            id="search"
+            label="Buscar producto"
+            variant="outlined"
+            fullWidth
+            value={search}
+            onChange={handleSearchChange}
+          />
+        </Box>
+      )}
 
       {/* products container */}
       <Box
         id="product-cards-container"
         sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, minHeight: '500px' }}
       >
-        {isLoading ? (
-          <div>Loading...</div>
-        ) : filteredProducts.length === 0 ? (
-          <div>No products found.</div>
-        ) : (
+        {!isLoading &&
           filteredProducts.map((product) => {
             const isProductInCart = idsInCart.includes(product.id);
             return (
@@ -116,8 +118,7 @@ const ProductPage = () => {
                 />
               </Grid>
             );
-          })
-        )}
+          })}
       </Box>
     </PageContainer>
   );
