@@ -124,18 +124,40 @@ const ProductCard = memo(
 
         <Box
           className="product-card-info"
-          sx={{ margin: '1rem', flex: 1, minHeight: '95px' }}
+          sx={{
+            margin: '1rem',
+            flex: 1,
+            minHeight: '95px',
+            alignItems: 'center',
+            display: 'flex',
+            justifyContent: 'center',
+            flexDirection: 'column',
+          }}
         >
           <Typography
             variant="body1"
-            sx={{ fontWeight: 700, textAlign: 'center' }}
+            sx={{
+              fontWeight: 700,
+              textAlign: 'center',
+              minHeight: '65px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '100%',
+            }}
           >
             {name}
           </Typography>
           <RatingStarsSelector initialValue={average_rating} disableSelection />
           <Typography
             variant="body2"
-            sx={{ color: 'text.secondary', textAlign: 'center' }}
+            sx={{
+              color: 'text.secondary',
+              textAlign: 'center',
+              minHeight: '65px',
+              display: 'flex',
+              alignItems: 'center',
+            }}
           >
             {description}
           </Typography>

@@ -78,6 +78,11 @@ const LoginPage = () => {
           fullWidth
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              handleLogin(username, password);
+            }
+          }}
           sx={{ marginBottom: 2 }}
         />
         <TextField

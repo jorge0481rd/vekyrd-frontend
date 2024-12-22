@@ -63,7 +63,7 @@ const ReviewForm = ({
       <Typography variant="h5" textAlign={'center'}>
         Danos tu opinión
       </Typography>
-      <RatingStarsSelector />
+      <RatingStarsSelector setSelectedRating={setRating} />
       <TextField
         label="Escribir comentario"
         multiline

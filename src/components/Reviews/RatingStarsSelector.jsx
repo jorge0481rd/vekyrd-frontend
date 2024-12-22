@@ -1,15 +1,23 @@
 import GradeIcon from '@mui/icons-material/Grade';
 import { Box } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-const RatingStarsSelector = ({ initialValue, disableSelection = false }) => {
+const RatingStarsSelector = ({
+  initialValue,
+  disableSelection = false,
+  setSelectedRating,
+}) => {
   const [rating, setRating] = useState(initialValue);
 
   const handleClick = (value) => {
     if (disableSelection) return;
     setRating(value);
   };
+
+  useEffect(() => {
+    setSelectedRating && setSelectedRating(rating);
+  }, [rating, setSelectedRating]);
 
   const getStars = () => {
     const stars = [];
@@ -40,6 +48,7 @@ const RatingStarsSelector = ({ initialValue, disableSelection = false }) => {
 RatingStarsSelector.propTypes = {
   initialValue: PropTypes.number,
   disableSelection: PropTypes.bool,
+  setSelectedRating: PropTypes.func,
 };
 
 export default RatingStarsSelector;
