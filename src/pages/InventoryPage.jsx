@@ -194,7 +194,14 @@ const InventoryPage = () => {
       </Box>
       {/* Show error or success message */}
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, margin: '1rem 0' }}>
-        {error && <Typography color="error">{error}</Typography>}
+        {error && (
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Typography color="error">{error}</Typography>
+            <Typography color="primary" variant="subtitle">
+              Asegúrese de que tiene los permisos necesarios.
+            </Typography>
+          </Box>
+        )}
         {successMessage && (
           <Typography color="success">{successMessage}</Typography>
         )}

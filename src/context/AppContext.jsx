@@ -9,9 +9,11 @@ import { jwtDecode } from 'jwt-decode';
 
 const AppContext = createContext();
 
-// AppProvider
 export const AppProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userRole, setUserRole] = useState(
+    localStorage.getItem('role') || 'customer'
+  );
   const [cartCount, setCartCount] = useState(getCartFromLocalStorage().length);
   const [orderDetails, setOrderDetails] = useState({
     total: 0,
@@ -27,10 +29,12 @@ export const AppProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    // check if authenticated
     const isAuthenticated =
       JSON.parse(localStorage.getItem('isAuthenticated')) || false;
     setIsAuthenticated(isAuthenticated);
+
+    const role = localStorage.getItem('role');
+    if (role) setUserRole(role);
   }, []);
 
   useEffect(() => {
@@ -38,7 +42,6 @@ export const AppProvider = ({ children }) => {
     setCartCount(cart.length);
   }, []);
 
-  // authentication
   const login = async (username, password) => {
     const response = await apiLogin(username, password);
     if (response.status === 200) {
@@ -46,6 +49,10 @@ export const AppProvider = ({ children }) => {
       localStorage.setItem('isAuthenticated', true);
       localStorage.setItem('token', response.token);
       localStorage.setItem('refreshToken', response.refreshToken);
+      const decoded = jwtDecode(response.token);
+      const role = decoded.role;
+      localStorage.setItem('role', role);
+      setUserRole(role);
     } else {
       setIsAuthenticated(false);
       localStorage.setItem('isAuthenticated', false);
@@ -57,6 +64,7 @@ export const AppProvider = ({ children }) => {
     localStorage.removeItem('cart');
     localStorage.removeItem('orderDetails');
     localStorage.removeItem('token');
+    localStorage.removeItem('role');
     window.location.href = '/login';
   };
 
@@ -71,7 +79,6 @@ export const AppProvider = ({ children }) => {
     }
   };
 
-  // addOrRemoveToCart
   const addOrRemoveToCart = (product) => {
     const localStorageCart = JSON.parse(localStorage.getItem('cart')) || [];
     const isInCart = localStorageCart.some((item) => item.id === product.id);
@@ -95,7 +102,6 @@ export const AppProvider = ({ children }) => {
     localStorage.removeItem('orderDetails');
   };
 
-  // updateQuantity
   const updateQuantity = (itemId, amount) => {
     const cart = getCartFromLocalStorage();
     const updatedCart = cart.map((item) => {
@@ -108,7 +114,6 @@ export const AppProvider = ({ children }) => {
     updateCartSummary();
   };
 
-  // orderDetails
   const updateOrderDetails = (orderDetails) => {
     setOrderDetails(orderDetails);
     localStorage.setItem('orderDetails', JSON.stringify(orderDetails));
@@ -121,6 +126,7 @@ export const AppProvider = ({ children }) => {
         cartCount,
         getUsername,
         isAuthenticated,
+        userRole,
         login,
         logout,
         orderDetails,
@@ -140,5 +146,4 @@ AppProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-// useAppContext
 export const useAppContext = () => useContext(AppContext);

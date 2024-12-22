@@ -111,17 +111,17 @@ const HomePage = () => {
             {
               title: 'Shampoos',
               image: '/home_page_product1.jpg',
-              link: '/category/shampoos',
+              link: '/products?category=shampoo',
             },
             {
               title: 'Acondicionadores',
               image: '/home_page_product2.jpg',
-              link: '/category/conditioners',
+              link: '/products?category=acondicionador',
             },
             {
               title: 'Tratamientos',
               image: '/home_page_product3.jpg',
-              link: '/category/treatments',
+              link: '/products?category=tratamiento',
             },
           ].map((category, index) => (
             <Grid item xs={12} sm={4} key={index}>

@@ -148,7 +148,10 @@ const ProductCard = memo(
           >
             {name}
           </Typography>
-          <RatingStarsSelector initialValue={average_rating} disableSelection />
+          <RatingStarsSelector
+            initialValue={parseInt(average_rating)}
+            disableSelection
+          />
           <Typography
             variant="body2"
             sx={{

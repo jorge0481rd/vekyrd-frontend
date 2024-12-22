@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { useAppContext } from '../../context/AppContext';
 
 const Navbar = () => {
-  const { isAuthenticated, logout, cartCount } = useAppContext();
+  const { isAuthenticated, logout, cartCount, userRole, getUsername } =
+    useAppContext();
 
   return (
     <AppBar sx={{ position: 'fixed', top: 0, left: 0, right: 0 }}>
@@ -31,16 +32,18 @@ const Navbar = () => {
         {/* iAuthenticated  */}
         {isAuthenticated && (
           <>
-            <Button color="inherit" component={Link} to="/products/inventory">
-              Inventario
-            </Button>
+            {userRole === 'admin' && (
+              <Button color="inherit" component={Link} to="/products/inventory">
+                Inventario
+              </Button>
+            )}
             <Button
               color="inherit"
               component={Link}
               onClick={logout}
               title="Cerrar sesión"
             >
-              Salir
+              Salir {`(${getUsername()})`}
             </Button>
           </>
         )}

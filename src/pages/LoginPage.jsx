@@ -36,30 +36,41 @@ const LoginPage = () => {
   if (isAuthenticated)
     return (
       <PageContainer>
-        <Typography variant="h4" gutterBottom sx={{ marginTop: 4 }}>
-          ¡Hola, {username}!
-        </Typography>
-        <Typography variant="h6" gutterBottom>
-          ¡Bienvenido a nuestra tienda!
-        </Typography>
         <Box
           sx={{
-            marginTop: 2,
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
             gap: 2,
+            maxWidth: '400px',
+            alignItems: 'center',
+            margin: '0 auto',
           }}
         >
-          <Button
-            variant="contained"
-            color="primary"
-            component={Link}
-            to="/products"
-            fullWidth
+          <Typography variant="h4" gutterBottom sx={{ marginTop: 4 }}>
+            ¡Hola, {username}!
+          </Typography>
+          <Typography variant="h6" gutterBottom>
+            ¡Bienvenido a nuestra tienda!
+          </Typography>
+          <Box
+            sx={{
+              marginTop: 2,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: 2,
+            }}
           >
-            Ir a Productos
-          </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              component={Link}
+              to="/products"
+              fullWidth
+            >
+              Ir a Productos
+            </Button>
+          </Box>
         </Box>
       </PageContainer>
     );

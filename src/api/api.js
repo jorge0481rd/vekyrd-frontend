@@ -82,10 +82,11 @@ export const apiLogin = async (username, password) => {
   return response.data;
 };
 
-export const apiRegister = async (username, password) => {
+export const apiRegister = async (username, email, password) => {
   const response = await api.post('http://localhost:5000/auth/register', {
     username,
     password,
+    email,
   });
   localStorage.setItem('token', response.data.token);
   localStorage.setItem('refreshToken', response.data.refreshToken);
