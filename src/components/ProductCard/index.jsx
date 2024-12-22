@@ -6,10 +6,11 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import PropTypes from 'prop-types';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useNavigate } from 'react-router-dom';
+import RatingStarsSelector from '../Reviews/RatingStarsSelector';
 
 const ProductCard = memo(
   ({ product, isProductInCart, disableLinkToDetails = false }) => {
-    const { name, description, price, imageurl } = product;
+    const { name, description, price, imageurl, average_rating } = product;
     const [isInCart, setIsInCart] = useState(isProductInCart);
     const [liked, setLiked] = useState(false);
 
@@ -131,6 +132,7 @@ const ProductCard = memo(
           >
             {name}
           </Typography>
+          <RatingStarsSelector initialValue={average_rating} disableSelection />
           <Typography
             variant="body2"
             sx={{ color: 'text.secondary', textAlign: 'center' }}

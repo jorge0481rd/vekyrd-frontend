@@ -66,14 +66,14 @@ function CartItem({ index, item }) {
             alignItems: 'center',
           }}
         >
-          {localQty > 1 && (
-            <IconButton
-              color="primary"
-              onClick={() => handleIncDecQuantity(productId, -1)}
-            >
-              <RemoveIcon />
-            </IconButton>
-          )}
+          <IconButton
+            color="primary"
+            onClick={() => handleIncDecQuantity(productId, -1)}
+            disabled={localQty === 1}
+          >
+            <RemoveIcon />
+          </IconButton>
+
           <Typography variant="body1">{localQty}</Typography>
           <IconButton
             color="primary"

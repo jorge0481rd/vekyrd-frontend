@@ -8,14 +8,13 @@ import {
 } from '@mui/material';
 import { apiCreateOrder, apiPayment } from '../api/api';
 import PageContainer from '../components/PageContainer';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAppContext } from '../context/AppContext';
 import PageHeader from '../components/PageHeader';
 import OrderDetails from '../components/OrderDetails';
 import Cards from 'react-credit-cards-2';
 import 'react-credit-cards-2/dist/es/styles-compiled.css';
 import { validatePaymentCardForm } from '../helpers/validatePaymentCardForm';
-import { requireAuth } from '../helpers/loginFirstAndReturn';
 import { getCartFromLocalStorage } from '../helpers/cartHelpers';
 
 const OrderPage = () => {
@@ -45,17 +44,12 @@ const OrderPage = () => {
   const { isAuthenticated, resetPurchase } = useAppContext();
 
   const navigate = useNavigate();
-  const location = useLocation();
 
   useEffect(() => {
     const items = orderDetails && orderDetails.items;
     const isEmptyCart = items && items.length === 0;
     if (isEmptyCart && !confirmationHash) navigate('/products');
   }, [confirmationHash, navigate, orderDetails]);
-
-  useEffect(() => {
-    requireAuth(isAuthenticated, navigate, location.pathname);
-  }, [isAuthenticated, location.pathname, navigate]);
 
   useEffect(() => {
     if (!isAuthenticated) return;

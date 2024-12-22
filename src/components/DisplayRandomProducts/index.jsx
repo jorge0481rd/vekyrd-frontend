@@ -1,7 +1,8 @@
 import { Box, Typography } from '@mui/material';
+import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { apiFetchProducts } from '../../api/api';
-import PropTypes from 'prop-types';
+import NavigationButton from '../navigation-button';
 import ProductCard from '../ProductCard';
 
 const DisplayRandomProducts = ({ quantity = 3 }) => {
@@ -56,6 +57,9 @@ const DisplayRandomProducts = ({ quantity = 3 }) => {
             disableLinkToDetails
           />
         ))}
+      </Box>
+      <Box sx={{ margin: '0 auto' }}>
+        <NavigationButton href="/products" text="Ver todos los productos" />
       </Box>
     </Box>
   );

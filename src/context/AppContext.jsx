@@ -5,6 +5,7 @@ import {
   getCartSummary,
 } from '../helpers/cartHelpers';
 import { apiLogin } from '../api/api';
+import { jwtDecode } from 'jwt-decode';
 
 const AppContext = createContext();
 
@@ -59,6 +60,17 @@ export const AppProvider = ({ children }) => {
     window.location.href = '/login';
   };
 
+  const getUsername = () => {
+    try {
+      const token = localStorage.getItem('token');
+      const decoded = jwtDecode(token);
+      return decoded.username;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  };
+
   // addOrRemoveToCart
   const addOrRemoveToCart = (product) => {
     const localStorageCart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -72,7 +84,7 @@ export const AppProvider = ({ children }) => {
         ];
 
     localStorage.setItem('cart', JSON.stringify(updatedCart));
-
+    updateCartSummary();
     setCartCount(updatedCart.length);
   };
 
@@ -105,17 +117,18 @@ export const AppProvider = ({ children }) => {
   return (
     <AppContext.Provider
       value={{
-        orderDetails,
-        updateOrderDetails,
-        updateCartSummary,
         addOrRemoveToCart,
-        resetPurchase,
-        updateQuantity,
+        cartCount,
+        getUsername,
+        isAuthenticated,
         login,
         logout,
-        isAuthenticated,
-        cartCount,
+        orderDetails,
+        resetPurchase,
         setCartCount,
+        updateCartSummary,
+        updateOrderDetails,
+        updateQuantity,
       }}
     >
       {children}

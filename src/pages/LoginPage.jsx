@@ -71,50 +71,52 @@ const LoginPage = () => {
           <NavigationButton href="/products" text="Productos ►" />
         </Box>
       </PageHeader>
-      <TextField
-        label="Usuario"
-        variant="outlined"
-        fullWidth
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        sx={{ marginBottom: 2 }}
-      />
-      <TextField
-        label="Password"
-        variant="outlined"
-        type="password"
-        fullWidth
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        sx={{ marginBottom: 2 }}
-      />
-      {error && <Typography color="error">{error}</Typography>}
-      <Box
-        sx={{
-          marginTop: 2,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: 2,
-        }}
-      >
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => handleLogin(username, password)}
+      <Box sx={{ margin: '0 auto', maxWidth: '400px' }}>
+        <TextField
+          label="Usuario"
+          variant="outlined"
           fullWidth
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          sx={{ marginBottom: 2 }}
+        />
+        <TextField
+          label="Password"
+          variant="outlined"
+          type="password"
+          fullWidth
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          sx={{ marginBottom: 2 }}
+        />
+        {error && <Typography color="error">{error}</Typography>}
+        <Box
+          sx={{
+            marginTop: 2,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 2,
+          }}
         >
-          Aceptar
-        </Button>
-        <Box>
-          <Typography sx={{ marginRight: 2, display: 'inline-block' }}>
-            ¿No tienes cuenta?
-          </Typography>
-          <Link to="/register">
-            <Button variant="contained" color="primary" size="small">
-              Registrate
-            </Button>
-          </Link>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => handleLogin(username, password)}
+            fullWidth
+          >
+            Aceptar
+          </Button>
+          <Box>
+            <Typography sx={{ marginRight: 2, display: 'inline-block' }}>
+              ¿No tienes cuenta?
+            </Typography>
+            <Link to="/register">
+              <Button variant="contained" color="secondary" size="small">
+                Registrate
+              </Button>
+            </Link>
+          </Box>
         </Box>
       </Box>
     </PageContainer>

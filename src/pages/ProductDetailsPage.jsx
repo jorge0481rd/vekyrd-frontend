@@ -7,12 +7,19 @@ import PageContainer from '../components/PageContainer';
 import PageHeader from '../components/PageHeader';
 import ProductCard from '../components/ProductCard';
 import PictureCarrousel from '../components/PictureCarrousel';
+import randomlyFormatParagraph from '../helpers/randomlyFormatParragraph';
+import Reviews from '../components/Reviews';
 
 const ProductDetailPage = () => {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const [error, setError] = useState(null);
   const [isProductInCart, setIsProductInCart] = useState(false);
+
+  const getFormattedParagraph = (product) => {
+    const paragraph = product.description_large;
+    return randomlyFormatParagraph(paragraph);
+  };
 
   useEffect(() => {
     const fetchProductDetails = async () => {
@@ -45,7 +52,7 @@ const ProductDetailPage = () => {
   return (
     <PageContainer>
       <PageHeader
-        title={product && product.name}
+        title={(product && product.name) || ''}
         isLoading={!product}
         isLoadingText="Cargando productos..."
       >
@@ -64,13 +71,11 @@ const ProductDetailPage = () => {
             disableLinkToDetails
           />
           <Box sx={{ width: '100%', maxWidth: '400px' }}>
-            <Typography variant="h6">
-              This product contains nutrients for your hair that will help to
-              keep it healthy and shiny. It also contains vitamins and minerals
-              that will nourish your skin and hair. The last studies show that
-              this product can help to improve the health of your hair and
-              scalp.
-            </Typography>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: getFormattedParagraph(product),
+              }}
+            />
           </Box>
           <PictureCarrousel
             pictures={[
@@ -82,9 +87,7 @@ const ProductDetailPage = () => {
         </Box>
       )}
 
-      <Box sx={{ marginTop: 2 }}>
-        <Typography variant="h5">Comentarios</Typography>
-      </Box>
+      <Reviews productId={productId} />
     </PageContainer>
   );
 };

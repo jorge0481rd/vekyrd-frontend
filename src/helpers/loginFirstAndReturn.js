@@ -1,5 +1,5 @@
-export const requireAuth = (isAuthenticated, navigate, currentPath) => {
+export const requireAuth = (isAuthenticated, navigate, requestedPath) => {
   if (!isAuthenticated) {
-    navigate('/login', { state: { returnUrl: currentPath } });
+    navigate(`/login?returnUrl=${encodeURIComponent(requestedPath)}`);
   }
 };

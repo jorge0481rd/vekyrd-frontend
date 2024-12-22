@@ -1,9 +1,15 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem('token');
-  return token ? children : <Navigate to="/login" />;
+  const location = useLocation();
+
+  return token ? (
+    children
+  ) : (
+    <Navigate to="/login" state={{ returnUrl: location.pathname }} />
+  );
 };
 
 ProtectedRoute.propTypes = {

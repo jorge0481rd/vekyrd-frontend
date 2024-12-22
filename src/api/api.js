@@ -126,6 +126,16 @@ export const getProductDetails = async (productId) => {
   return response.data;
 };
 
+export const apiFetchReviews = async (productId) => {
+  const response = await api.get(`http://localhost:5000/reviews/${productId}`);
+  return response.data;
+};
+
+export const apiPostReview = async (review) => {
+  const response = await api.post('http://localhost:5000/reviews', review);
+  return response.data;
+};
+
 // inventory
 export const apiFetchInventory = async () => {
   const data =
@@ -140,9 +150,5 @@ export const updateInventory = async (productId, quantity) => {
   );
   return response.data;
 };
-
-export function saludarBackEnd() {
-  api.get('http://localhost:5000/saludar');
-}
 
 export default api;

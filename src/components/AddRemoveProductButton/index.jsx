@@ -23,7 +23,7 @@ const AddRemoveProductButton = ({ product, isAlreadyIncart, onClick }) => {
       <Box
         sx={{
           position: 'absolute',
-          bottom: '1rem',
+          bottom: '1.3rem',
           right: isInCart ? '1rem' : '-40px',
           transition: 'all 0.3s ease-in-out',
         }}

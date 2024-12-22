@@ -11,7 +11,6 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageContainer from '../components/PageContainer';
 import useProducts from '../hooks/useProducts';
-import { saludarBackEnd } from '../api/api';
 
 const HomePage = () => {
   const { getProducts } = useProducts();
@@ -44,9 +43,6 @@ const HomePage = () => {
         <Typography variant="h2" sx={{ fontWeight: 'bold', color: '#ffffff' }}>
           Bienvenido a VekyRD
         </Typography>
-        <Button variant="contained" onClick={() => saludarBackEnd()}>
-          Saludar al backend
-        </Button>
         <Typography variant="h5" sx={{ color: '#ffffff', marginY: 2 }}>
           Descubre los mejores productos para el cuidado de tu cabello.
         </Typography>
