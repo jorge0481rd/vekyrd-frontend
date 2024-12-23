@@ -152,4 +152,20 @@ export const updateInventory = async (productId, quantity) => {
   return response.data;
 };
 
+// roles and users
+export const apiFetchUsers = async () => {
+  const response = await api.get('http://localhost:5000/users/roles');
+  return response.data;
+};
+
+export const apiUpdateUserroles = async (userId, roles) => {
+  const response = await api.put(
+    `http://localhost:5000/users/roles/${userId}`,
+    {
+      roles,
+    }
+  );
+  return response.data;
+};
+
 export default api;

@@ -23,7 +23,6 @@ const LoginPage = () => {
       await login(username, password);
       setError(null);
 
-      // return to previous page
       navigate(returnUrl);
     } catch (error) {
       setError(

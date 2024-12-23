@@ -11,8 +11,8 @@ const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userRole, setUserRole] = useState(
-    localStorage.getItem('role') || 'customer'
+  const [userRoles, setUserRoles] = useState(
+    localStorage.getItem('roles') || []
   );
   const [cartCount, setCartCount] = useState(getCartFromLocalStorage().length);
   const [orderDetails, setOrderDetails] = useState({
@@ -29,13 +29,20 @@ export const AppProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    const isAuthenticated =
-      JSON.parse(localStorage.getItem('isAuthenticated')) || false;
+    const isAuthenticated = localStorage.getItem('isAuthenticated') || false;
     setIsAuthenticated(isAuthenticated);
 
-    const role = localStorage.getItem('role');
-    if (role) setUserRole(role);
+    const roles = localStorage.getItem('roles');
+    if (roles) setUserRoles(roles);
   }, []);
+
+  // if isAuthenticated is true and roles are null, set roles
+  useEffect(() => {
+    if (isAuthenticated && userRoles.length === 0) {
+      const roles = localStorage.getItem('roles');
+      setUserRoles(roles);
+    }
+  }, [isAuthenticated, userRoles]);
 
   useEffect(() => {
     const cart = getCartFromLocalStorage();
@@ -50,9 +57,9 @@ export const AppProvider = ({ children }) => {
       localStorage.setItem('token', response.token);
       localStorage.setItem('refreshToken', response.refreshToken);
       const decoded = jwtDecode(response.token);
-      const role = decoded.role;
-      localStorage.setItem('role', role);
-      setUserRole(role);
+      const roles = decoded.roles;
+      localStorage.setItem('roles', roles);
+      setUserRoles(roles);
     } else {
       setIsAuthenticated(false);
       localStorage.setItem('isAuthenticated', false);
@@ -64,7 +71,7 @@ export const AppProvider = ({ children }) => {
     localStorage.removeItem('cart');
     localStorage.removeItem('orderDetails');
     localStorage.removeItem('token');
-    localStorage.removeItem('role');
+    localStorage.removeItem('roles');
     window.location.href = '/login';
   };
 
@@ -79,8 +86,13 @@ export const AppProvider = ({ children }) => {
     }
   };
 
+  const getUserRoles = () => {
+    const userRoles = localStorage.getItem('roles').split(',') || [];
+    return userRoles;
+  };
+
   const addOrRemoveToCart = (product) => {
-    const localStorageCart = JSON.parse(localStorage.getItem('cart')) || [];
+    const localStorageCart = localStorage.getItem('cart') || [];
     const isInCart = localStorageCart.some((item) => item.id === product.id);
 
     const updatedCart = isInCart
@@ -126,7 +138,7 @@ export const AppProvider = ({ children }) => {
         cartCount,
         getUsername,
         isAuthenticated,
-        userRole,
+        getUserRoles,
         login,
         logout,
         orderDetails,

@@ -3,10 +3,13 @@ import PropTypes from 'prop-types';
 import { useAppContext } from '../context/AppContext';
 
 const ProtectedRoute = ({ children, allowedRoles = [] }) => {
-  const { isAuthenticated, userRole } = useAppContext();
+  const { isAuthenticated, getUserRoles } = useAppContext();
 
-  if (!isAuthenticated || !allowedRoles.includes(userRole))
-    return <Navigate to="/login" />;
+  const roleComplaint = getUserRoles().some((role) =>
+    allowedRoles.includes(role)
+  );
+
+  if (!isAuthenticated || !roleComplaint) return <Navigate to="/login" />;
 
   return children;
 };

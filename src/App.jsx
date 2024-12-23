@@ -11,6 +11,7 @@ import RegisterPage from './pages/RegisterPage';
 import InventoryPage from './pages/InventoryPage';
 import ProductDetailPage from './pages/ProductDetailsPage';
 import { ROLES } from './constants';
+import UserRolesPage from './pages/UserRolesPage';
 
 const App = () => {
   return (
@@ -32,6 +33,14 @@ const App = () => {
           <Route path="/cart" element={<CartPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route
+            path="/users/roles"
+            element={
+              <ProtectedRoute allowedRoles={[ROLES.admin]}>
+                <UserRolesPage />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/products/inventory"
             element={

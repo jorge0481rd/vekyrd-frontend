@@ -56,14 +56,16 @@ const CartPage = () => {
           >
             ◄ Productos
           </Button>
-          <Button
-            component={Link}
-            color="secondary"
-            variant="contained"
-            to="/orders"
-          >
-            Pago ►
-          </Button>
+          {cart.length > 0 && (
+            <Button
+              component={Link}
+              color="secondary"
+              variant="contained"
+              to="/orders"
+            >
+              Pago ►
+            </Button>
+          )}
         </Box>
       </PageHeader>
 

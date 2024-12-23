@@ -17,5 +17,5 @@ export const getCartSummary = (cart) => {
 };
 
 export const getCartFromLocalStorage = () => {
-  return JSON.parse(localStorage.getItem('cart')) || [];
+  return localStorage.getItem('cart') || [];
 };

@@ -69,7 +69,7 @@ const OrderPage = () => {
   }, [isAuthenticated, navigate]);
 
   useEffect(() => {
-    const orderDetails = JSON.parse(localStorage.getItem('orderDetails')) || {};
+    const orderDetails = localStorage.getItem('orderDetails') || {};
     setOrderDetails(orderDetails);
   }, []);
 
