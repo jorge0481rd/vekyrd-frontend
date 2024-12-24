@@ -69,7 +69,8 @@ const OrderPage = () => {
   }, [isAuthenticated, navigate]);
 
   useEffect(() => {
-    const orderDetails = localStorage.getItem('orderDetails') || {};
+    const item = localStorage.getItem('orderDetails');
+    const orderDetails = item ? JSON.parse(item) : {};
     setOrderDetails(orderDetails);
   }, []);
 

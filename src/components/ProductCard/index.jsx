@@ -1,18 +1,16 @@
 import { Box, Card, Paper, Typography } from '@mui/material';
 import { memo, useEffect, useState } from 'react';
 import AddRemoveProductButton from '../AddRemoveProductButton/';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import PropTypes from 'prop-types';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useNavigate } from 'react-router-dom';
 import RatingStarsSelector from '../Reviews/RatingStarsSelector';
+import WishListIcon from './WishListIcon';
 
 const ProductCard = memo(
   ({ product, isProductInCart, disableLinkToDetails = false }) => {
     const { name, description, price, imageurl, average_rating } = product;
     const [isInCart, setIsInCart] = useState(isProductInCart);
-    const [liked, setLiked] = useState(false);
 
     const navigate = useNavigate();
 
@@ -35,37 +33,6 @@ const ProductCard = memo(
         }}
         elevation={isInCart ? 1 : 0}
       >
-        <Box
-          onClick={() => setLiked(!liked)}
-          sx={{
-            position: 'absolute',
-            top: '1rem',
-            right: '1rem',
-            outline: 'solid 1px rgba(0, 0, 0, 0)',
-            width: '20px',
-            height: '20px',
-            cursor: 'pointer',
-          }}
-        >
-          <FavoriteIcon
-            sx={{
-              transition: 'all 0.3s ease-in-out',
-              position: 'absolute',
-              opacity: liked ? 1 : 0,
-              color: 'red',
-              transform: liked ? 'scale(1.3)' : 'scale(1)',
-            }}
-          />
-          <FavoriteBorderIcon
-            sx={{
-              transition: 'all 0.3s ease-in-out',
-              opacity: liked ? 0 : 1,
-              transform: liked ? 'scale(1.6)' : 'scale(1)',
-              position: 'absolute',
-            }}
-          />
-        </Box>
-
         <Paper
           className="product-card-image"
           elevation={isInCart ? 1 : 0}
@@ -117,7 +84,7 @@ const ProductCard = memo(
                 }}
               >
                 Detalles
-              </Typography>{' '}
+              </Typography>
             </Box>
           )}
         </Paper>
@@ -169,6 +136,7 @@ const ProductCard = memo(
         <Typography variant="h6" sx={{ margin: 1, textAlign: 'center' }}>
           ${price}
         </Typography>
+        <WishListIcon product={product} />
 
         <AddRemoveProductButton
           product={product}

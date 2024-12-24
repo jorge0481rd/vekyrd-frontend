@@ -47,7 +47,6 @@ const UserRolesPage = () => {
     getUsers();
   }, []);
 
-  // Filter users based on search and selected filter
   const filteredUsers = users.filter((user) => {
     const isRoleMatch =
       selectedFilter === 'all' || user.roles.includes(selectedFilter);
@@ -58,12 +57,10 @@ const UserRolesPage = () => {
     return isRoleMatch && isSearchMatch;
   });
 
-  const handleSaveChanges = async () => {
+  const handleSaveChanges = async (users) => {
     try {
-      // Guardar cambios en el backend
-      for (let user of users) {
-        await updateUserRoles(user.id, user.roles);
-      }
+      await updateUserRoles(users);
+
       setConfirmationMessage(true);
       setTimeout(() => {
         setConfirmationMessage(false);
@@ -114,11 +111,44 @@ const UserRolesPage = () => {
         margin="1rem auto 4rem"
         placeholder="Buscar usuario..."
       />
+      <Box
+        className="urp-divider"
+        sx={{ margin: '1rem 0', borderTop: '1px solid #ccc' }}
+      />
+      <Box
+        sx={{
+          padding: 2,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 2,
+          alignItems: 'end',
+        }}
+      >
+        <Button
+          variant="contained"
+          onClick={() => handleSaveChanges(users)}
+          sx={{ margin: '1rem 0' }}
+        >
+          Guardar Cambios
+        </Button>
+        {confirmationMessage && (
+          <Typography color="success">
+            Cambios guardados correctamente.
+          </Typography>
+        )}
+      </Box>
       <Box sx={{ padding: 2 }}>
         {loading ? (
           <Typography>Cargando...</Typography>
         ) : (
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
+          <Box
+            sx={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: 2,
+              justifyContent: 'space-between',
+            }}
+          >
             {filteredUsers.map((user) => (
               <Card key={user.id} sx={{ marginBottom: 2 }}>
                 <CardHeader title={user.username} subheader={user.email} />
@@ -132,7 +162,7 @@ const UserRolesPage = () => {
                         }
                       />
                     }
-                    label="Administrador"
+                    label="Admin"
                   />
                   <FormControlLabel
                     control={
@@ -160,22 +190,6 @@ const UserRolesPage = () => {
               </Card>
             ))}
           </Box>
-        )}
-        <Box
-          className="urp-divider"
-          sx={{ margin: '1rem 0', borderTop: '1px solid #ccc' }}
-        />
-        <Button
-          variant="contained"
-          onClick={handleSaveChanges}
-          sx={{ margin: '1rem 0' }}
-        >
-          Guardar Cambios
-        </Button>
-        {confirmationMessage && (
-          <Typography color="success">
-            Cambios guardados correctamente.
-          </Typography>
         )}
       </Box>
     </PageContainer>

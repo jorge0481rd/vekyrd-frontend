@@ -12,7 +12,8 @@ const useProducts = () => {
       const productsData = await apiFetchProducts();
       productsData && setProducts(productsData);
 
-      let cartData = localStorage.getItem('cart') || [];
+      const item = localStorage.getItem('cart');
+      const cartData = JSON.parse(item) || [];
       const idsAddedToCart = cartData.map((item) => item.id);
       idsAddedToCart && setAddedToCart(idsAddedToCart);
     } catch (error) {

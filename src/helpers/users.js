@@ -9,9 +9,9 @@ export const fetchUsers = async () => {
   }
 };
 
-export const updateUserRoles = async (userId, roles) => {
+export const updateUserRoles = async (users) => {
   try {
-    await apiUpdateUserroles(userId, roles);
+    await apiUpdateUserroles(users);
   } catch (error) {
     console.error('Error updating roles:', error);
   }

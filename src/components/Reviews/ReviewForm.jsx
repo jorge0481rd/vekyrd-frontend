@@ -17,10 +17,7 @@ const ReviewForm = ({
   const handleReviewSubmit = async () => {
     setIsLoading(true);
     try {
-      const response = await postReview({ productId, rating, comment });
-      console.log(response);
-
-      // Fetch updated reviews after submitting a new review
+      await postReview({ productId, rating, comment });
       setRating(1);
       setComment('');
       setIsLoading(true);

@@ -12,6 +12,7 @@ import InventoryPage from './pages/InventoryPage';
 import ProductDetailPage from './pages/ProductDetailsPage';
 import { ROLES } from './constants';
 import UserRolesPage from './pages/UserRolesPage';
+import WishlistPage from './pages/WishlistPage';
 
 const App = () => {
   return (
@@ -31,6 +32,7 @@ const App = () => {
             }
           />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/wishlist" element={<WishlistPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route

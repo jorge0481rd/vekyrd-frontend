@@ -4,12 +4,13 @@ import NavigationButton from '../components/navigation-button';
 import PageContainer from '../components/PageContainer';
 import PageHeader from '../components/PageHeader';
 import ProductCard from '../components/ProductCard';
-import { apiFetchProducts } from '../api/api';
+import { apiFetchProducts, apiFetchWishlist } from '../api/api';
 import {
   getCartFromLocalStorage,
   getProductsInCart,
 } from '../helpers/cartHelpers';
 import { useLocation } from 'react-router-dom';
+import { useAppContext } from '../context/AppContext';
 
 const ProductPage = () => {
   const [idsInCart, setIdsInCart] = useState([]);
@@ -19,6 +20,7 @@ const ProductPage = () => {
   const [search, setSearch] = useState('');
 
   const location = useLocation();
+  const { isAuthenticated } = useAppContext();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,7 +28,26 @@ const ProductPage = () => {
 
       try {
         const products = await apiFetchProducts();
-        setArrProducts(products);
+
+        console.log('isAuthenticated', isAuthenticated);
+        if (isAuthenticated) {
+          const wishlist = await apiFetchWishlist();
+
+          const wishProducts = wishlist
+            .map((wish) => products.find((product) => product.id === wish.product_id))
+            .filter((product) => product !== undefined);
+
+          // save to local storage
+          const arrWishlist = wishProducts.map((product) => product.id);
+          localStorage.setItem('wishlist', arrWishlist);
+
+          // also update products
+          products.forEach((product) => {
+            product.isInWishlist = arrWishlist.includes(product.id);
+          });
+        }
+
+        setArrProducts(products)
 
         // if query param, filter products by category
         const searchParams = new URLSearchParams(location.search);
@@ -65,8 +86,6 @@ const ProductPage = () => {
         product.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
-
-    console.log({ searchTerm, ...filtered });
 
     setFilteredProducts(filtered);
   };

@@ -14,6 +14,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LoginIcon from '@mui/icons-material/Login';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 
@@ -83,6 +84,14 @@ const Navbar = () => {
               <>
                 <Button
                   color="inherit"
+                  component={Link}
+                  to="/wishlist"
+                  startIcon={<FavoriteIcon />}
+                >
+                  Lista de favoritos
+                </Button>
+                <Button
+                  color="inherit"
                   onClick={handleMenuClick}
                   startIcon={<SettingsIcon />}
                 >
@@ -110,7 +119,6 @@ const Navbar = () => {
                   >
                     Permisos de usuario
                   </MenuItem>
-                  {/* You can add more admin tools here */}
                 </Menu>
               </>
             )}

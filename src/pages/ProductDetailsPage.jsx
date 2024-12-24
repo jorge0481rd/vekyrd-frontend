@@ -38,12 +38,6 @@ const ProductDetailPage = () => {
   useEffect(() => {
     const cart = getCartFromLocalStorage();
     const isInCart = cart.find((item) => item.id === parseInt(productId));
-    console.log({ isInCart, cart, productId: Number(productId) });
-  }, [productId]);
-
-  useEffect(() => {
-    const cart = getCartFromLocalStorage();
-    const isInCart = cart.find((item) => item.id === parseInt(productId));
     setIsProductInCart(Boolean(isInCart));
   }, [productId]);
 

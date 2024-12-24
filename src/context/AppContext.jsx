@@ -87,12 +87,14 @@ export const AppProvider = ({ children }) => {
   };
 
   const getUserRoles = () => {
-    const userRoles = localStorage.getItem('roles').split(',') || [];
+    const item = localStorage.getItem('roles');
+    const userRoles = item ? item.split(',') : [];
     return userRoles;
   };
 
   const addOrRemoveToCart = (product) => {
-    const localStorageCart = localStorage.getItem('cart') || [];
+    const item = localStorage.getItem('cart');
+    const localStorageCart = JSON.parse(item) || [];
     const isInCart = localStorageCart.some((item) => item.id === product.id);
 
     const updatedCart = isInCart

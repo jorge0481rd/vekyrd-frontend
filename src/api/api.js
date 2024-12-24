@@ -137,6 +137,26 @@ export const apiPostReview = async (review) => {
   return response.data;
 };
 
+export const apiFetchWishlist = async () => {
+  const response = await api.get(`http://localhost:5000/products/wishlist`);
+  return response.data;
+};
+
+// wishlist
+export const apiAddToWishlist = async (productId) => {
+  const response = await api.post(
+    `http://localhost:5000/products/wishlist/${productId}`
+  );
+  return response.data;
+};
+
+export const apiRemoveFromWishlist = async (productId) => {
+  const response = await api.delete(
+    `http://localhost:5000/products/wishlist/${productId}`
+  );
+  return response.data;
+};
+
 // inventory
 export const apiFetchInventory = async () => {
   const data =
@@ -158,13 +178,10 @@ export const apiFetchUsers = async () => {
   return response.data;
 };
 
-export const apiUpdateUserroles = async (userId, roles) => {
-  const response = await api.put(
-    `http://localhost:5000/users/roles/${userId}`,
-    {
-      roles,
-    }
-  );
+export const apiUpdateUserroles = async (users) => {
+  const response = await api.put(`http://localhost:5000/users/roles`, {
+    users,
+  });
   return response.data;
 };
 
