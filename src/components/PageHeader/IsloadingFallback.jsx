@@ -17,6 +17,7 @@ const IsloadingFallback = ({ isLoadingText }) => {
         margin: 'auto',
         position: 'relative',
         zIndex: 10,
+        marginTop: '4rem',
       }}
     >
       <Box
@@ -25,7 +26,7 @@ const IsloadingFallback = ({ isLoadingText }) => {
           backgroundColor: '#f0f4f8',
           boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
           position: 'absolute',
-          top: 0,
+          top: '3rem',
           left: 0,
           width: '100%',
           height: '100%',
@@ -34,7 +35,7 @@ const IsloadingFallback = ({ isLoadingText }) => {
           zIndex: -1,
         }}
       ></Box>
-      <Typography variant="h6" sx={{ marginBottom: '1rem' }}>
+      <Typography variant="h6" sx={{ marginBottom: '3rem' }}>
         {isLoadingText}
       </Typography>
       <CircularProgress />

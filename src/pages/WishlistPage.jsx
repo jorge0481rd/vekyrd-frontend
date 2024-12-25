@@ -4,7 +4,7 @@ import PageHeader from '../components/PageHeader';
 import NavigationButton from '../components/navigation-button';
 import { Box, Grid } from '@mui/material';
 import ProductCard from '../components/ProductCard';
-import { fetchWishlist } from '../helpers/productHelpers';
+import { fetchProducts, fetchWishlist } from '../helpers/productHelpers';
 
 const WishlistPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,8 +16,20 @@ const WishlistPage = () => {
       setIsLoading(true);
 
       try {
-        const wishlist = await fetchWishlist();
-        setProducts(wishlist);
+        const wishList = await fetchWishlist();
+        const ps = await fetchProducts();
+        const arrProducts = ps.products;
+
+        const wishProducts = wishList.map((wish) => {
+          const product = arrProducts.find(
+            (product) => product.id === wish.product_id
+          );
+          if(product) product.isInWishlist = true;
+          return product;
+        })
+        .filter(p => p !== undefined)
+
+        setProducts(wishProducts);
       } catch (error) {
         console.error('Error fetching wishlist:', error);
       } finally {
