@@ -13,6 +13,7 @@ import ProductDetailPage from './pages/ProductDetailsPage';
 import { ROLES } from './constants';
 import UserRolesPage from './pages/UserRolesPage';
 import WishlistPage from './pages/WishlistPage';
+import QuestionnairePage from './pages/QuestionnarePage';
 
 const App = () => {
   return (
@@ -35,6 +36,7 @@ const App = () => {
           <Route path="/wishlist" element={<WishlistPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/questionnare" element={<QuestionnairePage />} />
           <Route
             path="/users/roles"
             element={

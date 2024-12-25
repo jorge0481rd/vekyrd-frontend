@@ -34,7 +34,9 @@ const ProductPage = () => {
           const wishlist = await apiFetchWishlist();
 
           const wishProducts = wishlist
-            .map((wish) => products.find((product) => product.id === wish.product_id))
+            .map((wish) =>
+              products.find((product) => product.id === wish.product_id)
+            )
             .filter((product) => product !== undefined);
 
           // save to local storage
@@ -47,7 +49,7 @@ const ProductPage = () => {
           });
         }
 
-        setArrProducts(products)
+        setArrProducts(products);
 
         // if query param, filter products by category
         const searchParams = new URLSearchParams(location.search);

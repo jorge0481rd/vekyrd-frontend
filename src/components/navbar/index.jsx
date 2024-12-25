@@ -17,6 +17,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
+import ChecklistIcon from '@mui/icons-material/Checklist';
 
 const Navbar = () => {
   const { isAuthenticated, logout, cartCount, getUserRoles, getUsername } =
@@ -47,6 +48,14 @@ const Navbar = () => {
           startIcon={<HomeIcon />}
         >
           Inicio
+        </Button>
+        <Button
+          color="inherit"
+          component={Link}
+          to="/questionnare"
+          startIcon={<ChecklistIcon />}
+        >
+          Descubre
         </Button>
         <Button
           color="inherit"

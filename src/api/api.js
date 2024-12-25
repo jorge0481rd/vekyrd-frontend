@@ -185,4 +185,12 @@ export const apiUpdateUserroles = async (users) => {
   return response.data;
 };
 
+// questionnaire
+export const apiPostQuestionnaire = async (responses) => {
+  const response = await api.post(`http://localhost:5000/questionnaire`, {
+    responses,
+  });
+  return response.data;
+};
+
 export default api;

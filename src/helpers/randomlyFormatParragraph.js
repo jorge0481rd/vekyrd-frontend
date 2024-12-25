@@ -1,4 +1,7 @@
-export default function randomlyFormatParagraph(paragraph) {
+export default function randomlyFormatParagraph(paragraph, linebreaks = false) {
+  if (Boolean(paragraph) === false) {
+    return '';
+  }
   const sentences = paragraph.split('.');
   const boldRandomIndex1 = Math.floor(Math.random() * sentences.length - 1);
   const boldRandomIndex2 = Math.floor(Math.random() * sentences.length - 1);
@@ -12,21 +15,35 @@ export default function randomlyFormatParagraph(paragraph) {
     Math.random() * sentences.length - 1
   );
 
+  const linebreaksStr = linebreaks ? '<br><br>' : '';
+
+  const formattedSentences = [];
+
   for (let i = 0; i < sentences.length; i++) {
     if (i === boldRandomIndex1) {
+      if (formattedSentences.includes(i)) continue;
       sentences[i] = `<b>${sentences[i]}</b>`;
+      formattedSentences.push(i);
     }
     if (i === boldRandomIndex2) {
-      sentences[i] = `<br><br><b>${sentences[i]}</b>`;
+      if (formattedSentences.includes(i)) continue;
+      sentences[i] = `${linebreaksStr}<b>${sentences[i]}</b>`;
+      formattedSentences.push(i);
     }
     if (i === italicRandomIndex1) {
+      if (formattedSentences.includes(i)) continue;
       sentences[i] = `<i>${sentences[i]}</i>`;
+      formattedSentences.push(i);
     }
     if (i === underlineRandomIndex1) {
-      sentences[i] = `<br><br><u>${sentences[i]}</u>`;
+      if (formattedSentences.includes(i)) continue;
+      sentences[i] = `${linebreaksStr}<u>${sentences[i]}</u>`;
+      formattedSentences.push(i);
     }
     if (i === underlineRandomIndex2) {
+      if (formattedSentences.includes(i)) continue;
       sentences[i] = `<u>${sentences[i]}</u>`;
+      formattedSentences.push(i);
     }
   }
   return sentences.join('.');
