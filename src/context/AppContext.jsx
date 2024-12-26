@@ -71,6 +71,7 @@ export const AppProvider = ({ children }) => {
     localStorage.removeItem('cart');
     localStorage.removeItem('orderDetails');
     localStorage.removeItem('token');
+    localStorage.removeItem('wishlist');
     localStorage.removeItem('roles');
     window.location.href = '/login';
   };

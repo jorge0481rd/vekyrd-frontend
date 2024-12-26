@@ -229,7 +229,6 @@ const QuestionnairePage = () => {
             color="primary"
             onClick={handleSubmit}
             disabled={isLoading}
-            zIndex={10}
           >
             Enviar Respuestas
           </Button>
@@ -247,7 +246,7 @@ const QuestionnairePage = () => {
           textAlign: 'center',
           transition: 'all 300ms ease-in-out',
           opacity: isLoading ? 1 : 0,
-          transform: `translateY(${isLoading ? 100 : -100}%)`,
+          transform: `translateY(${isLoading ? 100 : -300}px)`,
         }}
       >
         Buscando resultados ...
@@ -276,7 +275,7 @@ const QuestionnairePage = () => {
               margin: '0 auto',
               transition: 'all 700ms ease-in-out',
               opacity: hideRecommendations ? 0 : 1,
-              transform: `translateX(${hideRecommendations ? -100 : 0}%)`,
+              transform: `translateX(${hideRecommendations ? -100 : 0}px)`,
             }}
           >
             {generalTipsImageUrl && (
@@ -296,10 +295,9 @@ const QuestionnairePage = () => {
             sx={{
               margin: 1,
               textAlign: 'left',
-              fontSize: '0.8rem',
               transition: 'all 300ms ease-in-out',
               opacity: hideRecommendations ? 0 : 1,
-              transform: `translateY(${hideRecommendations ? -100 : 0}%)`,
+              transform: `translateY(${hideRecommendations ? -100 : 0}px)`,
             }}
           ></Typography>
         </Box>
@@ -316,7 +314,7 @@ const QuestionnairePage = () => {
                 padding: 2,
                 transition: `all ${(index + 4) * 2 * 100}ms ease-in-out`,
                 opacity: hideRecommendations ? 0 : 1,
-                transform: `translateX(${hideRecommendations ? 100 : 0}%)`,
+                transform: `translateX(${hideRecommendations ? 100 : 0}px)`,
               }}
             >
               <ProductCardHorizontal
