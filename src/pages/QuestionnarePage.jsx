@@ -297,7 +297,7 @@ const QuestionnairePage = () => {
               textAlign: 'left',
               transition: 'all 300ms ease-in-out',
               opacity: hideRecommendations ? 0 : 1,
-              transform: `translateY(${hideRecommendations ? -100 : 0}px)`,
+              transform: `translateY(${hideRecommendations ? 100 : 0}px)`,
             }}
           ></Typography>
         </Box>

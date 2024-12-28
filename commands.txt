@@ -1,0 +1,9 @@
+- ACCESS CONTAINER AND DB
+docker exec -it container_name bash
+psql -U postgres -d vekyrd-ecommerce-db
+
+- STOP ALL CONTAINERS
+docker stop $(docker ps -aq)
+
+- DELETE ALL IMAGES
+docker rmi $(docker images -q)

@@ -116,6 +116,13 @@ const Navbar = () => {
                 >
                   <MenuItem
                     component={Link}
+                    to="/reports/sales"
+                    onClick={handleMenuClose}
+                  >
+                    Reporte de ventas
+                  </MenuItem>
+                  <MenuItem
+                    component={Link}
                     to="/products/inventory"
                     onClick={handleMenuClose}
                   >

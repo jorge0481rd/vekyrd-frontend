@@ -99,26 +99,10 @@ export const apiLogout = async () => {
   window.location.href = '/login';
 };
 
-// cart
-export const apiUpdateCart = async (items) => {
-  const response = await api.post(
-    'http://localhost:5000/orders/updatecart',
-    items
-  );
-  return response.data;
-};
-
-export const apiAddToCart = async (productId, quantity) => {
-  const response = await api.post('http://localhost:5000/cart/add', {
-    product_id: productId,
-    quantity: quantity,
-  });
-  return response.data;
-};
-
 // products
 export const apiFetchProducts = async () => {
   const response = (await api.get('http://localhost:5000/products')) || [];
+  console.log(response.data);
   return response.data;
 };
 
@@ -189,6 +173,14 @@ export const apiUpdateUserroles = async (users) => {
 export const apiPostQuestionnaire = async (responses) => {
   const response = await api.post(`http://localhost:5000/questionnaire`, {
     responses,
+  });
+  return response.data;
+};
+
+// reports
+export const apiFetchSalesReport = async (params) => {
+  const response = await api.get(`http://localhost:5000/reports/sales`, {
+    params,
   });
   return response.data;
 };
