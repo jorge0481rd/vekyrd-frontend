@@ -7,3 +7,9 @@ docker stop $(docker ps -aq)
 
 - DELETE ALL IMAGES
 docker rmi $(docker images -q)
+
+
+- TABLE SCHEMA
+SELECT column_name, data_type, character_maximum_length
+FROM information_schema.columns
+WHERE table_name = 'products';

@@ -2,9 +2,15 @@ import { AgGridReact } from 'ag-grid-react';
 import { Box, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 
-const CustomAgGrid = ({ colDefs, rowData, title, width }) => {
+const CustomAgGrid = ({ colDefs, rowData, title }) => {
+  const gridOptions = {
+    autoSizeStrategy: {
+      type: 'fitGridWidth',
+    },
+  };
+
   return (
-    <Box sx={{ width: width, margin: 4 }}>
+    <Box sx={{ margin: 4 }}>
       <Typography variant="h6" align="center">
         {title}
       </Typography>
@@ -13,6 +19,7 @@ const CustomAgGrid = ({ colDefs, rowData, title, width }) => {
         rowData={rowData}
         domLayout="autoHeight"
         pagination={true}
+        gridOptions={gridOptions}
       />
     </Box>
   );

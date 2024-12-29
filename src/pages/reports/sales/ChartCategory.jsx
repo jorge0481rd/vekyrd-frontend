@@ -9,7 +9,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { getFromDate } from '../../../utils/getFromDate';
+import { Box } from '@mui/material';
 
 ChartJS.register(
   CategoryScale,
@@ -20,21 +20,13 @@ ChartJS.register(
   Legend
 );
 
-const SalesTrendChart = ({ sales_trend }) => {
-  const headers = sales_trend?.map((item) => {
-    const weekday = getFromDate(item.date).weekday;
-    const day = getFromDate(item.date).day;
-    return `${weekday} ${day}`;
-  });
-  const info = sales_trend?.map((item) => item.total_sales) || [];
-
-  console.log(headers, info);
+const ChartCategory = ({ info, title, width }) => {
   const data = {
-    labels: headers,
+    labels: info.labels,
     datasets: [
       {
-        label: getFromDate(sales_trend[0].date).month,
-        data: info,
+        label: title,
+        data: info.data,
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
@@ -65,14 +57,27 @@ const SalesTrendChart = ({ sales_trend }) => {
   };
 
   return (
-    <div>
+    <Box
+      sx={{
+        width,
+        padding: 2,
+        margin: '1rem',
+        aspectRatio: 16 / 9,
+        borderRadius: 1,
+        boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
+        outline: 'solid 1px #dedede',
+      }}
+    >
       <Bar data={data} />
-    </div>
+    </Box>
   );
 };
 
-SalesTrendChart.propTypes = {
+ChartCategory.propTypes = {
   sales_trend: PropTypes.array.isRequired,
+  info: PropTypes.object.isRequired,
+  title: PropTypes.string.isRequired,
+  width: PropTypes.string.isRequired,
 };
 
-export default SalesTrendChart;
+export default ChartCategory;

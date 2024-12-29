@@ -1,66 +1,39 @@
 import { useEffect, useState } from 'react';
-import { Box, Typography } from '@mui/material';
 import PageContainer from '../../../components/PageContainer';
 import PageHeader from '../../../components/PageHeader';
-import TotalWidget from '../shared/TotalWidget';
-import CustomAgGrid from '../shared/CustomAgGrid';
 import { fetchSalesReport } from '../../../helpers/reports';
-import { fetchCategoriesAnalysis } from '../../../helpers/reportsAiAnalysis';
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
-import AiLoadingSpinner from '../../../components/LoadingIndicator/AiLoadingSpinner';
+import CustomAgGrid from '../shared/CustomAgGrid';
+import { columnDefs } from './colDefs';
+import { getFromDate } from '../../../utils/getFromDate';
 import {
-  colDefCategoryy,
-  colDefSalesTrend,
-  colDefTopSellingProducts,
-} from './colDefs';
-import SalesTrendChart from './SalesTrendChart';
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Typography,
+} from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
+import DatePicker1 from './DatePicker1';
+import ChartCategory from './ChartCategory';
+import { summarizeCategories } from './helpers/summarizeCategories';
+import ChartSalesTrend from './ChartSalesTrend';
 
 const SalesReportPage = () => {
-  const [salesData, setSalesData] = useState({
-    total_sales: 15000,
-    sales_by_category: [
-      {
-        category: 'Shampoos',
-        total_sales: 5000,
-      },
-      {
-        category: 'Conditioners',
-        total_sales: 3000,
-      },
-    ],
-    sales_trend: [
-      {
-        date: '2024-12-01',
-        total_sales: 2000,
-      },
-      {
-        date: '2024-12-02',
-        total_sales: 2500,
-      },
-    ],
-    top_selling_products: [
-      {
-        id: 5,
-        name: 'Champú Anti-Caída',
-        units_sold: 100,
-        revenue: 2000,
-      },
-    ],
-  });
-  const [categoriesAnalysis, setCategoriesAnalysis] = useState('');
-
+  const [salesData, setSalesData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [start_date, setStart_date] = useState('2024-01-01');
+  const [end_date, setEnd_date] = useState('2024-12-31');
+  const [categoriesSummary, setCategoriesSummary] = useState([]);
 
   useEffect(() => {
     const fetchSalesData = async () => {
       setIsLoading(true);
       try {
         const data = await fetchSalesReport({
-          start_date: '2024-01-01',
-          end_date: '2024-12-31',
-          group_by: 'month',
+          start_date,
+          end_date,
         });
-        setSalesData(data);
+        setSalesData(data.salesData);
       } catch (error) {
         console.error('Error fetching sales data:', error);
       } finally {
@@ -69,87 +42,66 @@ const SalesReportPage = () => {
     };
 
     fetchSalesData();
-  }, []);
+  }, [end_date, start_date]);
 
   useEffect(() => {
-    const getCategoriesAnalysis = async () => {
-      setIsLoading(true);
-      try {
-        const data = await fetchCategoriesAnalysis(salesData.sales_by_category);
-        setCategoriesAnalysis(data);
-      } catch (error) {
-        console.error('Error fetching categories analysis:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    getCategoriesAnalysis();
-  }, []);
+    const summary = summarizeCategories(salesData);
+    const labels = Object.keys(summary);
+    const data = Object.values(summary);
+    setCategoriesSummary({ labels, data });
+  }, [salesData]);
 
   return (
-    <PageContainer>
-      <PageHeader title="Reporte de Ventas"></PageHeader>
-      <Box
-        sx={{
-          width: '100%',
-          marginBottom: 2,
-        }}
-      >
-        <TotalWidget value={salesData.total_sales} title="Total de ventas" />
+    <PageContainer sx={{ backgroundColor: '#eeeeee' }}>
+      <PageHeader title="Reporte de Ventas" isLoading={isLoading}></PageHeader>
 
-        <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
-          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            <CustomAgGrid
-              colDefs={colDefSalesTrend}
-              rowData={salesData.sales_trend}
-              width="500px"
-              title="Ventas del mes"
+      {/* Date pickers */}
+      <DatePicker1
+        setStart_date={setStart_date}
+        setEnd_date={setEnd_date}
+        start_date={start_date}
+        end_date={end_date}
+      />
+
+      <Accordion defaultExpanded sx={{ marginTop: 4 }}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+          sx={{ borderBottom: '1px solid #cecece' }}
+        >
+          <Typography variant="h6" sx={{ textAlign: 'center', width: '100%' }}>
+            Ver / ocultar Gráficos
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <ChartCategory
+            info={categoriesSummary}
+            title={`Ventas por categoría (${getFromDate(start_date).date} - ${
+              getFromDate(end_date).date
+            })`}
+            width="400px"
+          />
+          {salesData && salesData.length > 0 && (
+            <ChartSalesTrend
+              info={salesData}
+              title={`Ventas del mes (${getFromDate(start_date).date} - ${
+                getFromDate(end_date).date
+              })`}
+              width="400px"
             />
-            <SalesTrendChart sales_trend={salesData.sales_trend} />
-          </Box>
-          <CustomAgGrid
-            colDefs={colDefTopSellingProducts}
-            rowData={salesData.top_selling_products}
-            width="500px"
-            title="Productos más vendidos"
-          />
-        </Box>
-        <hr />
-        <hr />
-        <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
-          <CustomAgGrid
-            colDefs={colDefCategoryy}
-            rowData={salesData.sales_by_category}
-            width="500px"
-            title="Ventas por categoría"
-          />
-          <Box
-            id="categoryy-ai-interpretation"
-            sx={{ width: '500px', paddingTop: 4 }}
-          >
-            <Typography variant="h6" sx={{ marginBottom: 2 }}>
-              Análisis de categorías <AutoAwesomeIcon />
-            </Typography>
-            {!isLoading && (
-              <Typography
-                dangerouslySetInnerHTML={{ __html: categoriesAnalysis }}
-              />
-            )}
-            {isLoading && (
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  width: '400px',
-                }}
-              >
-                <AiLoadingSpinner size="10rem" />
-              </Box>
-            )}
-          </Box>
-        </Box>
-      </Box>
+          )}
+        </AccordionDetails>
+      </Accordion>
+
+      <CustomAgGrid
+        colDefs={columnDefs}
+        rowData={salesData}
+        title={`${getFromDate(start_date).longDate} - ${
+          getFromDate(end_date).longDate
+        }`}
+        width="100%"
+      />
     </PageContainer>
   );
 };

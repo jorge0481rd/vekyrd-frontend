@@ -1,20 +1,20 @@
 export function getFromDate(dateStr) {
   const MONTH = [
-    'Enero',
-    'Febrero',
-    'Marzo',
-    'Abril',
-    'Mayo',
-    'Junio',
-    'Julio',
-    'Agosto',
-    'Septiembre',
-    'Octubre',
-    'Noviembre',
-    'Diciembre',
+    'enero',
+    'febrero',
+    'marzo',
+    'abril',
+    'mayo',
+    'junio',
+    'julio',
+    'agosto',
+    'septiembre',
+    'octubre',
+    'noviembre',
+    'diciembre',
   ];
 
-  const DAY = [
+  const DAY_NAMES = [
     'Domingo',
     'Lunes',
     'Martes',
@@ -26,14 +26,17 @@ export function getFromDate(dateStr) {
 
   const date = new Date(dateStr);
 
-  const d = date.getDay();
+  const d = date.getDate();
   const m = date.getMonth();
   const y = date.getFullYear();
 
   return {
-    weekday: DAY[d],
-    day: date.getDay(),
-    month: MONTH[m],
-    year: y,
+    d,
+    m,
+    y,
+    day_name: DAY_NAMES[d],
+    month_name: MONTH[m],
+    date: `${d}/${m}/${y}`,
+    longDate: `${DAY_NAMES[d]} ${d + 1} de ${MONTH[m]} del ${y}`,
   };
 }

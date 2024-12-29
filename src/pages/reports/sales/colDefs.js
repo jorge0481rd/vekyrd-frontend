@@ -1,45 +1,25 @@
-import { formatPrice } from '../../../utils/formatPrice';
 import { getFromDate } from '../../../utils/getFromDate';
 
-export const colDefCategoryy = [
-  { headerName: 'Categoría', field: 'category', flex: 1 },
-  {
-    headerName: 'Total',
-    field: 'total',
-    valueFormatter: (params) => formatPrice(params.value),
-    cellStyle: { textAlign: 'right' },
-  },
-];
+const dateFormatter = (params) => {
+  const date = getFromDate(params.value);
+  return `${date.d}/${date.m}/${date.y}`;
+};
 
-export const colDefSalesTrend = [
-  {
-    headerName: 'Fecha',
-    field: 'date',
-    flex: 1,
-    valueFormatter: (param) => {
-      const date = getFromDate(param.data.date);
-      console.log(param, date);
-      return `${date.weekday} ${date.day} de ${date.month} del ${date.year}`;
-    },
-  },
-  {
-    headerName: 'Ventas',
-    field: 'total_sales',
-    valueFormatter: (params) => formatPrice(params.value),
-    cellStyle: { textAlign: 'right' },
-  },
-];
+// Formatter for currency fields
+const currencyFormatter = (params) => {
+  return `${parseFloat(params.value).toFixed(2)}`;
+};
 
-export const colDefTopSellingProducts = [
-  { headerName: 'ID', field: 'product_id' },
-  { headerName: 'Nombre', field: 'name' },
-  {
-    headerName: 'Unidades',
-    field: 'count',
-  },
-  {
-    headerName: 'Neto',
-    field: 'sum',
-    valueFormatter: (params) => formatPrice(params.value),
-  },
+// prettier-ignore
+export const columnDefs = [
+	{ headerName: "Order ID", 			field: "order_id", 					 sortable: true, filter: true },
+	{ headerName: "Date", 					field: "created_at", 				 sortable: true, filter: true, valueFormatter: dateFormatter },
+	{ headerName: "User ID", 				field: "user_id", 					 sortable: true, filter: true },
+	{ headerName: "Payment Method", field: "payment_method", 		 sortable: true, filter: true },
+	{ headerName: "Product ID", 		field: "product_id", 				 sortable: true, filter: true },
+	{ headerName: "Quantity", 			field: "quantity", 					 sortable: true, filter: true },
+	{ headerName: "Product Name", 	field: "name", 							 sortable: true, filter: true },
+	{ headerName: "Category", 			field: "category",					 sortable: true, filter: true },
+	{ headerName: "Price", 					field: "price", 						 sortable: true, filter: true, valueFormatter: currencyFormatter },
+	{ headerName: "Total Price", 		field: "total_price", 			 sortable: true, filter: true, valueFormatter: currencyFormatter }
 ];
