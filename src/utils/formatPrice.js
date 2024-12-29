@@ -1,9 +1,8 @@
-function formatPrice(number) {
-	const roundedNumber = number.toFixed(2); // Always ensure two decimal places
-	const formattedNumber = parseFloat(roundedNumber).toLocaleString('en-US', {
-		minimumFractionDigits: 2,
-		maximumFractionDigits: 2,
-	});
-	return formattedNumber;
-}
-export default formatPrice;
+export const formatPrice = (price) => {
+  return new Intl.NumberFormat('us-ES', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(price);
+};

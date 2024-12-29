@@ -1,6 +1,7 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
 import ProtectedRoute from './components/ProtectedRoute';
+import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 
 import CartPage from './pages/CartPage';
 import HomePage from './pages/HomePage';
@@ -15,6 +16,11 @@ import UserRolesPage from './pages/UserRolesPage';
 import WishlistPage from './pages/WishlistPage';
 import QuestionnairePage from './pages/QuestionnarePage';
 import SalesReportPage from './pages/reports/sales/SalesReportPage';
+
+ModuleRegistry.registerModules([AllCommunityModule]);
+
+console.clear();
+console.log('App.jsx: console cleared');
 
 const App = () => {
   return (

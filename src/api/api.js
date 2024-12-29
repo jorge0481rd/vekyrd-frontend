@@ -102,7 +102,6 @@ export const apiLogout = async () => {
 // products
 export const apiFetchProducts = async () => {
   const response = (await api.get('http://localhost:5000/products')) || [];
-  console.log(response.data);
   return response.data;
 };
 
@@ -183,6 +182,14 @@ export const apiFetchSalesReport = async (params) => {
     params,
   });
   return response.data;
+};
+
+export const apiFetchCategoriesAnalysis = async (data) => {
+  const response = await api.post(
+    `http://localhost:5000/reports/categories-analysis`,
+    data
+  );
+  return response;
 };
 
 export default api;
