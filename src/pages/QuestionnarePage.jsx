@@ -29,58 +29,13 @@ const QuestionnairePage = () => {
   const [currentIssues, setCurrentIssues] = useState('resequedad por el calor');
   const [goals, setGoals] = useState('quiero un spray para cuidarlo del calor');
 
-  const [recommendations, setRecommendations] = useState([
-    {
-      id: 1,
-      name: 'Shampoo hidratante',
-      description: 'Shampoo para cabellos secos',
-      price: '10.99',
-      stock: 20,
-      imageurl: '/img/products/shampoo1.jpg',
-      sku: 'SKUc20dfe',
-      description_large:
-        'Este shampoo hidratante está especialmente diseñado para restaurar la hidratación del cabello seco, dañado o deshidratado. Gracias a su fórmula avanzada, rica en ingredientes naturales como aceites esenciales, proteínas y extractos de plantas, proporciona una hidratación profunda y duradera desde la raíz hasta las puntas. Su acción nutritiva ayuda a suavizar la fibra capilar, reparando el daño y mejorando la textura del cabello, dejándolo más suave, brillante y manejable. Ideal para todo tipo de cabellos, especialmente aquellos que sufren de resequedad debido a factores ambientales, el uso excesivo de productos de styling o la exposición al sol y al agua salada. Al usarlo de manera regular, no solo notarás un cabello más hidratado, sino también fortalecido, con un aspecto saludable y radiante. Este shampoo es perfecto para quienes buscan una solución eficaz para combatir la falta de humedad y restaurar el equilibrio natural de su cabello. ',
-      average_rating: '3.00',
-      recommendation:
-        'El uso de un buen protector térmico es fundamental si tienes el cabello rizado y largo. El Shampoo hidratante no solo protege tu cabello del daño causado por el calor de las herramientas de peinado, sino que también ayuda a mantener la hidratación, lo cual es esencial para combatir la resequedad provocada por el calor.',
-    },
-    {
-      id: 2,
-      name: 'Shampoo para cabellos grasos',
-      description: 'Shampoo para cabellos con exceso de grasa',
-      price: '11.49',
-      stock: 7,
-      imageurl: '/img/products/shampoo2.jpg',
-      sku: 'SKU6099de',
-      description_large:
-        'Este shampoo hidratante está especialmente diseñado para restaurar la hidratación del cabello seco, dañado o deshidratado. Gracias a su fórmula avanzada, rica en ingredientes naturales como aceites esenciales, proteínas y extractos de plantas, proporciona una hidratación profunda y duradera desde la raíz hasta las puntas. Su acción nutritiva ayuda a suavizar la fibra capilar, reparando el daño y mejorando la textura del cabello, dejándolo más suave, brillante y manejable. Ideal para todo tipo de cabellos, especialmente aquellos que sufren de resequedad debido a factores ambientales, el uso excesivo de productos de styling o la exposición al sol y al agua salada. Al usarlo de manera regular, no solo notarás un cabello más hidratado, sino también fortalecido, con un aspecto saludable y radiante. Este shampoo es perfecto para quienes buscan una solución eficaz para combatir la falta de humedad y restaurar el equilibrio natural de su cabello. ',
-      average_rating: '3.00',
-      recommendation:
-        'Mantener la salud de tu cabello rizado es una tarea que requiere de productos específicos. El Shampoo para cabellos grasos está diseñado para proporcionar una barrera contra los daños del calor y además hidratar tu melena, asegurando que luzca brillante y saludable.',
-    },
-    {
-      id: 4,
-      name: 'Spray protector térmico',
-      description: 'Protege el cabello del daño del calor',
-      price: '12.99',
-      stock: 5,
-      imageurl: '/img/products/spray1.jpg',
-      sku: 'SKUf57d61',
-      description_large:
-        'Este shampoo hidratante está especialmente diseñado para restaurar la hidratación del cabello seco, dañado o deshidratado. Gracias a su fórmula avanzada, rica en ingredientes naturales como aceites esenciales, proteínas y extractos de plantas, proporciona una hidratación profunda y duradera desde la raíz hasta las puntas. Su acción nutritiva ayuda a suavizar la fibra capilar, reparando el daño y mejorando la textura del cabello, dejándolo más suave, brillante y manejable. Ideal para todo tipo de cabellos, especialmente aquellos que sufren de resequedad debido a factores ambientales, el uso excesivo de productos de styling o la exposición al sol y al agua salada. Al usarlo de manera regular, no solo notarás un cabello más hidratado, sino también fortalecido, con un aspecto saludable y radiante. Este shampoo es perfecto para quienes buscan una solución eficaz para combatir la falta de humedad y restaurar el equilibrio natural de su cabello. ',
-      average_rating: '5.00',
-      recommendation:
-        'La elección de un buen spray protector es clave para cuidar tu cabello rizado y evitar la resequedad. El Spray protector térmico no solo ofrece protección termal, sino que también trabaja para mantener la suavidad y la definición de tus rizos, haciéndolos más manejables.',
-    },
-  ]);
-  const [generalTips, setGeneralTips] = useState(
-    '<div>\n    <h2>Recomendaciones para el cuidado del cabello</h2>\n    <ul>\n        <li>\n            <strong>Para cabellos secos:</strong> Utiliza un shampoo hidratante que nutra y restaure la hidratación natural del cabello.\n        </li>\n        <li>\n            <strong>Para cabellos con exceso de grasa:</strong> Elige un shampoo purificante que controle la producción de grasa y limpie profundamente el cuero cabelludo.\n        </li>\n        <li>\n            <strong>Protección contra el daño del calor:</strong> Aplica un shampoo que contenga ingredientes protectores para minimizar el daño causado por herramientas de calor.\n        </li>\n    </ul>\n</div>\n'
-  );
+  const [recommendations, setRecommendations] = useState([]);
+  const [generalTips, setGeneralTips] = useState('');
   const [generalTipsUrlList, setGeneralTipsUrlList] = useState([
-    '/img/happy-woman1.jpg',
     '/img/happy-woman2.jpg',
     '/img/happy-woman3.jpg',
     '/img/happy-woman4.jpg',
+    '/img/happy-woman1.jpg',
   ]);
   const [generalTipsImageUrl, setGeneralTipsImageUrl] = useState(null);
 
