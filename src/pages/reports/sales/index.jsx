@@ -10,6 +10,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
+  Button,
   Typography,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -17,33 +18,33 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChartCategory from './ChartCategory';
 import { summarizeCategories } from './helpers/summarizeCategories';
 import ChartSalesTrend from './ChartSalesTrend';
-import DatePicker1 from '../shared/DatePicker1';
+import DatePickerComponent from '../shared/DatePicker1';
 
 const SalesReportPage = () => {
   const [salesData, setSalesData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [start_date, setStart_date] = useState('2024-01-01');
-  const [end_date, setEnd_date] = useState('2024-12-31');
+  const [date_start, setDate_start] = useState('2024-01-01');
+  const [date_end, setDate_end] = useState('2024-12-31');
   const [categoriesSummary, setCategoriesSummary] = useState([]);
 
-  useEffect(() => {
-    const fetchSalesData = async () => {
-      setIsLoading(true);
-      try {
-        const data = await fetchSalesReport({
-          start_date,
-          end_date,
-        });
-        setSalesData(data.salesData);
-      } catch (error) {
-        console.error('Error fetching sales data:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  const fetchSalesData = async () => {
+    setIsLoading(true);
+    try {
+      const data = await fetchSalesReport({
+        start_date: date_start,
+        end_date: date_end,
+      });
+      setSalesData(data.salesData);
+    } catch (error) {
+      console.error('Error fetching sales data:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchSalesData();
-  }, [end_date, start_date]);
+  }, []);
 
   useEffect(() => {
     const summary = summarizeCategories(salesData);
@@ -57,12 +58,26 @@ const SalesReportPage = () => {
       <PageHeader title="Reporte de Ventas" isLoading={isLoading}></PageHeader>
 
       {/* Date pickers */}
-      <DatePicker1
-        setStart_date={setStart_date}
-        setEnd_date={setEnd_date}
-        start_date={start_date}
-        end_date={end_date}
-      />
+      <Box
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: 2,
+          marginTop: 2,
+          alignItems: 'center',
+        }}
+      >
+        <DatePickerComponent
+          setDate_start={setDate_start}
+          setDate_end={setDate_end}
+          date_start={date_start}
+          date_end={date_end}
+        />
+
+        <Button variant="contained" onClick={fetchSalesData}>
+          Actualizar
+        </Button>
+      </Box>
 
       {/* charts */}
       <Accordion defaultExpanded sx={{ marginTop: 4 }}>
@@ -80,16 +95,16 @@ const SalesReportPage = () => {
           <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
             <ChartCategory
               info={categoriesSummary}
-              title={`Ventas por categoría (${getFromDate(start_date).date} - ${
-                getFromDate(end_date).date
+              title={`Ventas por categoría (${getFromDate(date_start).date} - ${
+                getFromDate(date_end).date
               })`}
               sx={{ flex: 1, height: '300px', width: '400px' }}
             />
             {salesData && salesData.length > 0 && (
               <ChartSalesTrend
                 info={salesData}
-                title={`Ventas del mes (${getFromDate(start_date).date} - ${
-                  getFromDate(end_date).date
+                title={`Ventas del mes (${getFromDate(date_start).date} - ${
+                  getFromDate(date_end).date
                 })`}
                 sx={{ flex: 2, height: '300px', width: '400px' }}
               />
@@ -102,8 +117,8 @@ const SalesReportPage = () => {
       <CustomAgGrid
         colDefs={columnDefs}
         rowData={salesData}
-        title={`${getFromDate(start_date).longDate} - ${
-          getFromDate(end_date).longDate
+        title={`${getFromDate(date_start).longDate} - ${
+          getFromDate(date_end).longDate
         }`}
         width="100%"
       />

@@ -7,6 +7,7 @@ import { fetchTopSellingProductsReport } from '../../../helpers/reports';
 import { Box, Button } from '@mui/material';
 import { TextField } from '@mui/material';
 import DatePickerComponent from '../shared/DatePicker1';
+import { getFromDate } from '../../../utils/getFromDate';
 
 const TopSellingProductsReportPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -75,7 +76,9 @@ const TopSellingProductsReportPage = () => {
       <CustomAgGrid
         colDefs={columnDefsTopSelling}
         rowData={topSellingProductsData}
-        title="Productos Más Vendidos"
+        title={`${getFromDate(date_start).longDate} - ${
+          getFromDate(date_end).longDate
+        }`}
         width="100%"
       />
     </PageContainer>
