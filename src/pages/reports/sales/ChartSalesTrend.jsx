@@ -27,7 +27,7 @@ ChartJS.register(
 );
 
 const ChartSalesTrend = ({ info, sx }) => {
-  const extractLabels = (info = []) => {
+  const extractLabels = () => {
     return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   };
 
@@ -36,7 +36,6 @@ const ChartSalesTrend = ({ info, sx }) => {
   for (let i = 0; i < info.length; i++) {
     const item = info[i];
     const month = getFromDate(item.created_at).month_name;
-    const day = getFromDate(item.created_at).day_number;
     const color = getRandomColor();
     const borderColor = hexToRGBA(color, 0.5);
     const bgColor = hexToRGBA(color, 0.2);
@@ -44,6 +43,7 @@ const ChartSalesTrend = ({ info, sx }) => {
     if (!arrDataset[month]) {
       arrDataset[month] = {
         label: month,
+        month_number: getFromDate(item.created_at).m,
         fill: false,
         data: [item.total_price],
         tension: 0.1,
@@ -55,11 +55,17 @@ const ChartSalesTrend = ({ info, sx }) => {
     }
   }
 
-  console.log(arrDataset);
+  // create an array of the objects inside arrDataset, sorted by month_number
+  const arrDatasetSortedByMonth = Object.keys(arrDataset)
+    .sort((a, b) => arrDataset[a].month_number - arrDataset[b].month_number)
+    .map((key) => arrDataset[key]);
+
+  console.log(arrDatasetSortedByMonth);
+
   const data = {
     Title: 'ventas del mes',
     labels: extractLabels(info),
-    datasets: Object.values(arrDataset),
+    datasets: Object.values(arrDatasetSortedByMonth),
   };
 
   const options = {
