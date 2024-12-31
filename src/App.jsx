@@ -15,7 +15,9 @@ import { ROLES } from './constants';
 import UserRolesPage from './pages/UserRolesPage';
 import WishlistPage from './pages/WishlistPage';
 import QuestionnairePage from './pages/QuestionnarePage';
-import SalesReportPage from './pages/reports/sales/SalesReportPage';
+import InventoryReportPage from './pages/reports/inventory';
+import SalesReportPage from './pages/reports/sales';
+import TopSellingProductsReportPage from './pages/reports/top-selling';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -63,9 +65,25 @@ const App = () => {
           <Route
             path="/reports/sales"
             element={
-              // <ProtectedRoute allowedRoles={[ROLES.admin]}>
-              <SalesReportPage />
-              // </ProtectedRoute>
+              <ProtectedRoute allowedRoles={[ROLES.admin]}>
+                <SalesReportPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/reports/inventory"
+            element={
+              <ProtectedRoute allowedRoles={[ROLES.admin]}>
+                <InventoryReportPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/reports/top-selling"
+            element={
+              <ProtectedRoute allowedRoles={[ROLES.admin]}>
+                <TopSellingProductsReportPage />
+              </ProtectedRoute>
             }
           />
         </Routes>

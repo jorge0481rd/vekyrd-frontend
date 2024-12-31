@@ -20,7 +20,7 @@ ChartJS.register(
   Legend
 );
 
-const ChartCategory = ({ info, title, width }) => {
+const ChartCategory = ({ info, title, sx }) => {
   const data = {
     labels: info.labels,
     datasets: [
@@ -55,20 +55,25 @@ const ChartCategory = ({ info, title, width }) => {
       },
     ],
   };
+  // maintainAspectRatio: false,
+  const options = {
+    responsive: true,
+    mantainAspectRatio: false,
+  };
 
   return (
     <Box
       sx={{
-        width,
         padding: 2,
         margin: '1rem',
         aspectRatio: 16 / 9,
         borderRadius: 1,
         boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
         outline: 'solid 1px #dedede',
+        ...sx,
       }}
     >
-      <Bar data={data} />
+      <Bar data={data} options={options} />
     </Box>
   );
 };
@@ -77,7 +82,7 @@ ChartCategory.propTypes = {
   sales_trend: PropTypes.array.isRequired,
   info: PropTypes.object.isRequired,
   title: PropTypes.string.isRequired,
-  width: PropTypes.string.isRequired,
+  sx: PropTypes.object.isRequired,
 };
 
 export default ChartCategory;

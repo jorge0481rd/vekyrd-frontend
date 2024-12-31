@@ -1,9 +1,4 @@
-import { getFromDate } from '../../../utils/getFromDate';
-
-const dateFormatter = (params) => {
-  const date = getFromDate(params.value);
-  return `${date.d}/${date.m}/${date.y}`;
-};
+import { dateFormatter } from '../shared/helpers';
 
 // Formatter for currency fields
 const currencyFormatter = (params) => {

@@ -17,6 +17,8 @@ const ProductThumbnail = ({ imageurl, productId, size = 'small' }) => {
       sx={{
         width: SIZES.get(size),
         height: SIZES.get(size),
+        minWidth: SIZES.get(size),
+        minHeight: SIZES.get(size),
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

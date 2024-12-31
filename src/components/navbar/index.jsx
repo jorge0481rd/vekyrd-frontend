@@ -113,6 +113,12 @@ const Navbar = () => {
                   MenuListProps={{
                     'aria-labelledby': 'herramientas-button',
                   }}
+                  sx={{
+                    '& .MuiPopover-paper': {
+                      backgroundColor: '#dedede',
+                      padding: '16px',
+                    },
+                  }}
                 >
                   <MenuItem
                     component={Link}
@@ -121,6 +127,22 @@ const Navbar = () => {
                   >
                     Reporte de ventas
                   </MenuItem>
+                  <MenuItem
+                    component={Link}
+                    to="/reports/top-selling"
+                    onClick={handleMenuClose}
+                  >
+                    Productos más vendidos
+                  </MenuItem>
+                  <MenuItem
+                    component={Link}
+                    to="/reports/inventory"
+                    onClick={handleMenuClose}
+                    divider
+                  >
+                    Reporte de inventario
+                  </MenuItem>
+
                   <MenuItem
                     component={Link}
                     to="/products/inventory"

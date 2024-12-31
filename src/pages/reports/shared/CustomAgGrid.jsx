@@ -1,4 +1,5 @@
 import { AgGridReact } from 'ag-grid-react';
+
 import { Box, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 
@@ -29,7 +30,7 @@ CustomAgGrid.propTypes = {
   colDefs: PropTypes.array.isRequired,
   rowData: PropTypes.array.isRequired,
   width: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
 };
 
 export default CustomAgGrid;

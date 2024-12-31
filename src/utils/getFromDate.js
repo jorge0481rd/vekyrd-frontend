@@ -27,6 +27,7 @@ export function getFromDate(dateStr) {
   const date = new Date(dateStr);
 
   const d = date.getDate();
+  const day_number = date.getDay();
   const m = date.getMonth();
   const y = date.getFullYear();
 
@@ -35,8 +36,9 @@ export function getFromDate(dateStr) {
     m,
     y,
     day_name: DAY_NAMES[d],
+    day_number,
     month_name: MONTH[m],
     date: `${d}/${m}/${y}`,
-    longDate: `${DAY_NAMES[d]} ${d + 1} de ${MONTH[m]} del ${y}`,
+    longDate: `${DAY_NAMES[day_number]} ${d} de ${MONTH[m]} del ${y}`,
   };
 }

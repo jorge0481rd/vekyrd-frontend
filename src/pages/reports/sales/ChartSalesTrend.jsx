@@ -13,6 +13,7 @@ import {
 } from 'chart.js';
 import { Box } from '@mui/material';
 import { getFromDate } from '../../../utils/getFromDate';
+import { getRandomColor, hexToRGBA } from '../../../utils/colors';
 
 ChartJS.register(
   CategoryScale,
@@ -25,42 +26,66 @@ ChartJS.register(
   Legend
 );
 
-const ChartSalesTrend = ({ info, title, width }) => {
-  const extractLabels = (info) => {
-    return info
-      .sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
-      .map((item) => {
-        const date = getFromDate(item.created_at);
-        return `${date.month_name} ${date.d}`;
-      });
+const ChartSalesTrend = ({ info, sx }) => {
+  const extractLabels = (info = []) => {
+    return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   };
 
-  const data = {
-    labels: extractLabels(info),
-    datasets: [
-      {
-        label: title,
-        data: info.map((item) => item.total_price),
+  const arrDataset = {};
+
+  for (let i = 0; i < info.length; i++) {
+    const item = info[i];
+    const month = getFromDate(item.created_at).month_name;
+    const day = getFromDate(item.created_at).day_number;
+    const color = getRandomColor();
+    const borderColor = hexToRGBA(color, 0.5);
+    const bgColor = hexToRGBA(color, 0.2);
+
+    if (!arrDataset[month]) {
+      arrDataset[month] = {
+        label: month,
         fill: false,
-        borderColor: '#36a2eb', // Line color
+        data: [item.total_price],
         tension: 0.1,
+        borderColor: borderColor,
+        backgroundColor: bgColor,
+      };
+    } else {
+      arrDataset[month].data.push(item.total_price);
+    }
+  }
+
+  console.log(arrDataset);
+  const data = {
+    Title: 'ventas del mes',
+    labels: extractLabels(info),
+    datasets: Object.values(arrDataset),
+  };
+
+  const options = {
+    mantainAspectRatio: false,
+    responsive: true,
+    plugins: {
+      title: {
+        display: true,
+        text: 'Tendencia de ventas por mes',
       },
-    ],
+    },
   };
 
   return (
     <Box
       sx={{
-        width,
         padding: 2,
         margin: '1rem',
         aspectRatio: 16 / 9,
         borderRadius: 1,
         boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
         outline: 'solid 1px #dedede',
+        ...sx,
       }}
     >
-      <Line data={data} />
+      <Line data={data} options={options} />
     </Box>
   );
 };
@@ -69,7 +94,7 @@ ChartSalesTrend.propTypes = {
   sales_trend: PropTypes.array.isRequired,
   info: PropTypes.object.isRequired,
   title: PropTypes.string.isRequired,
-  width: PropTypes.string.isRequired,
+  sx: PropTypes.object.isRequired,
 };
 
 export default ChartSalesTrend;

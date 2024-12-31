@@ -1,26 +1,21 @@
-import { useState, useEffect, useMemo } from 'react';
 import {
   Box,
-  Button,
-  TextField,
-  Typography,
-  Grid,
   Checkbox,
   FormControlLabel,
+  TextField,
+  Typography,
 } from '@mui/material';
-import { apiFetchInventory, updateInventory } from '../api/api';
+import { useEffect, useMemo, useState } from 'react';
+import { apiFetchInventory } from '../api/api';
+import InventoryCard from '../components/InventoryCard';
 import PageContainer from '../components/PageContainer';
 import PageHeader from '../components/PageHeader';
 import NavigationButton from '../components/navigation-button';
-import BlockIcon from '@mui/icons-material/Block';
-import ProductThumbnail from '../components/ProductCard/ProductThumbnail';
 
 const InventoryPage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [updateStock, setUpdateStock] = useState({});
-  const [successMessage, setSuccessMessage] = useState('');
   const [search, setSearch] = useState('');
 
   // Filters states
@@ -71,27 +66,6 @@ const InventoryPage = () => {
       return matchesSearch && matchesStockStatus && matchesPriceRange;
     });
   }, [products, search, stockStatus, priceRange]);
-
-  // Handle stock updates
-  const handleStockUpdate = async (productId, blockProduct = false) => {
-    try {
-      let qty = parseInt(updateStock[productId]);
-      if (blockProduct) qty = 0;
-      const updatedProduct = await updateInventory(productId, qty);
-      setSuccessMessage(`Inventario actualizado para ${updatedProduct.name}`);
-      setUpdateStock((prevState) => ({ ...prevState, [productId]: '' }));
-      setProducts((prevState) =>
-        prevState.map((product) =>
-          product.id === productId
-            ? { ...product, stock: updatedProduct.stock }
-            : product
-        )
-      );
-    } catch (err) {
-      setError('Error al actualizar el inventario.');
-      console.log(err.message);
-    }
-  };
 
   return (
     <PageContainer>
@@ -202,100 +176,13 @@ const InventoryPage = () => {
             </Typography>
           </Box>
         )}
-        {successMessage && (
-          <Typography color="success">{successMessage}</Typography>
-        )}
       </Box>
-      {/* Products Grid */}
-      <Grid container spacing={2}>
+      {/* products container */}
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, marginTop: 2 }}>
         {filteredProducts.map((product) => (
-          <Grid item xs={12} sm={6} md={4} key={product.id}>
-            <Box sx={{ border: '1px solid #ccc', padding: 2, borderRadius: 2 }}>
-              <Box sx={{ minHeight: '110px' }}>
-                <Box sx={{ display: 'flex', gap: 2 }}>
-                  <Typography variant="h6" sx={{ fontWeight: 'bold', flex: 1 }}>
-                    {product.name}
-                  </Typography>
-                  <ProductThumbnail
-                    imageurl={product.imageurl}
-                    productId={product.id}
-                    size="medium"
-                  />
-                </Box>
-                <Typography variant="body1">{product.sku}</Typography>
-                <Typography variant="body1" fontWeight="bold">
-                  En inventario:{' '}
-                  {product.stock > 0 ? (
-                    product.stock
-                  ) : (
-                    <Box sx={{ color: 'red', display: 'inline' }}>Agotado</Box>
-                  )}
-                </Typography>
-                <Typography variant="body2">
-                  Precio: ${product.price}
-                </Typography>
-
-                {product.stock < 10 && product.stock > 0 && (
-                  <Box sx={{ fontSize: '0.8rem' }}>
-                    <Typography variant="body2" color="warning">
-                      <b>Atención:</b> Quedan menos de 10 unidades
-                    </Typography>
-                  </Box>
-                )}
-              </Box>
-
-              {/* Update stock input */}
-              <TextField
-                label="Actualizar inventario"
-                type="number"
-                variant="outlined"
-                fullWidth
-                value={updateStock[product.id] || ''}
-                onChange={(e) => {
-                  let qty = parseInt(e.target.value);
-                  if (qty < 0) qty = 0;
-                  setUpdateStock((prevState) => ({
-                    ...prevState,
-                    [product.id]: qty,
-                  }));
-                }}
-                sx={{ marginTop: 1 }}
-                onKeyDown={(e) =>
-                  e.key === 'Enter' &&
-                  parseInt(e.target.value) > 0 &&
-                  handleStockUpdate(product.id)
-                }
-              />
-
-              {/* Action buttons */}
-              <Box sx={{ display: 'flex', gap: 1 }}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  fullWidth
-                  disabled={!Number(updateStock[product.id]) > 0}
-                  sx={{ marginTop: 2 }}
-                  onClick={() => handleStockUpdate(product.id)}
-                >
-                  Actualizar inventario
-                </Button>
-
-                <Button
-                  variant="contained"
-                  color="primary"
-                  size="small"
-                  fullWidth
-                  disabled={!Number(product.stock) > 0}
-                  sx={{ marginTop: 2, flex: 1 }}
-                  onClick={() => handleStockUpdate(product.id, true)}
-                >
-                  <BlockIcon />
-                </Button>
-              </Box>
-            </Box>
-          </Grid>
+          <InventoryCard key={product.id} product={product} />
         ))}
-      </Grid>
+      </Box>
     </PageContainer>
   );
 };

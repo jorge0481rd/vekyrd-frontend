@@ -9,14 +9,15 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Box,
   Typography,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import DatePicker1 from './DatePicker1';
 import ChartCategory from './ChartCategory';
 import { summarizeCategories } from './helpers/summarizeCategories';
 import ChartSalesTrend from './ChartSalesTrend';
+import DatePicker1 from '../shared/DatePicker1';
 
 const SalesReportPage = () => {
   const [salesData, setSalesData] = useState([]);
@@ -63,6 +64,7 @@ const SalesReportPage = () => {
         end_date={end_date}
       />
 
+      {/* charts */}
       <Accordion defaultExpanded sx={{ marginTop: 4 }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -75,25 +77,28 @@ const SalesReportPage = () => {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <ChartCategory
-            info={categoriesSummary}
-            title={`Ventas por categoría (${getFromDate(start_date).date} - ${
-              getFromDate(end_date).date
-            })`}
-            width="400px"
-          />
-          {salesData && salesData.length > 0 && (
-            <ChartSalesTrend
-              info={salesData}
-              title={`Ventas del mes (${getFromDate(start_date).date} - ${
+          <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
+            <ChartCategory
+              info={categoriesSummary}
+              title={`Ventas por categoría (${getFromDate(start_date).date} - ${
                 getFromDate(end_date).date
               })`}
-              width="400px"
+              sx={{ flex: 1, height: '300px', width: '400px' }}
             />
-          )}
+            {salesData && salesData.length > 0 && (
+              <ChartSalesTrend
+                info={salesData}
+                title={`Ventas del mes (${getFromDate(start_date).date} - ${
+                  getFromDate(end_date).date
+                })`}
+                sx={{ flex: 2, height: '300px', width: '400px' }}
+              />
+            )}
+          </Box>
         </AccordionDetails>
       </Accordion>
 
+      {/* AG grid */}
       <CustomAgGrid
         colDefs={columnDefs}
         rowData={salesData}

@@ -147,10 +147,10 @@ export const apiFetchInventory = async () => {
   return data;
 };
 
-export const updateInventory = async (productId, quantity) => {
+export const apiUpdateInventory = async (productId, stock, price) => {
   const response = await api.put(
-    `http://localhost:5000/products/updateInventory/${productId}`,
-    { quantity }
+    `http://localhost:5000/products/updateInventory/`,
+    { productId, stock, price }
   );
   return response.data;
 };
@@ -190,6 +190,39 @@ export const apiFetchCategoriesAnalysis = async (data) => {
     data
   );
   return response;
+};
+
+export const apiFetchInventoryReport = async (params) => {
+  const response = await api.get(`http://localhost:5000/reports/inventory`, {
+    params,
+  });
+  return response;
+};
+
+export const apiFetchInventory_history = async (params) => {
+  const response = await api.get(
+    `http://localhost:5000/reports/inventory_history`,
+    {
+      params,
+    }
+  );
+  return response;
+};
+
+export const apiFetchTopSellingProductsReport = async (body) => {
+  const { date_start, date_end, amount_records } = body;
+  const ds = new Date(date_start).toISOString().split('T')[0];
+  const de = new Date(date_end).toISOString().split('T')[0];
+  try {
+    const response = await api.post(
+      `http://localhost:5000/reports/top-selling`,
+      { date_start: ds, date_end: de, amount_records }
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching top-selling products report:', error);
+    throw error;
+  }
 };
 
 export default api;
