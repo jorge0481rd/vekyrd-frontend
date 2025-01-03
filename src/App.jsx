@@ -13,16 +13,22 @@ import InventoryPage from './pages/InventoryPage';
 import ProductDetailPage from './pages/ProductDetailsPage';
 import { ROLES } from './constants';
 import UserRolesPage from './pages/UserRolesPage';
-import WishlistPage from './pages/WishlistPage';
 import QuestionnairePage from './pages/QuestionnarePage';
 import InventoryReportPage from './pages/reports/inventory';
 import SalesReportPage from './pages/reports/sales';
 import TopSellingProductsReportPage from './pages/reports/top-selling';
+import UsersReportPage from './pages/reports/users';
+import ReviewsReportPage from './pages/reports/reviews';
+import PendingOrdersReportPage from './pages/reports/pending-orders';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 console.clear();
 console.log('App.jsx: console cleared');
+
+const obj = {
+  wallpaper: '/myimage.jpg',
+};
 
 const App = () => {
   return (
@@ -71,6 +77,14 @@ const App = () => {
             }
           />
           <Route
+            path="/reports/pending-orders"
+            element={
+              <ProtectedRoute allowedRoles={[ROLES.admin]}>
+                <PendingOrdersReportPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/reports/inventory"
             element={
               <ProtectedRoute allowedRoles={[ROLES.admin]}>
@@ -83,6 +97,22 @@ const App = () => {
             element={
               <ProtectedRoute allowedRoles={[ROLES.admin]}>
                 <TopSellingProductsReportPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/reports/users"
+            element={
+              <ProtectedRoute allowedRoles={[ROLES.admin]}>
+                <UsersReportPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/reports/reviews"
+            element={
+              <ProtectedRoute allowedRoles={[ROLES.admin]}>
+                <ReviewsReportPage />
               </ProtectedRoute>
             }
           />
