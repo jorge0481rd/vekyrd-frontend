@@ -55,7 +55,9 @@ const OrderPage = () => {
     if (!isAuthenticated) return;
     const createOrder = async () => {
       try {
-        const order = await apiCreateOrder();
+        // get cart
+        const cart = getCartFromLocalStorage();
+        const order = await apiCreateOrder(cart);
         setOrderHash(order.order_hash);
       } catch (error) {
         if (error.response.status === 403) {

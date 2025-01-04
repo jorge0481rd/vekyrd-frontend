@@ -21,7 +21,7 @@ const InvetoryReportPage = () => {
   const [inventoryData, setInventoryData] = useState([]);
   const [inventoryHistoryData, setInventoryHistoryData] = useState([]);
 
-  const fetchInventoryData = async () => {
+  const getInventory = async () => {
     setIsLoading(true);
 
     try {
@@ -34,7 +34,7 @@ const InvetoryReportPage = () => {
     }
   };
 
-  const fetchInventoryHistoryData = async () => {
+  const getInventoryHistory = async () => {
     setIsLoading(true);
 
     try {
@@ -48,8 +48,8 @@ const InvetoryReportPage = () => {
   };
 
   useEffect(() => {
-    fetchInventoryData();
-    fetchInventoryHistoryData();
+    getInventory();
+    getInventoryHistory();
   }, []);
 
   return (
@@ -59,7 +59,7 @@ const InvetoryReportPage = () => {
         isLoading={isLoading}
       ></PageHeader>
       {/* refresh table */}
-      <Button onClick={fetchInventoryData}>Actualizar</Button>
+      <Button onClick={getInventory}>Actualizar</Button>
 
       {/* inventory */}
       <Accordion defaultExpanded sx={{ marginTop: 4 }}>

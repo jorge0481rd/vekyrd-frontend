@@ -27,7 +27,7 @@ const SalesReportPage = () => {
   const [date_end, setDate_end] = useState('2024-12-31');
   const [categoriesSummary, setCategoriesSummary] = useState([]);
 
-  const fetchSalesData = async () => {
+  const getSales = async () => {
     setIsLoading(true);
     try {
       const data = await fetchSalesReport({
@@ -43,7 +43,7 @@ const SalesReportPage = () => {
   };
 
   useEffect(() => {
-    fetchSalesData();
+    getSales();
   }, []);
 
   useEffect(() => {
@@ -74,7 +74,7 @@ const SalesReportPage = () => {
           date_end={date_end}
         />
 
-        <Button variant="contained" onClick={fetchSalesData}>
+        <Button variant="contained" onClick={getSales}>
           Actualizar
         </Button>
       </Box>

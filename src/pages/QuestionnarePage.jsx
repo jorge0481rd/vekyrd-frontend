@@ -32,10 +32,14 @@ const QuestionnairePage = () => {
   const [recommendations, setRecommendations] = useState([]);
   const [generalTips, setGeneralTips] = useState('');
   const [generalTipsUrlList, setGeneralTipsUrlList] = useState([
+    '/img/happy-woman1.jpg',
     '/img/happy-woman2.jpg',
     '/img/happy-woman3.jpg',
     '/img/happy-woman4.jpg',
-    '/img/happy-woman1.jpg',
+    '/img/happy-woman5.jpg',
+    '/img/happy-woman6.jpg',
+    '/img/happy-woman7.jpg',
+    '/img/happy-woman8.jpg',
   ]);
   const [generalTipsImageUrl, setGeneralTipsImageUrl] = useState(null);
 

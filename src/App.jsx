@@ -13,6 +13,7 @@ import InventoryPage from './pages/InventoryPage';
 import ProductDetailPage from './pages/ProductDetailsPage';
 import { ROLES } from './constants';
 import UserRolesPage from './pages/UserRolesPage';
+import WishlistPage from './pages/WishlistPage';
 import QuestionnairePage from './pages/QuestionnarePage';
 import InventoryReportPage from './pages/reports/inventory';
 import SalesReportPage from './pages/reports/sales';
@@ -25,10 +26,6 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 
 console.clear();
 console.log('App.jsx: console cleared');
-
-const obj = {
-  wallpaper: '/myimage.jpg',
-};
 
 const App = () => {
   return (

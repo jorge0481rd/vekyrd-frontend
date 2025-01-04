@@ -16,15 +16,11 @@ const TopSellingProductsReportPage = () => {
   const [date_end, setDate_end] = useState('2024-12-31');
   const [amount_records, setAmount_records] = useState(10);
 
-  const fetchTopSellingData = async () => {
+  const getTopSelling = async (body) => {
     setIsLoading(true);
 
     try {
-      const data = await fetchTopSellingProductsReport({
-        date_start,
-        date_end,
-        amount_records,
-      });
+      const data = await fetchTopSellingProductsReport(body);
       setTopSellingProductsData(data);
     } catch (error) {
       console.error('Error fetching top-selling products data:', error);
@@ -34,7 +30,12 @@ const TopSellingProductsReportPage = () => {
   };
 
   useEffect(() => {
-    fetchTopSellingData();
+    getTopSelling({
+      date_start,
+      date_end,
+      amount_records,
+      test: 'test',
+    });
   }, []);
 
   return (
@@ -67,7 +68,7 @@ const TopSellingProductsReportPage = () => {
           sx={{ background: '#ffffff' }}
         />
 
-        <Button variant="contained" onClick={fetchTopSellingData}>
+        <Button variant="contained" onClick={getTopSelling}>
           Actualizar
         </Button>
       </Box>

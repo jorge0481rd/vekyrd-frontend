@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { extractDateStartAndDateEnd } from './helpers';
 
 const api = axios.create({
   baseURL: 'http://localhost:5000',
@@ -54,9 +55,18 @@ api.interceptors.response.use(
 
 // orders
 
-export const apiCreateOrder = async () => {
-  const response = await api.get('http://localhost:5000/orders/createOrder');
-  return response.data;
+export const apiCreateOrder = async (cart) => {
+  try {
+    const response = await api.post(
+      'http://localhost:5000/orders/createOrder',
+      {
+        cart,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const apiPayment = async (paymentPayload) => {
@@ -94,9 +104,10 @@ export const apiRegister = async (username, email, password) => {
 };
 
 export const apiLogout = async () => {
+  await api.post('http://localhost:5000/auth/logout');
   localStorage.removeItem('token');
   localStorage.removeItem('refreshToken');
-  window.location.href = '/login';
+  //window.location.href = '/login';
 };
 
 // products
@@ -210,9 +221,8 @@ export const apiFetchInventory_history = async (params) => {
 };
 
 export const apiFetchTopSellingProductsReport = async (body) => {
-  const { date_start, date_end, amount_records } = body;
-  const ds = new Date(date_start).toISOString().split('T')[0];
-  const de = new Date(date_end).toISOString().split('T')[0];
+  const { amount_records } = body;
+  const { ds, de } = extractDateStartAndDateEnd(body);
   try {
     const response = await api.post(
       `http://localhost:5000/reports/top-selling`,
@@ -222,6 +232,29 @@ export const apiFetchTopSellingProductsReport = async (body) => {
   } catch (error) {
     console.error('Error fetching top-selling products report:', error);
     throw error;
+  }
+};
+
+export const apiFetchUsersReport = async (body) => {
+  const { ds, de } = extractDateStartAndDateEnd(body);
+  try {
+    const response = await axios.post(`http://localhost:5000/reports/users`, {
+      date_start: ds,
+      date_end: de,
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching users report:', error);
+    throw error;
+  }
+};
+
+export const apiFetchReviewsReport = async () => {
+  try {
+    const response = await api.get(`http://localhost:5000/reports/reviews`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching reviews report:', error);
   }
 };
 

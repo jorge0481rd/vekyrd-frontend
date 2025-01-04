@@ -60,8 +60,6 @@ const ChartSalesTrend = ({ info, sx }) => {
     .sort((a, b) => arrDataset[a].month_number - arrDataset[b].month_number)
     .map((key) => arrDataset[key]);
 
-  console.log(arrDatasetSortedByMonth);
-
   const data = {
     Title: 'ventas del mes',
     labels: extractLabels(info),
@@ -97,7 +95,6 @@ const ChartSalesTrend = ({ info, sx }) => {
 };
 
 ChartSalesTrend.propTypes = {
-  sales_trend: PropTypes.array.isRequired,
   info: PropTypes.object.isRequired,
   title: PropTypes.string.isRequired,
   sx: PropTypes.object.isRequired,
