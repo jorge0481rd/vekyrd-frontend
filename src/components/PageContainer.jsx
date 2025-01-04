@@ -3,7 +3,7 @@ import Navbar from './navbar';
 import Footer from './Footer';
 import PropTypes from 'prop-types';
 
-const PageContainer = ({ children }) => {
+const PageContainer = ({ children, sx }) => {
   return (
     <Box
       sx={{
@@ -15,9 +15,7 @@ const PageContainer = ({ children }) => {
         justifyContent: 'space-between',
         alignItems: 'center',
         width: '100%',
-        // outline: '1px solid red',
-        // backgroundColor: 'yellow',
-        // margin: 4,
+        ...sx,
       }}
     >
       <Navbar />
@@ -40,6 +38,7 @@ const PageContainer = ({ children }) => {
 
 PageContainer.propTypes = {
   children: PropTypes.node.isRequired,
+  sx: PropTypes.object.isRequired,
 };
 
 export default PageContainer;

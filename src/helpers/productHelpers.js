@@ -2,6 +2,7 @@ import {
   apiAddToWishlist,
   apiFetchProducts,
   apiFetchWishlist,
+  apiUpdateInventory,
   apiRemoveFromWishlist,
 } from '../api/api';
 
@@ -61,5 +62,17 @@ export const removeFromWishlist = async (productId) => {
     return wishlistData;
   } catch (error) {
     console.error('Error removing from wishlist:', error);
+  }
+};
+
+// inventory
+export const updateInventory = async (productId, stock, price) => {
+  const p = parseFloat(price);
+  const s = parseFloat(stock);
+  try {
+    const response = await apiUpdateInventory(productId, s, p);
+    return response;
+  } catch (error) {
+    console.error('Error updating inventory:', error);
   }
 };

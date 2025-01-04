@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { extractDateStartAndDateEnd } from './helpers';
 
 const api = axios.create({
   baseURL: 'http://localhost:5000',
@@ -54,9 +55,18 @@ api.interceptors.response.use(
 
 // orders
 
-export const apiCreateOrder = async () => {
-  const response = await api.get('http://localhost:5000/orders/createOrder');
-  return response.data;
+export const apiCreateOrder = async (cart) => {
+  try {
+    const response = await api.post(
+      'http://localhost:5000/orders/createOrder',
+      {
+        cart,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const apiPayment = async (paymentPayload) => {
@@ -94,26 +104,10 @@ export const apiRegister = async (username, email, password) => {
 };
 
 export const apiLogout = async () => {
+  await api.post('http://localhost:5000/auth/logout');
   localStorage.removeItem('token');
   localStorage.removeItem('refreshToken');
-  window.location.href = '/login';
-};
-
-// cart
-export const apiUpdateCart = async (items) => {
-  const response = await api.post(
-    'http://localhost:5000/orders/updatecart',
-    items
-  );
-  return response.data;
-};
-
-export const apiAddToCart = async (productId, quantity) => {
-  const response = await api.post('http://localhost:5000/cart/add', {
-    product_id: productId,
-    quantity: quantity,
-  });
-  return response.data;
+  //window.location.href = '/login';
 };
 
 // products
@@ -164,10 +158,10 @@ export const apiFetchInventory = async () => {
   return data;
 };
 
-export const updateInventory = async (productId, quantity) => {
+export const apiUpdateInventory = async (productId, stock, price) => {
   const response = await api.put(
-    `http://localhost:5000/products/updateInventory/${productId}`,
-    { quantity }
+    `http://localhost:5000/products/updateInventory/`,
+    { productId, stock, price }
   );
   return response.data;
 };
@@ -191,6 +185,77 @@ export const apiPostQuestionnaire = async (responses) => {
     responses,
   });
   return response.data;
+};
+
+// reports
+export const apiFetchSalesReport = async (params) => {
+  const response = await api.get(`http://localhost:5000/reports/sales`, {
+    params,
+  });
+  return response.data;
+};
+
+export const apiFetchCategoriesAnalysis = async (data) => {
+  const response = await api.post(
+    `http://localhost:5000/reports/categories-analysis`,
+    data
+  );
+  return response;
+};
+
+export const apiFetchInventoryReport = async (params) => {
+  const response = await api.get(`http://localhost:5000/reports/inventory`, {
+    params,
+  });
+  return response;
+};
+
+export const apiFetchInventory_history = async (params) => {
+  const response = await api.get(
+    `http://localhost:5000/reports/inventory_history`,
+    {
+      params,
+    }
+  );
+  return response;
+};
+
+export const apiFetchTopSellingProductsReport = async (body) => {
+  const { amount_records } = body;
+  const { ds, de } = extractDateStartAndDateEnd(body);
+  try {
+    const response = await api.post(
+      `http://localhost:5000/reports/top-selling`,
+      { date_start: ds, date_end: de, amount_records }
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching top-selling products report:', error);
+    throw error;
+  }
+};
+
+export const apiFetchUsersReport = async (body) => {
+  const { ds, de } = extractDateStartAndDateEnd(body);
+  try {
+    const response = await axios.post(`http://localhost:5000/reports/users`, {
+      date_start: ds,
+      date_end: de,
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching users report:', error);
+    throw error;
+  }
+};
+
+export const apiFetchReviewsReport = async () => {
+  try {
+    const response = await api.get(`http://localhost:5000/reports/reviews`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching reviews report:', error);
+  }
 };
 
 export default api;

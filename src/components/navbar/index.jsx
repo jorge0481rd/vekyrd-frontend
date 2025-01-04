@@ -18,6 +18,10 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ChecklistIcon from '@mui/icons-material/Checklist';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import InventoryIcon from '@mui/icons-material/Inventory';
+import PersonIcon from '@mui/icons-material/Person';
 
 const Navbar = () => {
   const { isAuthenticated, logout, cartCount, getUserRoles, getUsername } =
@@ -113,7 +117,72 @@ const Navbar = () => {
                   MenuListProps={{
                     'aria-labelledby': 'herramientas-button',
                   }}
+                  sx={{
+                    '& .MuiPopover-paper': {
+                      backgroundColor: '#dedede',
+                      padding: '16px',
+                    },
+                  }}
                 >
+                  <MenuItem
+                    component={Link}
+                    to="/reports/sales"
+                    onClick={handleMenuClose}
+                  >
+                    <AttachMoneyIcon
+                      sx={{ fontSize: 18, marginRight: '.6rem' }}
+                    />{' '}
+                    Reporte de ventas
+                  </MenuItem>
+                  <MenuItem
+                    component={Link}
+                    to="/reports/top-selling"
+                    onClick={handleMenuClose}
+                  >
+                    <EmojiEventsIcon
+                      sx={{ fontSize: 18, marginRight: '.6rem' }}
+                    />{' '}
+                    Productos más vendidos
+                  </MenuItem>
+                  <MenuItem
+                    component={Link}
+                    to="/reports/pending-orders"
+                    onClick={handleMenuClose}
+                  >
+                    <EmojiEventsIcon
+                      sx={{ fontSize: 18, marginRight: '.6rem' }}
+                    />{' '}
+                    Órdenes pendientes
+                  </MenuItem>
+                  <MenuItem
+                    component={Link}
+                    to="/reports/inventory"
+                    onClick={handleMenuClose}
+                    divider
+                  >
+                    <InventoryIcon
+                      sx={{ fontSize: 18, marginRight: '.6rem' }}
+                    />{' '}
+                    Reporte de inventario
+                  </MenuItem>
+                  <MenuItem
+                    component={Link}
+                    to="/reports/users"
+                    onClick={handleMenuClose}
+                  >
+                    <PersonIcon sx={{ fontSize: 18, marginRight: '.6rem' }} />{' '}
+                    Reporte de usuarios activos
+                  </MenuItem>
+                  <MenuItem
+                    component={Link}
+                    to="/reports/reviews"
+                    onClick={handleMenuClose}
+                    divider
+                  >
+                    <PersonIcon sx={{ fontSize: 18, marginRight: '.6rem' }} />{' '}
+                    Reporte de comentarios
+                  </MenuItem>
+
                   <MenuItem
                     component={Link}
                     to="/products/inventory"

@@ -4,7 +4,7 @@ import {
   getCartFromLocalStorage,
   getCartSummary,
 } from '../helpers/cartHelpers';
-import { apiLogin } from '../api/api';
+import { apiLogin, apiLogout } from '../api/api';
 import { jwtDecode } from 'jwt-decode';
 
 const AppContext = createContext();
@@ -66,7 +66,8 @@ export const AppProvider = ({ children }) => {
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
+    await apiLogout();
     localStorage.removeItem('isAuthenticated');
     localStorage.removeItem('cart');
     localStorage.removeItem('orderDetails');
