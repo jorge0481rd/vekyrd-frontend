@@ -92,7 +92,13 @@ const QuestionnairePage = () => {
         <NavigationButton href="/home" text="Inicio ►" />
       </PageHeader>
 
-      <Box sx={{ maxWidth: '600px', margin: '0 auto', padding: '1rem' }}>
+      <Box
+        sx={{
+          maxWidth: '600px',
+          padding: '1rem',
+          boxSizing: 'border-box',
+        }}
+      >
         {/* Tipo de cabello */}
         <Typography variant="h6">
           1. ¿Cómo describirías tu tipo de cabello?
@@ -214,6 +220,8 @@ const QuestionnairePage = () => {
           gap: 2,
           justifyContent: 'center',
           padding: 2,
+          boxSizing: 'border-box',
+          flexWrap: 'wrap',
         }}
       >
         <Box
@@ -226,6 +234,7 @@ const QuestionnairePage = () => {
           <Paper
             sx={{
               padding: '4px',
+              boxSizing: 'border-box',
               margin: '0 auto',
               transition: 'all 700ms ease-in-out',
               opacity: hideRecommendations ? 0 : 1,
@@ -236,8 +245,7 @@ const QuestionnairePage = () => {
               <img
                 src={generalTipsImageUrl}
                 alt="happy woman"
-                width="auto"
-                height="300px"
+                style={{ maxWidth: '375px', height: 'auto' }}
               />
             )}
           </Paper>
@@ -264,8 +272,9 @@ const QuestionnairePage = () => {
                 display: 'flex',
                 gap: 1,
                 flexDirection: 'column',
-                width: '400px',
+                maxWidth: '400px',
                 padding: 2,
+                boxSizing: 'border-box',
                 transition: `all ${(index + 4) * 2 * 100}ms ease-in-out`,
                 opacity: hideRecommendations ? 0 : 1,
                 transform: `translateX(${hideRecommendations ? 100 : 0}px)`,

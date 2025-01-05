@@ -13,7 +13,7 @@ const ProductCardHorizontal = memo(({ product, isProductInCart }) => {
   }, [isProductInCart]);
 
   const cardStyles = {
-    width: '400px',
+    maxWidth: '400px',
     borderRadius: '10px',
     position: 'relative',
     display: 'flex',
