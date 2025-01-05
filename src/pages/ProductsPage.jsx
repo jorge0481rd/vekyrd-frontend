@@ -28,8 +28,7 @@ const ProductPage = () => {
 
       try {
         const products = await apiFetchProducts();
-
-        console.log('isAuthenticated', isAuthenticated);
+        
         if (isAuthenticated) {
           const wishlist = await apiFetchWishlist();
 

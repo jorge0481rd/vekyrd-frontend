@@ -24,7 +24,9 @@ const SalesReportPage = () => {
   const [salesData, setSalesData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [date_start, setDate_start] = useState('2024-01-01');
-  const [date_end, setDate_end] = useState('2024-12-31');
+  const [date_end, setDate_end] = useState(
+    new Date().toISOString().split('T')[0]
+  );
   const [categoriesSummary, setCategoriesSummary] = useState([]);
 
   const getSales = async () => {

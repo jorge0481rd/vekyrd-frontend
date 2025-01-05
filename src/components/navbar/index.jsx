@@ -22,6 +22,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import PersonIcon from '@mui/icons-material/Person';
+import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
 
 const Navbar = () => {
   const { isAuthenticated, logout, cartCount, getUserRoles, getUsername } =
@@ -119,8 +120,8 @@ const Navbar = () => {
                   }}
                   sx={{
                     '& .MuiPopover-paper': {
-                      backgroundColor: '#dedede',
-                      padding: '16px',
+                      backgroundColor: '#ffffff',
+                      padding: '4px',
                     },
                   }}
                 >
@@ -149,7 +150,7 @@ const Navbar = () => {
                     to="/reports/pending-orders"
                     onClick={handleMenuClose}
                   >
-                    <EmojiEventsIcon
+                    <ProductionQuantityLimitsIcon
                       sx={{ fontSize: 18, marginRight: '.6rem' }}
                     />{' '}
                     Órdenes pendientes

@@ -1,6 +1,7 @@
 import {
   apiFetchInventory_history,
   apiFetchInventoryReport,
+  apiFetchPendingOrdersReport,
   apiFetchReviewsReport,
   apiFetchSalesReport,
   apiFetchTopSellingProductsReport,
@@ -9,6 +10,11 @@ import {
 
 export const fetchSalesReport = async (params) => {
   const data = await apiFetchSalesReport(params);
+  return data;
+};
+
+export const fetchPendingOrdersReport = async () => {
+  const data = await apiFetchPendingOrdersReport();
   return data;
 };
 

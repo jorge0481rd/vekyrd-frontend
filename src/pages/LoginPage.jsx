@@ -6,7 +6,6 @@ import PageHeader from '../components/PageHeader';
 import NavigationButton from '../components/navigation-button';
 import PropTypes from 'prop-types';
 import { useAppContext } from '../context/AppContext';
-import InventoryCard from '../components/InventoryCard';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('jorge0481rd');

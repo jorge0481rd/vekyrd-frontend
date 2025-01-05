@@ -1,9 +1,11 @@
 import { Navigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useAppContext } from '../context/AppContext';
+import { useLocation } from 'react-router-dom';
 
 const ProtectedRoute = ({ children, allowedRoles = [] }) => {
   const { getUserRoles } = useAppContext();
+  const location = useLocation();  
 
   const roleComplaint = getUserRoles().some((role) =>
     allowedRoles.includes(role)
@@ -11,11 +13,7 @@ const ProtectedRoute = ({ children, allowedRoles = [] }) => {
 
   const isAuthenticated = localStorage.getItem('isAuthenticated') || false; // check it here, because it's not available but after the userEffect is executed
   if (!isAuthenticated || !roleComplaint) {
-    console.log('no autenticado, taking you to /login', {
-      isAuthenticated,
-      roleComplaint,
-    });
-    return <Navigate to="/login" />;
+    return <Navigate to="/login" state={{ returnUrl: location.pathname }} />;
   }
 
   return children;

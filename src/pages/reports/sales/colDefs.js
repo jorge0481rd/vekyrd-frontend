@@ -16,5 +16,4 @@ export const columnDefs = [
 	{ headerName: "Product Name", 	field: "name", 							 sortable: true, filter: true },
 	{ headerName: "Category", 			field: "category",					 sortable: true, filter: true },
 	{ headerName: "Price", 					field: "price", 						 sortable: true, filter: true, valueFormatter: currencyFormatter },
-	{ headerName: "Total Price", 		field: "total_price", 			 sortable: true, filter: true, valueFormatter: currencyFormatter }
 ];

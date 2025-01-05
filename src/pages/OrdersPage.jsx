@@ -52,12 +52,18 @@ const OrderPage = () => {
   }, [confirmationHash, navigate, orderDetails]);
 
   useEffect(() => {
+    const item = localStorage.getItem('orderDetails');
+    const orderDetails = item ? JSON.parse(item) : {};
+    setOrderDetails(orderDetails);
+  }, []);
+
+  useEffect(() => {
     if (!isAuthenticated) return;
-    const createOrder = async () => {
+    const createOrder = async (orderDetails) => {
       try {
         // get cart
         const cart = getCartFromLocalStorage();
-        const order = await apiCreateOrder(cart);
+        const order = await apiCreateOrder(cart, orderDetails);
         setOrderHash(order.order_hash);
       } catch (error) {
         if (error.response.status === 403) {
@@ -67,14 +73,11 @@ const OrderPage = () => {
       }
     };
 
-    createOrder();
-  }, [isAuthenticated, navigate]);
+    console.log(orderDetails);
+    const orderDetailsLength = Object.values(orderDetails).length;
 
-  useEffect(() => {
-    const item = localStorage.getItem('orderDetails');
-    const orderDetails = item ? JSON.parse(item) : {};
-    setOrderDetails(orderDetails);
-  }, []);
+    orderDetailsLength > 0 && createOrder(orderDetails);
+  }, [isAuthenticated, navigate, orderDetails]);
 
   const handleShippingInputChange = (e) => {
     const { name, value } = e.target;

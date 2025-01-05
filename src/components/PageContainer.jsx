@@ -38,7 +38,7 @@ const PageContainer = ({ children, sx }) => {
 
 PageContainer.propTypes = {
   children: PropTypes.node.isRequired,
-  sx: PropTypes.object.isRequired,
+  sx: PropTypes.object,
 };
 
 export default PageContainer;

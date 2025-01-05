@@ -22,8 +22,8 @@ export const AppProvider = ({ children }) => {
     shipping: 0,
   });
 
-  const updateCartSummary = () => {
-    const cart = getCartFromLocalStorage();
+  const updateCartSummary = async () => {
+    const cart = await getCartFromLocalStorage();
     const details = getCartSummary(cart);
     setOrderDetails(details);
   };

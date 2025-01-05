@@ -55,12 +55,13 @@ api.interceptors.response.use(
 
 // orders
 
-export const apiCreateOrder = async (cart) => {
+export const apiCreateOrder = async (cart, orderDetails) => {
   try {
     const response = await api.post(
       'http://localhost:5000/orders/createOrder',
       {
         cart,
+        orderDetails,
       }
     );
     return response.data;
@@ -192,6 +193,13 @@ export const apiFetchSalesReport = async (params) => {
   const response = await api.get(`http://localhost:5000/reports/sales`, {
     params,
   });
+  return response.data;
+};
+
+export const apiFetchPendingOrdersReport = async () => {
+  const response = await api.get(
+    `http://localhost:5000/reports/pending-orders`
+  );
   return response.data;
 };
 
