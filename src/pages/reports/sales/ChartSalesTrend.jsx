@@ -15,20 +15,14 @@ import { Box } from '@mui/material';
 import { getFromDate } from '../../../utils/getFromDate';
 import { getRandomColor, hexToRGBA } from '../../../utils/colors';
 
+// prettier-ignore
 ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  LineElement,
-  PointElement,
-  Title,
-  Tooltip,
-  Legend
-);
+	CategoryScale,  LinearScale,  BarElement,  LineElement,  PointElement,  Title,  Tooltip,  Legend);
 
+// ChartSalesTrend
 const ChartSalesTrend = ({ info, sx }) => {
   const extractLabels = () => {
-    return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    return [1, 2, 3, 4, 5, 6, 7, 8, 9, 'cook'];
   };
 
   const arrDataset = {};
@@ -40,18 +34,20 @@ const ChartSalesTrend = ({ info, sx }) => {
     const borderColor = hexToRGBA(color, 0.5);
     const bgColor = hexToRGBA(color, 0.2);
 
+    const price = parseFloat(item.price) * item.quantity;
+
     if (!arrDataset[month]) {
       arrDataset[month] = {
         label: month,
         month_number: getFromDate(item.created_at).m,
         fill: false,
-        data: [item.total_price],
-        tension: 0.1,
+        data: [price],
+        tension: 0,
         borderColor: borderColor,
         backgroundColor: bgColor,
       };
     } else {
-      arrDataset[month].data.push(item.total_price);
+      arrDataset[month].data.push(price);
     }
   }
 

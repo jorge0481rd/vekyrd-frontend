@@ -1,6 +1,6 @@
 export const summarizeCategories = (data) => {
   const categories = data.reduce((acc, curr) => {
-    const price = parseFloat(curr.total_price);
+    const price = parseFloat(curr.price) * curr.quantity;
 
     if (acc[curr.category]) {
       acc[curr.category] += price;

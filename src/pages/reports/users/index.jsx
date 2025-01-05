@@ -13,7 +13,7 @@ import {
 import DatePickerComponent from '../shared/DatePicker1';
 import ActiveUsersChart from './active-users-chart';
 import CustomAgGrid from '../shared/CustomAgGrid';
-import { coldefsUsers } from './colDefs';
+import { coldefsActiveUsers, coldefsLogins } from './colDefs';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const UsersReportPage = () => {
@@ -82,12 +82,31 @@ const UsersReportPage = () => {
           sx={{ borderBottom: '1px solid #cecece' }}
         >
           <Typography variant="h6" sx={{ textAlign: 'center', width: '100%' }}>
+            Ver / ocultar Usuarios Activos
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <CustomAgGrid
+            colDefs={coldefsActiveUsers}
+            rowData={users.allUsers}
+            width="100%"
+          />
+        </AccordionDetails>
+      </Accordion>
+      <Accordion defaultExpanded sx={{ marginTop: 4 }}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+          sx={{ borderBottom: '1px solid #cecece' }}
+        >
+          <Typography variant="h6" sx={{ textAlign: 'center', width: '100%' }}>
             Ver / ocultar Logins
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <CustomAgGrid
-            colDefs={coldefsUsers}
+            colDefs={coldefsLogins}
             rowData={users.logins}
             width="100%"
           />

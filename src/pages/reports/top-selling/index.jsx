@@ -13,7 +13,9 @@ const TopSellingProductsReportPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [topSellingProductsData, setTopSellingProductsData] = useState([]);
   const [date_start, setDate_start] = useState('2024-01-01');
-  const [date_end, setDate_end] = useState('2024-12-31');
+  const [date_end, setDate_end] = useState(
+    new Date().toISOString().split('T')[0]
+  );
   const [amount_records, setAmount_records] = useState(10);
 
   const getTopSelling = async (body) => {
@@ -68,7 +70,12 @@ const TopSellingProductsReportPage = () => {
           sx={{ background: '#ffffff' }}
         />
 
-        <Button variant="contained" onClick={getTopSelling}>
+        <Button
+          variant="contained"
+          onClick={() =>
+            getTopSelling({ date_start, date_end, amount_records })
+          }
+        >
           Actualizar
         </Button>
       </Box>
