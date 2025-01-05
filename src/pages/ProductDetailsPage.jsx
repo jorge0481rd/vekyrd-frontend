@@ -72,11 +72,7 @@ const ProductDetailPage = () => {
             />
           </Box>
           <PictureCarrousel
-            pictures={[
-              '/img/products/gel1.jpg',
-              '/img/products/conditioner1.jpg',
-              '/img/products/conditioner2.jpg',
-            ]}
+            pictures={[product.imageurl1, product.imageurl2, product.imageurl3]}
           />
         </Box>
       )}

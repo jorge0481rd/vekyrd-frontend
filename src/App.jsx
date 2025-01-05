@@ -21,6 +21,7 @@ import TopSellingProductsReportPage from './pages/reports/top-selling';
 import UsersReportPage from './pages/reports/users';
 import ReviewsReportPage from './pages/reports/reviews';
 import PendingOrdersReportPage from './pages/reports/pending-orders';
+import AddNewProductPage from './pages/AddNewProductPage';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -62,6 +63,14 @@ const App = () => {
             element={
               <ProtectedRoute allowedRoles={[ROLES.admin]}>
                 <InventoryPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/products/add-new-product"
+            element={
+              <ProtectedRoute allowedRoles={[ROLES.admin]}>
+                <AddNewProductPage />
               </ProtectedRoute>
             }
           />

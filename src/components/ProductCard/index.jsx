@@ -9,7 +9,7 @@ import WishListIcon from './WishListIcon';
 
 const ProductCard = memo(
   ({ product, isProductInCart, disableLinkToDetails = false }) => {
-    const { name, description, price, imageurl, average_rating } = product;
+    const { name, description, price, imageurl1, average_rating } = product;
     const [isInCart, setIsInCart] = useState(isProductInCart);
 
     const navigate = useNavigate();
@@ -41,7 +41,7 @@ const ProductCard = memo(
           <img
             width={200}
             height={218}
-            src={imageurl}
+            src={imageurl1}
             alt={product.name}
             style={{
               transition: 'all 0.3s ease-in-out',

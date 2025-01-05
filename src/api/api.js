@@ -122,6 +122,30 @@ export const getProductDetails = async (productId) => {
   return response.data;
 };
 
+export const apiPostProductImages = async (formData) => {
+  console.log('formData', formData);
+  try {
+    const response = await api.post(
+      'http://localhost:5000/products/add-new-product/images',
+      formData
+    );
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const apiCreateProduct = async (productData) => {
+  try {
+    const response = await api.post(
+      'http://localhost:5000/products/add-new-product',
+      productData
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const apiFetchReviews = async (productId) => {
   const response = await api.get(`http://localhost:5000/reviews/${productId}`);
   return response.data;

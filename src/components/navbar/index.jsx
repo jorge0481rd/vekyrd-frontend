@@ -193,6 +193,13 @@ const Navbar = () => {
                   </MenuItem>
                   <MenuItem
                     component={Link}
+                    to="/products/add-new-product"
+                    onClick={handleMenuClose}
+                  >
+                    Agregar producto
+                  </MenuItem>
+                  <MenuItem
+                    component={Link}
                     to="/users/roles"
                     onClick={handleMenuClose}
                   >

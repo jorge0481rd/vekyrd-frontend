@@ -4,6 +4,7 @@ import {
   apiFetchWishlist,
   apiUpdateInventory,
   apiRemoveFromWishlist,
+  apiCreateProduct,
 } from '../api/api';
 
 export const addOrRemove = (product) => {
@@ -34,6 +35,15 @@ export const fetchProducts = async () => {
     };
   } catch (error) {
     console.error('Error fetching data:', error);
+  }
+};
+
+export const createProduct = async (productData) => {
+  try {
+    const response = await apiCreateProduct(productData);
+    return response;
+  } catch (error) {
+    console.error('Error creating product:', error);
   }
 };
 
