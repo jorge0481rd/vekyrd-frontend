@@ -46,7 +46,7 @@ const PageHeader = ({
 };
 
 PageHeader.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   subtitle: PropTypes.string,
   children: PropTypes.node,
   isLoading: PropTypes.bool,

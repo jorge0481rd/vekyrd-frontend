@@ -54,7 +54,6 @@ const DisplayRandomProducts = ({ quantity = 3 }) => {
             key={product.id}
             product={product}
             isProductInCart={false}
-            disableLinkToDetails
           />
         ))}
       </Box>

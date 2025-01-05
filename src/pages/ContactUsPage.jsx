@@ -1,6 +1,4 @@
 import { Box, Button, TextField, Typography } from '@mui/material';
-import PageContainer from '../components/PageContainer';
-import PageHeader from '../components/PageHeader';
 import { useState } from 'react';
 import { apiSendContactUs } from '../api/api';
 

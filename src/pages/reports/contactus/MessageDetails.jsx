@@ -37,6 +37,7 @@ const MessageDetails = ({ msg, open, setOpen }) => {
         maxHeight: '80%',
         overflow: 'auto',
         outline: 'solid 1px #ccc',
+        zIndex: 10,
       }}
     >
       <Typography variant="body1" fontWeight="bold">

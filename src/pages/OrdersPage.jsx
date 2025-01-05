@@ -72,8 +72,7 @@ const OrderPage = () => {
         console.log(error);
       }
     };
-
-    console.log(orderDetails);
+    
     const orderDetailsLength = Object.values(orderDetails).length;
 
     orderDetailsLength > 0 && createOrder(orderDetails);

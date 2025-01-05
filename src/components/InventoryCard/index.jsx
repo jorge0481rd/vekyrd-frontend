@@ -10,6 +10,7 @@ const classes = {
     borderRadius: 2,
     width: '350px',
     margin: 2,
+    background: '#ffffff',
   },
   header: {
     minHeight: '110px',
@@ -84,7 +85,7 @@ const InventoryCard = ({ product }) => {
           <Typography variant="body1">SKU: {product.sku}</Typography>
         </Typography>
         <ProductThumbnail
-          imageurl={product.imageurl}
+          imageurl={product.imageurl1}
           productId={product.id}
           size="medium"
         />
