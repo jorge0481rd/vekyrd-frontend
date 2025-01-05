@@ -40,11 +40,15 @@ const DisplayRandomProducts = ({ quantity = 3 }) => {
         sx={{ borderTop: '1px solid lightgray', margin: 4, width: '100%' }}
       />
 
-      <Typography variant="h5">Nuestros productos recomendados</Typography>
+      <Typography variant="h5" textAlign="center">
+        Nuestros productos recomendados
+      </Typography>
       <Box
         className="drp-random-products-container"
         sx={{
           display: 'flex',
+          flexWrap: 'wrap',
+          gap: 2,
           justifyContent: 'space-evenly',
           width: '100%',
         }}

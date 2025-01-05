@@ -6,6 +6,10 @@ import {
   Badge,
   Menu,
   MenuItem,
+  IconButton,
+  Divider,
+  Drawer,
+  Box,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useAppContext } from '../../context/AppContext';
@@ -27,6 +31,7 @@ import Diversity3Icon from '@mui/icons-material/Diversity3';
 import CallIcon from '@mui/icons-material/Call';
 import EmailIcon from '@mui/icons-material/Email';
 import CommentIcon from '@mui/icons-material/Comment';
+import MenuIcon from '@mui/icons-material/Menu';
 
 const Navbar = () => {
   const { isAuthenticated, logout, cartCount, getUserRoles, getUsername } =
@@ -44,228 +49,345 @@ const Navbar = () => {
     setAnchorEl(null);
   };
 
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  // Toggle mobile drawer
+  const toggleMobileDrawer = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
   return (
-    <AppBar sx={{ position: 'fixed', top: 0, left: 0, right: 0 }}>
-      <Toolbar
+    <>
+      {/* Desktop Navbar */}
+
+      <AppBar
         sx={{
-          display: 'flex',
-          justifyContent: 'end',
-          flexWrap: 'wrap',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          display: { xs: 'none', md: 'flex' },
         }}
       >
-        <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          VekyRD
-        </Typography>
-        <Button
-          color="inherit"
-          component={Link}
-          to="/"
-          startIcon={<HomeIcon />}
+        <Toolbar
+          sx={{
+            display: 'flex',
+            justifyContent: 'end',
+
+            flexWrap: 'wrap',
+          }}
         >
-          Inicio
-        </Button>
-        {isAuthenticated && (
-          <>
-            {getUserRoles().includes('admin') && (
-              <>
-                <Button
-                  color="inherit"
-                  onClick={handleMenuClick}
-                  startIcon={<SettingsIcon />}
-                  sx={{
-                    color: 'yellow',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  Herramientas
-                </Button>
-              </>
-            )}
-          </>
-        )}
-        <Button
-          color="inherit"
-          component={Link}
-          to="/about-us"
-          startIcon={<Diversity3Icon />}
-        >
-          Acerca de Nosotros
-        </Button>
-        <Button
-          color="inherit"
-          component={Link}
-          to="/questionnare"
-          startIcon={<ChecklistIcon />}
-        >
-          Descubre
-        </Button>
-        <Button
-          color="inherit"
-          component={Link}
-          to="/products"
-          startIcon={<ShoppingBasketIcon />}
-        >
-          Productos
-        </Button>
-        <Button
-          color="inherit"
-          component={Link}
-          to="/cart"
-          startIcon={<ShoppingCartIcon />}
-        >
-          <Badge badgeContent={cartCount} color="secondary">
-            Carrito &nbsp;
-          </Badge>
-        </Button>
-        <Button
-          color="inherit"
-          component={Link}
-          to="/contactus"
-          startIcon={<CallIcon />}
-        >
-          Contáctanos
-        </Button>
-        {!isAuthenticated && (
+          <Typography variant="h6" sx={{ flexGrow: 1 }}>
+            VekyRD
+          </Typography>
           <Button
             color="inherit"
             component={Link}
-            to="/login"
-            startIcon={<LoginIcon />}
+            to="/"
+            startIcon={<HomeIcon />}
           >
-            Iniciar session
+            Inicio
           </Button>
-        )}
-
-        {/* iAuthenticated  */}
-        {isAuthenticated && (
-          <>
-            {getUserRoles().includes('admin') && (
-              <>
-                <Button
-                  color="inherit"
-                  component={Link}
-                  to="/wishlist"
-                  startIcon={<FavoriteIcon />}
-                >
-                  Lista de favoritos
-                </Button>
-                <Menu
-                  anchorEl={anchorEl}
-                  open={Boolean(anchorEl)}
-                  onClose={handleMenuClose}
-                  MenuListProps={{
-                    'aria-labelledby': 'herramientas-button',
-                  }}
-                  sx={{
-                    '& .MuiPopover-paper': {
-                      backgroundColor: '#ffffff',
-                      padding: '4px',
-                    },
-                  }}
-                >
-                  <MenuItem
-                    component={Link}
-                    to="/reports/sales"
-                    onClick={handleMenuClose}
+          {isAuthenticated && (
+            <>
+              {getUserRoles().includes('admin') && (
+                <>
+                  <Button
+                    color="inherit"
+                    onClick={handleMenuClick}
+                    startIcon={<SettingsIcon />}
+                    sx={{
+                      color: 'yellow',
+                      fontWeight: 'bold',
+                    }}
                   >
-                    <AttachMoneyIcon
-                      sx={{ fontSize: 18, marginRight: '.6rem' }}
-                    />{' '}
-                    Reporte de ventas
-                  </MenuItem>
-                  <MenuItem
-                    component={Link}
-                    to="/reports/top-selling"
-                    onClick={handleMenuClose}
-                  >
-                    <EmojiEventsIcon
-                      sx={{ fontSize: 18, marginRight: '.6rem' }}
-                    />{' '}
-                    Productos más vendidos
-                  </MenuItem>
-                  <MenuItem
-                    component={Link}
-                    to="/reports/pending-orders"
-                    onClick={handleMenuClose}
-                  >
-                    <ProductionQuantityLimitsIcon
-                      sx={{ fontSize: 18, marginRight: '.6rem' }}
-                    />{' '}
-                    Órdenes pendientes
-                  </MenuItem>
-                  <MenuItem
-                    component={Link}
-                    to="/reports/inventory"
-                    onClick={handleMenuClose}
-                    divider
-                  >
-                    <InventoryIcon
-                      sx={{ fontSize: 18, marginRight: '.6rem' }}
-                    />{' '}
-                    Reporte de inventario
-                  </MenuItem>
-                  <MenuItem
-                    component={Link}
-                    to="/reports/users"
-                    onClick={handleMenuClose}
-                  >
-                    <PersonIcon sx={{ fontSize: 18, marginRight: '.6rem' }} />{' '}
-                    Reporte de usuarios activos
-                  </MenuItem>
-                  <MenuItem
-                    component={Link}
-                    to="/reports/reviews"
-                    onClick={handleMenuClose}
-                  >
-                    <CommentIcon sx={{ fontSize: 18, marginRight: '.6rem' }} />{' '}
-                    Reporte de comentarios
-                  </MenuItem>
-                  <MenuItem
-                    component={Link}
-                    to="/reports/contactus"
-                    onClick={handleMenuClose}
-                    divider
-                  >
-                    <EmailIcon sx={{ fontSize: 18, marginRight: '.6rem' }} />{' '}
-                    Reporte de Contáctanos
-                  </MenuItem>
-                  <MenuItem
-                    component={Link}
-                    to="/products/inventory"
-                    onClick={handleMenuClose}
-                  >
-                    Inventario
-                  </MenuItem>
-                  <MenuItem
-                    component={Link}
-                    to="/products/add-new-product"
-                    onClick={handleMenuClose}
-                  >
-                    Agregar producto
-                  </MenuItem>
-                  <MenuItem
-                    component={Link}
-                    to="/users/roles"
-                    onClick={handleMenuClose}
-                  >
-                    Permisos de usuario
-                  </MenuItem>
-                </Menu>
-              </>
-            )}
+                    Herramientas
+                  </Button>
+                </>
+              )}
+            </>
+          )}
+          <Button
+            color="inherit"
+            component={Link}
+            to="/about-us"
+            startIcon={<Diversity3Icon />}
+          >
+            Acerca de Nosotros
+          </Button>
+          <Button
+            color="inherit"
+            component={Link}
+            to="/questionnare"
+            startIcon={<ChecklistIcon />}
+          >
+            Descubre
+          </Button>
+          <Button
+            color="inherit"
+            component={Link}
+            to="/products"
+            startIcon={<ShoppingBasketIcon />}
+          >
+            Productos
+          </Button>
+          <Button
+            color="inherit"
+            component={Link}
+            to="/cart"
+            startIcon={<ShoppingCartIcon />}
+          >
+            <Badge badgeContent={cartCount} color="secondary">
+              Carrito &nbsp;
+            </Badge>
+          </Button>
+          <Button
+            color="inherit"
+            component={Link}
+            to="/contactus"
+            startIcon={<CallIcon />}
+          >
+            Contáctanos
+          </Button>
+          {!isAuthenticated && (
             <Button
               color="inherit"
               component={Link}
-              onClick={logout}
-              title="Cerrar sesión"
-              startIcon={<LogoutIcon />}
+              to="/login"
+              startIcon={<LoginIcon />}
             >
-              Salir {`(${getUsername()})`}
+              Iniciar session
             </Button>
-          </>
-        )}
-      </Toolbar>
-    </AppBar>
+          )}
+
+          {/* iAuthenticated  */}
+          {isAuthenticated && (
+            <>
+              {getUserRoles().includes('admin') && (
+                <>
+                  <Button
+                    color="inherit"
+                    component={Link}
+                    to="/wishlist"
+                    startIcon={<FavoriteIcon />}
+                  >
+                    Lista de favoritos
+                  </Button>
+                  <Menu
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={handleMenuClose}
+                    MenuListProps={{
+                      'aria-labelledby': 'herramientas-button',
+                    }}
+                    sx={{
+                      '& .MuiPopover-paper': {
+                        backgroundColor: '#ffffff',
+                        padding: '4px',
+                      },
+                    }}
+                  >
+                    <MenuItem
+                      component={Link}
+                      to="/reports/sales"
+                      onClick={handleMenuClose}
+                    >
+                      <AttachMoneyIcon
+                        sx={{ fontSize: 18, marginRight: '.6rem' }}
+                      />{' '}
+                      Reporte de ventas
+                    </MenuItem>
+                    <MenuItem
+                      component={Link}
+                      to="/reports/top-selling"
+                      onClick={handleMenuClose}
+                    >
+                      <EmojiEventsIcon
+                        sx={{ fontSize: 18, marginRight: '.6rem' }}
+                      />{' '}
+                      Productos más vendidos
+                    </MenuItem>
+                    <MenuItem
+                      component={Link}
+                      to="/reports/pending-orders"
+                      onClick={handleMenuClose}
+                    >
+                      <ProductionQuantityLimitsIcon
+                        sx={{ fontSize: 18, marginRight: '.6rem' }}
+                      />{' '}
+                      Órdenes pendientes
+                    </MenuItem>
+                    <MenuItem
+                      component={Link}
+                      to="/reports/inventory"
+                      onClick={handleMenuClose}
+                      divider
+                    >
+                      <InventoryIcon
+                        sx={{ fontSize: 18, marginRight: '.6rem' }}
+                      />{' '}
+                      Reporte de inventario
+                    </MenuItem>
+                    <MenuItem
+                      component={Link}
+                      to="/reports/users"
+                      onClick={handleMenuClose}
+                    >
+                      <PersonIcon sx={{ fontSize: 18, marginRight: '.6rem' }} />{' '}
+                      Reporte de usuarios activos
+                    </MenuItem>
+                    <MenuItem
+                      component={Link}
+                      to="/reports/reviews"
+                      onClick={handleMenuClose}
+                    >
+                      <CommentIcon
+                        sx={{ fontSize: 18, marginRight: '.6rem' }}
+                      />{' '}
+                      Reporte de comentarios
+                    </MenuItem>
+                    <MenuItem
+                      component={Link}
+                      to="/reports/contactus"
+                      onClick={handleMenuClose}
+                      divider
+                    >
+                      <EmailIcon sx={{ fontSize: 18, marginRight: '.6rem' }} />{' '}
+                      Reporte de Contáctanos
+                    </MenuItem>
+                    <MenuItem
+                      component={Link}
+                      to="/products/inventory"
+                      onClick={handleMenuClose}
+                    >
+                      Inventario
+                    </MenuItem>
+                    <MenuItem
+                      component={Link}
+                      to="/products/add-new-product"
+                      onClick={handleMenuClose}
+                    >
+                      Agregar producto
+                    </MenuItem>
+                    <MenuItem
+                      component={Link}
+                      to="/users/roles"
+                      onClick={handleMenuClose}
+                    >
+                      Permisos de usuario
+                    </MenuItem>
+                  </Menu>
+                </>
+              )}
+              <Button
+                color="inherit"
+                component={Link}
+                onClick={logout}
+                title="Cerrar sesión"
+                startIcon={<LogoutIcon />}
+              >
+                Salir {`(${getUsername()})`}
+              </Button>
+            </>
+          )}
+        </Toolbar>
+      </AppBar>
+
+      {/* Mobile Navbar */}
+      <AppBar sx={{ display: { xs: 'flex', md: 'none' }, padding: 2 }}>
+        <Toolbar sx={{ justifyContent: 'space-between' }}>
+          <Typography variant="h6">VekyRD</Typography>
+          <IconButton color="inherit" onClick={toggleMobileDrawer}>
+            <MenuIcon />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+
+      <Drawer anchor="left" open={mobileOpen} onClose={toggleMobileDrawer}>
+        <Box
+          sx={{ width: 250 }}
+          role="presentation"
+          onClick={toggleMobileDrawer}
+          onKeyDown={toggleMobileDrawer}
+        >
+          <Typography variant="h6" sx={{ p: 2 }}>
+            Menú
+          </Typography>
+          <Divider />
+          <Button
+            color="inherit"
+            component={Link}
+            to="/"
+            sx={{ justifyContent: 'start', width: '100%' }}
+          >
+            Inicio
+          </Button>
+          <Button
+            color="inherit"
+            component={Link}
+            to="/about-us"
+            sx={{ justifyContent: 'start', width: '100%' }}
+          >
+            Acerca de Nosotros
+          </Button>
+          <Button
+            color="inherit"
+            component={Link}
+            to="/questionnare"
+            sx={{ justifyContent: 'start', width: '100%' }}
+          >
+            Descubre
+          </Button>
+          <Button
+            color="inherit"
+            component={Link}
+            to="/products"
+            sx={{ justifyContent: 'start', width: '100%' }}
+          >
+            Productos
+          </Button>
+          <Button
+            color="inherit"
+            component={Link}
+            to="/cart"
+            sx={{ justifyContent: 'start', width: '100%' }}
+          >
+            Carrito ({cartCount})
+          </Button>
+          {isAuthenticated && (
+            <>
+              {getUserRoles().includes('admin') && (
+                <Button
+                  color="inherit"
+                  component={Link}
+                  to="/reports"
+                  sx={{ justifyContent: 'start', width: '100%' }}
+                >
+                  Herramientas
+                </Button>
+              )}
+              <Button
+                color="inherit"
+                onClick={logout}
+                sx={{ justifyContent: 'start', width: '100%' }}
+              >
+                Salir ({getUsername()})
+              </Button>
+            </>
+          )}
+          {!isAuthenticated && (
+            <Button
+              color="inherit"
+              component={Link}
+              to="/login"
+              sx={{ justifyContent: 'start', width: '100%' }}
+            >
+              Iniciar sesión
+            </Button>
+          )}
+        </Box>
+      </Drawer>
+    </>
   );
 };
 

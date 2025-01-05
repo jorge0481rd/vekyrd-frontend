@@ -38,21 +38,49 @@ const HomePage = () => {
           background: 'cornflowerblue',
           backgroundImage: 'url("/hair.jpg")',
           backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          backgroundColor: '#000000',
+          backgroundPosition: { xs: '-800px', md: 'center' },
           backgroundRepeat: 'no-repeat',
+          position: 'relative',
         }}
       >
-        <Typography variant="h2" sx={{ fontWeight: 'bold', color: '#ffffff' }}>
+        <Box
+          id="background-image-gradient"
+          sx={{
+            position: 'absolute',
+            height: '100%',
+            width: '100%',
+            backgroundImage:
+              'linear-gradient(to left, rgba(0,0,0,0.8) 40%, rgba(0,0,0,0.0) 80%)',
+          }}
+        ></Box>
+        <Typography
+          variant="h2"
+          sx={{
+            fontWeight: 'bold',
+            color: '#ffffff',
+            fontSize: { xs: '2rem', md: '3rem' },
+            zIndex: 10,
+          }}
+        >
           Bienvenido a VekyRD
         </Typography>
-        <Typography variant="h5" sx={{ color: '#ffffff', marginY: 2 }}>
+        <Typography
+          variant="h5"
+          sx={{
+            color: '#ffffff',
+            marginY: 2,
+            fontSize: { xs: '1rem', md: '1.5rem' },
+            zIndex: 10,
+          }}
+        >
           Descubre los mejores productos para el cuidado de tu cabello.
         </Typography>
         <Button
           variant="contained"
-          size="large"
+          size="medium"
           color="primary"
-          sx={{ marginTop: 2 }}
+          sx={{ marginTop: 2, zIndex: 10 }}
           component={Link}
           to="/products"
         >
@@ -165,16 +193,6 @@ const HomePage = () => {
         Contáctanos
       </Typography>
       <ContactUsPage />
-
-      {/* Footer Section */}
-      <Box
-        sx={{
-          textAlign: 'center',
-          padding: 4,
-          backgroundColor: '#f8f8f8',
-          borderRadius: 2,
-        }}
-      ></Box>
     </PageContainer>
   );
 };
