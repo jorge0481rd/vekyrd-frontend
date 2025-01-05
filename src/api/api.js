@@ -290,4 +290,48 @@ export const apiFetchReviewsReport = async () => {
   }
 };
 
+// contact us
+export const apiSendContactUs = async (data) => {
+  try {
+    const response = await api.post(`http://localhost:5000/contactus`, data);
+    return response.data;
+  } catch (error) {
+    console.error('Error sending contact us:', error);
+  }
+};
+
+export const apiFetchContactUsReport = async () => {
+  try {
+    const response = await api.get(`http://localhost:5000/contactus`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching contact us report:', error);
+  }
+};
+
+export const apiSetCommentAsRead = async (commentId) => {
+  try {
+    const response = await api.put(
+      `http://localhost:5000/contactus/${commentId}`,
+      {
+        read: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error setting comment as read:', error);
+  }
+};
+
+export const apiDeleteComment = async (commentId) => {
+  try {
+    const response = await api.delete(
+      `http://localhost:5000/contactus/${commentId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error deleting comment:', error);
+  }
+};
+
 export default api;

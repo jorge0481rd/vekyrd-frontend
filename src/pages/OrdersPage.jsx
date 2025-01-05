@@ -216,6 +216,7 @@ const OrderPage = () => {
             name="name"
             placeholder="Nombre del cliente"
             value={cardDetails.name}
+            sx={{ background: 'white' }}
             onChange={handleInputChange}
             onFocus={handleInputFocus}
           />
@@ -224,6 +225,7 @@ const OrderPage = () => {
             name="number"
             placeholder="Número de tarjeta"
             value={cardDetails.number}
+            sx={{ background: 'white' }}
             onChange={handleInputChange}
             onFocus={handleInputFocus}
           />
@@ -232,6 +234,7 @@ const OrderPage = () => {
             name="expiry"
             placeholder="Fecha de vencimiento"
             value={cardDetails.expiry}
+            sx={{ background: 'white' }}
             onChange={handleInputChange}
             onFocus={handleInputFocus}
           />
@@ -240,6 +243,7 @@ const OrderPage = () => {
             name="cvc"
             placeholder="cvc"
             value={cardDetails.cvc}
+            sx={{ background: 'white' }}
             onChange={handleInputChange}
             onFocus={handleInputFocus}
           />
@@ -262,6 +266,7 @@ const OrderPage = () => {
             name="address1"
             value={shippingDetails.address1}
             onChange={handleShippingInputChange}
+            sx={{ background: 'white' }}
             fullWidth
           />
           <TextField
@@ -269,6 +274,7 @@ const OrderPage = () => {
             name="address2"
             value={shippingDetails.address2}
             onChange={handleShippingInputChange}
+            sx={{ background: 'white' }}
             fullWidth
           />
           <TextField
@@ -276,6 +282,7 @@ const OrderPage = () => {
             name="city"
             value={shippingDetails.city}
             onChange={handleShippingInputChange}
+            sx={{ background: 'white' }}
             fullWidth
           />
           <TextField
@@ -283,6 +290,7 @@ const OrderPage = () => {
             name="country"
             value={shippingDetails.country}
             onChange={handleShippingInputChange}
+            sx={{ background: 'white' }}
             fullWidth
           />
           <OrderDetails />
@@ -297,7 +305,6 @@ const OrderPage = () => {
               'Pagar ahora'
             )}
           </Button>
-
           {errorMessage && (
             <Typography color="error" variant="body2">
               {errorMessage}

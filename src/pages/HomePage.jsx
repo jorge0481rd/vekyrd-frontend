@@ -11,6 +11,8 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageContainer from '../components/PageContainer';
 import useProducts from '../hooks/useProducts';
+import DisplayRandomProducts from '../components/DisplayRandomProducts';
+import ContactUsPage from './ContactUsPage';
 
 const HomePage = () => {
   const { getProducts } = useProducts();
@@ -101,6 +103,11 @@ const HomePage = () => {
         </Grid>
       </Box>
 
+      {/* Random products Section */}
+      <Box sx={{ marginBottom: 6 }}>
+        <DisplayRandomProducts quantity={3} />
+      </Box>
+
       {/* Product Categories Section */}
       <Box sx={{ textAlign: 'center', marginBottom: 6 }}>
         <Typography variant="h4" sx={{ fontWeight: 'bold', marginBottom: 4 }}>
@@ -149,6 +156,15 @@ const HomePage = () => {
           ))}
         </Grid>
       </Box>
+
+      {/* Contact us Section */}
+      <Typography
+        variant="h4"
+        sx={{ fontWeight: 'bold', marginBottom: 4, textAlign: 'center' }}
+      >
+        Contáctanos
+      </Typography>
+      <ContactUsPage />
 
       {/* Footer Section */}
       <Box

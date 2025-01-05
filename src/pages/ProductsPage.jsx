@@ -28,7 +28,7 @@ const ProductPage = () => {
 
       try {
         const products = await apiFetchProducts();
-        
+
         if (isAuthenticated) {
           const wishlist = await apiFetchWishlist();
 
@@ -110,7 +110,13 @@ const ProductPage = () => {
 
       {/* Search box */}
       {!isLoading && (
-        <Box sx={{ margin: '1rem  auto 4rem', maxWidth: '400px' }}>
+        <Box
+          sx={{
+            margin: '1rem  auto 4rem',
+            maxWidth: '400px',
+            background: 'white',
+          }}
+        >
           <TextField
             id="search"
             label="Buscar producto"

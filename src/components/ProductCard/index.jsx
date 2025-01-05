@@ -30,6 +30,7 @@ const ProductCard = memo(
           flexDirection: 'column',
           justifyContent: 'space-between',
           transition: 'all 0.2s ease-in-out',
+          outline: 'solid 1px #eee',
         }}
         elevation={isInCart ? 1 : 0}
       >

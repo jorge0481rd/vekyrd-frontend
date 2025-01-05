@@ -15,6 +15,9 @@ const PageContainer = ({ children, sx }) => {
         justifyContent: 'space-between',
         alignItems: 'center',
         width: '100%',
+        backgroundImage: 'url("/bg-pattern.png")',
+        backgroundRepeat: 'repeat',
+        backgroundColor: 'rgba(255, 255, 255, 0.5)',
         ...sx,
       }}
     >

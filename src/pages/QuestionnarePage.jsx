@@ -10,7 +10,7 @@ import {
   Paper,
   CircularProgress,
 } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import PageContainer from '../components/PageContainer';
 import PageHeader from '../components/PageHeader';
 import NavigationButton from '../components/navigation-button';
@@ -21,7 +21,6 @@ import randomlyFormatParagraph from '../helpers/randomlyFormatParragraph';
 const QuestionnairePage = () => {
   const [hideRecommendations, setHideRecommendations] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const [questionnaireCounter, setQuestionnaireCounter] = useState(0);
 
   const [hairType, setHairType] = useState('rizado');
   const [hairLength, setHairLength] = useState('largo');
@@ -31,7 +30,8 @@ const QuestionnairePage = () => {
 
   const [recommendations, setRecommendations] = useState([]);
   const [generalTips, setGeneralTips] = useState('');
-  const [generalTipsUrlList, setGeneralTipsUrlList] = useState([
+
+  const generalTipsUrlList = [
     '/img/happy-woman1.jpg',
     '/img/happy-woman2.jpg',
     '/img/happy-woman3.jpg',
@@ -40,7 +40,7 @@ const QuestionnairePage = () => {
     '/img/happy-woman6.jpg',
     '/img/happy-woman7.jpg',
     '/img/happy-woman8.jpg',
-  ]);
+  ];
   const [generalTipsImageUrl, setGeneralTipsImageUrl] = useState(null);
 
   const handleSubmit = async () => {
@@ -74,21 +74,13 @@ const QuestionnairePage = () => {
     } finally {
       setHideRecommendations(false);
       setIsLoading(false);
-      setQuestionnaireCounter((prev) => prev + 1);
     }
   };
-
-  useEffect(() => {
-    // getRandomImage();
-  }, [questionnaireCounter]);
 
   const getRandomImage = () => {
     const urls = generalTipsUrlList;
     const randomIndex = Math.floor(Math.random() * urls.length);
     setGeneralTipsImageUrl(urls[randomIndex]);
-
-    const updatedUrls = urls.filter((url) => url !== urls[randomIndex]);
-    setGeneralTipsUrlList(updatedUrls);
   };
 
   return (
@@ -153,6 +145,7 @@ const QuestionnairePage = () => {
           variant="outlined"
           placeholder="Describe tu cuero cabelludo (ej. seco, graso, sensible...)"
           value={scalpCondition}
+          sx={{ background: 'white' }}
           onChange={(e) => setScalpCondition(e.target.value)}
         />
 
@@ -165,6 +158,7 @@ const QuestionnairePage = () => {
           variant="outlined"
           placeholder="Ej. caída excesiva, frizz, daño químico..."
           value={currentIssues}
+          sx={{ background: 'white' }}
           onChange={(e) => setCurrentIssues(e.target.value)}
         />
 
@@ -177,6 +171,7 @@ const QuestionnairePage = () => {
           variant="outlined"
           placeholder="Ej. más hidratación, volumen, reparación..."
           value={goals}
+          sx={{ background: 'white' }}
           onChange={(e) => setGoals(e.target.value)}
         />
 

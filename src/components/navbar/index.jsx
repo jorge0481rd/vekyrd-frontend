@@ -23,6 +23,10 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import PersonIcon from '@mui/icons-material/Person';
 import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
+import Diversity3Icon from '@mui/icons-material/Diversity3';
+import CallIcon from '@mui/icons-material/Call';
+import EmailIcon from '@mui/icons-material/Email';
+import CommentIcon from '@mui/icons-material/Comment';
 
 const Navbar = () => {
   const { isAuthenticated, logout, cartCount, getUserRoles, getUsername } =
@@ -42,7 +46,13 @@ const Navbar = () => {
 
   return (
     <AppBar sx={{ position: 'fixed', top: 0, left: 0, right: 0 }}>
-      <Toolbar>
+      <Toolbar
+        sx={{
+          display: 'flex',
+          justifyContent: 'end',
+          flexWrap: 'wrap',
+        }}
+      >
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
           VekyRD
         </Typography>
@@ -53,6 +63,33 @@ const Navbar = () => {
           startIcon={<HomeIcon />}
         >
           Inicio
+        </Button>
+        {isAuthenticated && (
+          <>
+            {getUserRoles().includes('admin') && (
+              <>
+                <Button
+                  color="inherit"
+                  onClick={handleMenuClick}
+                  startIcon={<SettingsIcon />}
+                  sx={{
+                    color: 'yellow',
+                    fontWeight: 'bold',
+                  }}
+                >
+                  Herramientas
+                </Button>
+              </>
+            )}
+          </>
+        )}
+        <Button
+          color="inherit"
+          component={Link}
+          to="/about-us"
+          startIcon={<Diversity3Icon />}
+        >
+          Acerca de Nosotros
         </Button>
         <Button
           color="inherit"
@@ -80,6 +117,14 @@ const Navbar = () => {
             Carrito &nbsp;
           </Badge>
         </Button>
+        <Button
+          color="inherit"
+          component={Link}
+          to="/contactus"
+          startIcon={<CallIcon />}
+        >
+          Contáctanos
+        </Button>
         {!isAuthenticated && (
           <Button
             color="inherit"
@@ -103,13 +148,6 @@ const Navbar = () => {
                   startIcon={<FavoriteIcon />}
                 >
                   Lista de favoritos
-                </Button>
-                <Button
-                  color="inherit"
-                  onClick={handleMenuClick}
-                  startIcon={<SettingsIcon />}
-                >
-                  Herramientas
                 </Button>
                 <Menu
                   anchorEl={anchorEl}
@@ -178,12 +216,19 @@ const Navbar = () => {
                     component={Link}
                     to="/reports/reviews"
                     onClick={handleMenuClose}
-                    divider
                   >
-                    <PersonIcon sx={{ fontSize: 18, marginRight: '.6rem' }} />{' '}
+                    <CommentIcon sx={{ fontSize: 18, marginRight: '.6rem' }} />{' '}
                     Reporte de comentarios
                   </MenuItem>
-
+                  <MenuItem
+                    component={Link}
+                    to="/reports/contactus"
+                    onClick={handleMenuClose}
+                    divider
+                  >
+                    <EmailIcon sx={{ fontSize: 18, marginRight: '.6rem' }} />{' '}
+                    Reporte de Contáctanos
+                  </MenuItem>
                   <MenuItem
                     component={Link}
                     to="/products/inventory"

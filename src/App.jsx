@@ -22,6 +22,13 @@ import UsersReportPage from './pages/reports/users';
 import ReviewsReportPage from './pages/reports/reviews';
 import PendingOrdersReportPage from './pages/reports/pending-orders';
 import AddNewProductPage from './pages/AddNewProductPage';
+import AboutUsPage from './pages/AboutUsPage';
+import ContactUsPage from './pages/ContactUsPage';
+import ContactUsReportPage from './pages/reports/contactus/ContactUsReportPage';
+import PageContainer from './components/PageContainer';
+import PageHeader from './components/PageHeader';
+import { Box } from '@mui/material';
+import NavigationButton from './components/navigation-button';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -35,6 +42,22 @@ const App = () => {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/home" element={<HomePage />} />
+          <Route path="/about-us" element={<AboutUsPage />} />
+          <Route
+            path="/contactus"
+            element={
+              <PageContainer>
+                <PageHeader title="Contáctanos">
+                  <Box
+                    sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end' }}
+                  >
+                    <NavigationButton href="/products" text="Productos ►" />
+                  </Box>
+                </PageHeader>
+                <ContactUsPage />
+              </PageContainer>
+            }
+          />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/products/:productId" element={<ProductDetailPage />} />
           <Route
@@ -119,6 +142,14 @@ const App = () => {
             element={
               <ProtectedRoute allowedRoles={[ROLES.admin]}>
                 <ReviewsReportPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/reports/contactus"
+            element={
+              <ProtectedRoute allowedRoles={[ROLES.admin]}>
+                <ContactUsReportPage />
               </ProtectedRoute>
             }
           />
