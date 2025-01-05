@@ -140,7 +140,7 @@ export const apiCreateProduct = async (productData) => {
       'http://localhost:5000/products/add-new-product',
       productData
     );
-    return response.data;
+    return response;
   } catch (error) {
     console.log(error);
   }

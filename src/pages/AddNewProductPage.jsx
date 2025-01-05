@@ -1,11 +1,56 @@
-import { Box, Button, TextField, Typography } from '@mui/material';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Box, Button, Paper, TextField, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
 import PageContainer from '../components/PageContainer';
 import PageHeader from '../components/PageHeader';
 import { apiCreateProduct, apiPostProductImages } from '../api/api';
 
+const validateProductData = (productData) => {
+  const {
+    name,
+    sku,
+    category,
+    description,
+    description_large,
+    price,
+    stock,
+    average_rating,
+    imageurl1,
+    imageurl2,
+    imageurl3,
+  } = productData;
+
+  if (
+    !name.trim() ||
+    !sku.trim() ||
+    !category.trim() ||
+    !description.trim() ||
+    !description_large.trim() ||
+    !price ||
+    !stock ||
+    !average_rating ||
+    !imageurl1 ||
+    !imageurl2 ||
+    !imageurl3
+  ) {
+    return false;
+  }
+
+  if (
+    isNaN(price) ||
+    price <= 0 ||
+    isNaN(stock) ||
+    stock <= 0 ||
+    average_rating < 0 ||
+    average_rating > 5
+  ) {
+    return false;
+  }
+
+  return true;
+};
+
 const AddProductPage = () => {
+  const [editing, setEditing] = useState(true);
   const [productData, setProductData] = useState({
     name: 'DUMMY PRODUCT 1',
     sku: 'DMMP1',
@@ -16,14 +61,16 @@ const AddProductPage = () => {
     price: '23.40',
     stock: '20',
     average_rating: '3.5',
-    imageurl1: '/img/products/dummy.png',
-    imageurl2: '/img/products/dummy.png',
-    imageurl3: '/img/products/dummy.png',
+    imageurl1: null,
+    imageurl2: null,
+    imageurl3: null,
   });
 
   const [imageFiles, setImageFiles] = useState({});
+  const [previewImagesUrl, setPreviewImagesUrl] = useState({});
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
+  const [success, setSuccess] = useState(null);
+  const [isFormValid, setIsFormValid] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,10 +83,32 @@ const AddProductPage = () => {
       const file = files[0];
       const fileName = `${Date.now().toString().substring(0, 6)}_${file.name}`;
       const imageUrl = `/img/products/${fileName}`;
+      const previewUrl = URL.createObjectURL(file);
 
       setImageFiles((prev) => ({ ...prev, [name]: file }));
       setProductData((prev) => ({ ...prev, [name]: imageUrl }));
+      setPreviewImagesUrl((prev) => ({ ...prev, [name]: previewUrl }));
     }
+  };
+
+  const resetProductData = () => {
+    setProductData({
+      name: '',
+      sku: '',
+      category: '',
+      description: '',
+      description_large: '',
+      price: '',
+      stock: '',
+      average_rating: '',
+      imageurl1: null,
+      imageurl2: null,
+      imageurl3: null,
+    });
+    setImageFiles({});
+    setPreviewImagesUrl({});
+    setEditing(true);
+    setSuccess(null);
   };
 
   const saveImagesToPublicFolder = async () => {
@@ -53,7 +122,7 @@ const AddProductPage = () => {
       const response = await apiPostProductImages(formData);
 
       if (response.status === 200) {
-        const data = await response.json();
+        const data = await response.data;
 
         setProductData({
           ...productData,
@@ -83,12 +152,17 @@ const AddProductPage = () => {
       };
       const response = await apiCreateProduct(data);
       if (response.status === 201) {
-        navigate('/products');
+        setEditing(false);
+        setSuccess('Producto creado exitosamente');
       }
     } catch (error) {
       setError(error.response?.data?.message || 'Error creating product');
     }
   };
+
+  useEffect(() => {
+    setIsFormValid(validateProductData(productData));
+  }, [productData]);
 
   return (
     <PageContainer>
@@ -173,33 +247,124 @@ const AddProductPage = () => {
           onChange={handleChange}
           sx={{ marginBottom: 2 }}
         />
-        <TextField
-          label="Imagen 1"
-          variant="outlined"
-          fullWidth
-          name="imageurl1"
-          type="file"
-          onChange={handleFileChange}
-          sx={{ marginBottom: 2 }}
-        />
-        <TextField
-          label="Imagen 2"
-          variant="outlined"
-          fullWidth
-          name="imageurl2"
-          type="file"
-          onChange={handleFileChange}
-          sx={{ marginBottom: 2 }}
-        />
-        <TextField
-          label="Imagen 3"
-          variant="outlined"
-          fullWidth
-          name="imageurl3"
-          type="file"
-          onChange={handleFileChange}
-          sx={{ marginBottom: 2 }}
-        />
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 2,
+            marginBottom: 2,
+            alignItems: 'center',
+          }}
+        >
+          <TextField
+            variant="outlined"
+            fullWidth
+            name="imageurl1"
+            type="file"
+            onChange={handleFileChange}
+          ></TextField>
+          <Paper
+            elevation={3}
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '150px',
+              height: '150px',
+              borderRadius: '10px',
+              transition: 'all 0.3s ease-in-out',
+              opacity: previewImagesUrl.imageurl1 ? 100 : 0,
+              transform: `translateX(${previewImagesUrl.imageurl1 ? 0 : 100}%)`,
+            }}
+          >
+            <img
+              src={previewImagesUrl.imageurl1}
+              alt="Preview"
+              style={{
+                maxWidth: '100%',
+                maxHeight: '100%',
+              }}
+            />
+          </Paper>
+        </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 2,
+            marginBottom: 2,
+            alignItems: 'center',
+          }}
+        >
+          <TextField
+            variant="outlined"
+            fullWidth
+            name="imageurl2"
+            type="file"
+            onChange={handleFileChange}
+          ></TextField>
+          <Paper
+            elevation={3}
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '150px',
+              height: '150px',
+              borderRadius: '10px',
+              transition: 'all 0.3s ease-in-out',
+              opacity: previewImagesUrl.imageurl2 ? 100 : 0,
+              transform: `translateX(${previewImagesUrl.imageurl2 ? 0 : 100}%)`,
+            }}
+          >
+            <img
+              src={previewImagesUrl.imageurl2}
+              alt="Preview"
+              style={{
+                maxWidth: '100%',
+                maxHeight: '100%',
+              }}
+            />
+          </Paper>
+        </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 2,
+            marginBottom: 2,
+            alignItems: 'center',
+          }}
+        >
+          <TextField
+            variant="outlined"
+            fullWidth
+            name="imageurl3"
+            type="file"
+            onChange={handleFileChange}
+          ></TextField>
+          <Paper
+            elevation={3}
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '150px',
+              height: '150px',
+              borderRadius: '10px',
+              transition: 'all 0.3s ease-in-out',
+              opacity: previewImagesUrl.imageurl3 ? 100 : 0,
+              transform: `translateX(${previewImagesUrl.imageurl3 ? 0 : 100}%)`,
+            }}
+          >
+            <img
+              src={previewImagesUrl.imageurl3}
+              alt="Preview"
+              style={{
+                maxWidth: '100%',
+                maxHeight: '100%',
+              }}
+            />
+          </Paper>
+        </Box>
+
         {error && <Typography color="error">{error}</Typography>}
         <Box
           sx={{
@@ -209,20 +374,33 @@ const AddProductPage = () => {
             gap: 2,
           }}
         >
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => handleCreateProduct(productData)}
-          >
-            Guardar
-          </Button>
-          <Button
-            variant="outlined"
-            color="secondary"
-            onClick={() => navigate('/products')}
-          >
-            Cancelar
-          </Button>
+          {success && <Typography color="success">{success}</Typography>}
+          <Box sx={{ display: editing ? 'flex' : 'none', gap: 2 }}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => handleCreateProduct(productData)}
+              disabled={!isFormValid}
+            >
+              Guardar
+            </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={() => setEditing(false)}
+            >
+              Cancelar
+            </Button>
+          </Box>
+          <Box sx={{ display: editing ? 'none' : 'flex' }}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={resetProductData}
+            >
+              Nuevo Producto
+            </Button>
+          </Box>
         </Box>
       </Box>
     </PageContainer>
