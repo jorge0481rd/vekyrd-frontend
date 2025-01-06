@@ -74,6 +74,7 @@ const HomePage = () => {
             top: 0,
             left: 0,
             overflow: 'hidden',
+            borderRadius: '30px',
           }}
         >
           <img

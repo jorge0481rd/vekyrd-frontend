@@ -157,21 +157,25 @@ export const apiPostReview = async (review) => {
 };
 
 export const apiFetchWishlist = async () => {
-  const response = await api.get(`http://localhost:5000/products/wishlist`);
-  return response.data;
+  try {
+    const response = await api.get(`http://localhost:5000/wishlist`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching wishlist:', error);
+  }
 };
 
 // wishlist
 export const apiAddToWishlist = async (productId) => {
   const response = await api.post(
-    `http://localhost:5000/products/wishlist/${productId}`
+    `http://localhost:5000/wishlist/${productId}`
   );
   return response.data;
 };
 
 export const apiRemoveFromWishlist = async (productId) => {
   const response = await api.delete(
-    `http://localhost:5000/products/wishlist/${productId}`
+    `http://localhost:5000/wishlist/${productId}`
   );
   return response.data;
 };

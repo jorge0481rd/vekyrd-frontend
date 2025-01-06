@@ -5,13 +5,17 @@ import { Box, Button } from '@mui/material';
 import DatePickerComponent from '../shared/DatePicker1';
 import { fetchPendingOrdersReport } from '../../../helpers/reports';
 import CustomAgGrid from '../shared/CustomAgGrid';
-import { colDefsPendingOrders } from './colDefs';
+import { getColumnDefsPendingOrders } from './colDefs';
+import useDeviceType from '../../../utils/isMobile';
 
 const PendingOrdersReportPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [pendingOrdersData, setPendingOrdersData] = useState([]);
   const [date_start, setDate_start] = useState('2024-01-01');
   const [date_end, setDate_end] = useState('2024-12-31');
+
+  const isMobile = useDeviceType().isMobile;
+  const colDefsPendingOrders = getColumnDefsPendingOrders(isMobile);
 
   const getPendingOrdersReport = async () => {
     setIsLoading(true);

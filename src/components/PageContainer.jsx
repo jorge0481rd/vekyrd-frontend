@@ -15,7 +15,7 @@ const PageContainer = ({ children, sx }) => {
         justifyContent: 'space-between',
         alignItems: 'center',
         width: '100%',
-        backgroundColor: '#f0efeb',
+        backgroundColor: '#ffffff',
         ...sx,
       }}
     >

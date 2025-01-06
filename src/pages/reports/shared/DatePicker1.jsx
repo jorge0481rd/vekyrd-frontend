@@ -10,7 +10,15 @@ const DatePickerComponent = ({
   date_end,
 }) => {
   return (
-    <Box sx={{ display: 'flex', flexWrap: 'wrap', cursor: 'pointer', gap: 1 }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        cursor: 'pointer',
+        gap: 1,
+        justifyContent: { xs: 'center', md: 'flex-start' },
+      }}
+    >
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
         <DatePicker
           dateFormat={'dd/MM/yyyy'}

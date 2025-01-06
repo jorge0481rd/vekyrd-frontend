@@ -25,42 +25,44 @@ const ProductPage = () => {
   const MOSTRAR_TODOS = 'Todos';
 
   useEffect(() => {
+    // fetch products
     const fetchData = async () => {
       setIsLoading(true);
 
+      const products = await apiFetchProducts();
+
+      setArrProducts(products);
+
+      // if query param, filter products by category
+      const searchParams = new URLSearchParams(location.search);
+      const category = searchParams.get('category');
+      filterProducts(category, products);
+
+      //get wishlist
       try {
-        const products = await apiFetchProducts();
-
-        if (isAuthenticated) {
-          const wishlist = await apiFetchWishlist();
-
+        const wishlist = await apiFetchWishlist();
+        if (wishlist.length > 0) {
           const wishProducts = wishlist
             .map((wish) =>
               products.find((product) => product.id === wish.product_id)
             )
             .filter((product) => product !== undefined);
-
           // save to local storage
           const arrWishlist = wishProducts.map((product) => product.id);
           localStorage.setItem('wishlist', arrWishlist);
-
           // also update products
           products.forEach((product) => {
             product.isInWishlist = arrWishlist.includes(product.id);
           });
+
+          setArrProducts(products);
         }
-
-        setArrProducts(products);
-
-        // if query param, filter products by category
-        const searchParams = new URLSearchParams(location.search);
-        const category = searchParams.get('category');
-        filterProducts(category, products);
       } catch (error) {
-        console.error('Error fetching products:', error);
-      } finally {
-        setIsLoading(false);
+        console.error('Error fetching wishlist:', error);
       }
+
+      //finally
+      setIsLoading(false);
     };
 
     fetchData();

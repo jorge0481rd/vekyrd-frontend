@@ -32,6 +32,7 @@ import CallIcon from '@mui/icons-material/Call';
 import EmailIcon from '@mui/icons-material/Email';
 import CommentIcon from '@mui/icons-material/Comment';
 import MenuIcon from '@mui/icons-material/Menu';
+import DividerLine from '../shared/DividerLine';
 
 const Navbar = () => {
   const { isAuthenticated, logout, cartCount, getUserRoles, getUsername } =
@@ -50,10 +51,15 @@ const Navbar = () => {
   };
 
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [toolsOpen, setToolsOpen] = useState(false);
 
   // Toggle mobile drawer
   const toggleMobileDrawer = () => {
     setMobileOpen(!mobileOpen);
+  };
+
+  const toggleToolsDrawer = () => {
+    setToolsOpen(!toolsOpen);
   };
 
   return (
@@ -124,7 +130,7 @@ const Navbar = () => {
             Descubre
           </Button>
           <Button
-            color="inherit"
+            sx={{ color: 'yellow' }}
             component={Link}
             to="/products"
             startIcon={<ShoppingBasketIcon />}
@@ -163,16 +169,16 @@ const Navbar = () => {
           {/* iAuthenticated  */}
           {isAuthenticated && (
             <>
+              <Button
+                color="inherit"
+                component={Link}
+                to="/wishlist"
+                startIcon={<FavoriteIcon />}
+              >
+                Lista de favoritos
+              </Button>
               {getUserRoles().includes('admin') && (
                 <>
-                  <Button
-                    color="inherit"
-                    component={Link}
-                    to="/wishlist"
-                    startIcon={<FavoriteIcon />}
-                  >
-                    Lista de favoritos
-                  </Button>
                   <Menu
                     anchorEl={anchorEl}
                     open={Boolean(anchorEl)}
@@ -305,7 +311,12 @@ const Navbar = () => {
 
       <Drawer anchor="left" open={mobileOpen} onClose={toggleMobileDrawer}>
         <Box
-          sx={{ width: 250 }}
+          sx={{
+            width: 250,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'start',
+          }}
           role="presentation"
           onClick={toggleMobileDrawer}
           onKeyDown={toggleMobileDrawer}
@@ -318,7 +329,7 @@ const Navbar = () => {
             color="inherit"
             component={Link}
             to="/"
-            sx={{ justifyContent: 'start', width: '100%' }}
+            startIcon={<HomeIcon />}
           >
             Inicio
           </Button>
@@ -326,7 +337,7 @@ const Navbar = () => {
             color="inherit"
             component={Link}
             to="/about-us"
-            sx={{ justifyContent: 'start', width: '100%' }}
+            startIcon={<Diversity3Icon />}
           >
             Acerca de Nosotros
           </Button>
@@ -334,15 +345,15 @@ const Navbar = () => {
             color="inherit"
             component={Link}
             to="/questionnare"
-            sx={{ justifyContent: 'start', width: '100%' }}
+            startIcon={<ChecklistIcon />}
           >
             Descubre
           </Button>
           <Button
-            color="inherit"
+            color="warning"
             component={Link}
             to="/products"
-            sx={{ justifyContent: 'start', width: '100%' }}
+            startIcon={<ShoppingBasketIcon />}
           >
             Productos
           </Button>
@@ -350,17 +361,31 @@ const Navbar = () => {
             color="inherit"
             component={Link}
             to="/cart"
-            sx={{ justifyContent: 'start', width: '100%' }}
+            startIcon={<ShoppingCartIcon />}
           >
-            Carrito ({cartCount})
+            <Badge badgeContent={cartCount} color="secondary">
+              Carrito &nbsp;
+            </Badge>
           </Button>
+          <Button
+            color="inherit"
+            component={Link}
+            to="/contactus"
+            startIcon={<CallIcon />}
+          >
+            Contáctanos
+          </Button>
+          <DividerLine />
           {isAuthenticated && (
             <>
               {getUserRoles().includes('admin') && (
                 <Button
                   color="inherit"
                   component={Link}
-                  to="/reports"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleToolsDrawer();
+                  }}
                   sx={{ justifyContent: 'start', width: '100%' }}
                 >
                   Herramientas
@@ -385,6 +410,88 @@ const Navbar = () => {
               Iniciar sesión
             </Button>
           )}
+        </Box>
+      </Drawer>
+
+      <Drawer
+        id="tools-drawer"
+        anchor="left"
+        open={toolsOpen}
+        onClose={toggleToolsDrawer}
+      >
+        <Box
+          sx={{
+            width: 250,
+            padding: 2,
+          }}
+          role="presentation"
+          onClick={toggleToolsDrawer}
+          onKeyDown={toggleToolsDrawer}
+        >
+          <Typography variant="h6" sx={{ mb: 2 }}>
+            Herramientas
+          </Typography>
+          <Divider />
+          <Button
+            color="inherit"
+            component={Link}
+            to="/reports/sales"
+            sx={{ justifyContent: 'start', width: '100%' }}
+          >
+            <AttachMoneyIcon sx={{ fontSize: 18, marginRight: '.6rem' }} />{' '}
+            Reporte de Ventas
+          </Button>
+          <Button
+            color="inherit"
+            component={Link}
+            to="/reports/top-selling"
+            sx={{ justifyContent: 'start', width: '100%' }}
+          >
+            <EmojiEventsIcon sx={{ fontSize: 18, marginRight: '.6rem' }} />{' '}
+            Productos más vendidos
+          </Button>
+          <Button
+            color="inherit"
+            component={Link}
+            to="/reports/pending-orders"
+            sx={{ justifyContent: 'start', width: '100%' }}
+          >
+            <ProductionQuantityLimitsIcon
+              sx={{ fontSize: 18, marginRight: '.6rem' }}
+            />{' '}
+            Órdenes pendientes
+          </Button>
+          <Button
+            color="inherit"
+            component={Link}
+            to="/reports/inventory"
+            sx={{ justifyContent: 'start', width: '100%' }}
+          >
+            <InventoryIcon sx={{ fontSize: 18, marginRight: '.6rem' }} />{' '}
+            Reporte de inventario
+          </Button>
+          <DividerLine />
+          <MenuItem
+            component={Link}
+            to="/products/inventory"
+            onClick={handleMenuClose}
+          >
+            Inventario
+          </MenuItem>
+          <MenuItem
+            component={Link}
+            to="/products/add-new-product"
+            onClick={handleMenuClose}
+          >
+            Agregar producto
+          </MenuItem>
+          <MenuItem
+            component={Link}
+            to="/users/roles"
+            onClick={handleMenuClose}
+          >
+            Permisos de usuario
+          </MenuItem>
         </Box>
       </Drawer>
     </>
