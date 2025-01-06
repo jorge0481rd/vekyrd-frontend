@@ -78,22 +78,16 @@ const CartPage = () => {
             gap: 2,
           }}
         >
-          <Paper
-            elevation={0}
-            sx={{
+          <img
+            style={{
               width: '200px',
               height: '200px',
-              backgroundColor: 'white',
               borderRadius: '10px',
               transform: 'translateX(-25px)',
             }}
-          >
-            <img
-              style={{ width: '100%' }}
-              src="/empty_cart.jpg"
-              alt="Carrito vacío"
-            />
-          </Paper>
+            src="/empty_cart.svg"
+            alt="Carrito vacío"
+          />
           <Typography variant="h5" gutterBottom>
             Su carrito está vacío
           </Typography>

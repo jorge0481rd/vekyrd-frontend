@@ -35,6 +35,14 @@ import TestPage from './pages/TestPage';
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#ac0089',
+    },
+    secondary: {
+      main: '#00a40f',
+    },
+  },
   components: {
     MuiTextField: {
       styleOverrides: {

@@ -21,6 +21,33 @@ const HomePage = () => {
     getProducts();
   }, []);
 
+  useEffect(() => {
+    const images = document.querySelectorAll('.banner-image');
+    const img1 = images[1];
+    const img0 = images[0];
+
+    img0.style.transform = 'translateX(200px)';
+    img0.style.opacity = 0;
+    img0.imgHidden = true;
+
+    const invertStatus = (img) => {
+      img.imgHidden = !img.imgHidden;
+
+      if (img.imgHidden) {
+        img.style.transform = 'translateX(200px)';
+        img.style.opacity = 0;
+      } else {
+        img.style.transform = 'translateX(0px)';
+        img.style.opacity = 1;
+      }
+    };
+
+    setInterval(() => {
+      invertStatus(img0);
+      invertStatus(img1);
+    }, 4000);
+  }, []);
+
   return (
     <PageContainer>
       <Box
@@ -35,25 +62,49 @@ const HomePage = () => {
           marginBottom: 4,
           padding: 3,
           marginTop: '50px',
-          background: 'cornflowerblue',
-          backgroundImage: 'url("/hair.jpg")',
-          backgroundSize: 'cover',
-          backgroundColor: '#000000',
-          backgroundPosition: { xs: '-800px', md: 'center' },
-          backgroundRepeat: 'no-repeat',
           position: 'relative',
         }}
       >
         <Box
-          id="background-image-gradient"
+          className="banner-image-container"
           sx={{
-            position: 'absolute',
-            height: '100%',
             width: '100%',
-            backgroundImage:
-              'linear-gradient(to left, rgba(0,0,0,0.8) 40%, rgba(0,0,0,0.0) 80%)',
+            height: '100%',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            overflow: 'hidden',
           }}
-        ></Box>
+        >
+          <img
+            src="hair1.jpg"
+            alt="hair"
+            className="banner-image"
+            style={{
+              width: '100%',
+              height: '100%',
+              transition: 'all 0.5s ease-in-out',
+              position: 'absolute',
+              objectFit: 'cover',
+              top: 0,
+              left: 0,
+            }}
+          />
+          <img
+            src="hair2.jpg"
+            alt="hair"
+            className="banner-image"
+            style={{
+              width: '100%',
+              height: '100%',
+              transition: 'all 0.5s ease-in-out',
+              position: 'absolute',
+              objectFit: 'cover',
+              top: 0,
+              left: 0,
+            }}
+          />
+        </Box>
         <Typography
           variant="h2"
           sx={{
