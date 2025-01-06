@@ -41,7 +41,7 @@ const Footer = () => {
               </Link>
             </Box>
             <Box>
-              <Link href="/contact" color="inherit" underline="hover">
+              <Link href="/contactus" color="inherit" underline="hover">
                 Contacto
               </Link>
             </Box>

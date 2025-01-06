@@ -1,4 +1,4 @@
-import { Box, Grid, TextField } from '@mui/material';
+import { Box, Chip, Grid, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import NavigationButton from '../components/navigation-button';
 import PageContainer from '../components/PageContainer';
@@ -11,6 +11,7 @@ import {
 } from '../helpers/cartHelpers';
 import { useLocation } from 'react-router-dom';
 import { useAppContext } from '../context/AppContext';
+import { getRandomColorFromString } from '../utils/colors';
 
 const ProductPage = () => {
   const [idsInCart, setIdsInCart] = useState([]);
@@ -21,44 +22,47 @@ const ProductPage = () => {
 
   const location = useLocation();
   const { isAuthenticated } = useAppContext();
+  const MOSTRAR_TODOS = 'Todos';
 
   useEffect(() => {
+    // fetch products
     const fetchData = async () => {
       setIsLoading(true);
 
+      const products = await apiFetchProducts();
+
+      setArrProducts(products);
+
+      // if query param, filter products by category
+      const searchParams = new URLSearchParams(location.search);
+      const category = searchParams.get('category');
+      filterProducts(category, products);
+
+      //get wishlist
       try {
-        const products = await apiFetchProducts();
-
-        if (isAuthenticated) {
-          const wishlist = await apiFetchWishlist();
-
+        const wishlist = await apiFetchWishlist();
+        if (wishlist.length > 0) {
           const wishProducts = wishlist
             .map((wish) =>
               products.find((product) => product.id === wish.product_id)
             )
             .filter((product) => product !== undefined);
-
           // save to local storage
           const arrWishlist = wishProducts.map((product) => product.id);
           localStorage.setItem('wishlist', arrWishlist);
-
           // also update products
           products.forEach((product) => {
             product.isInWishlist = arrWishlist.includes(product.id);
           });
+
+          setArrProducts(products);
         }
-
-        setArrProducts(products);
-
-        // if query param, filter products by category
-        const searchParams = new URLSearchParams(location.search);
-        const category = searchParams.get('category');
-        filterProducts(category, products);
       } catch (error) {
-        console.error('Error fetching products:', error);
-      } finally {
-        setIsLoading(false);
+        console.error('Error fetching wishlist:', error);
       }
+
+      //finally
+      setIsLoading(false);
     };
 
     fetchData();
@@ -79,8 +83,12 @@ const ProductPage = () => {
     filterProducts(category, arrProducts);
   }, [location.search]);
 
-  const filterProducts = (searchTerm, arrProducts) => {
-    let filtered = arrProducts;
+  const filterProducts = (searchTerm, arrProducts, category = null) => {
+    let filtered = arrProducts.filter((product) =>
+      category && category != MOSTRAR_TODOS
+        ? product.category === category
+        : true
+    );
 
     if (searchTerm) {
       filtered = filtered.filter((product) =>
@@ -95,6 +103,46 @@ const ProductPage = () => {
     const value = e.target.value;
     setSearch(value);
     filterProducts(value, arrProducts);
+  };
+
+  const handleCategoryFilter = (category, searchTerm) => {
+    filterProducts(searchTerm, arrProducts, category);
+  };
+
+  const generateCategories = () => {
+    const arr = arrProducts.map((product) => product.category);
+    const uniqueCategories = [...new Set(arr)];
+
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          gap: 4,
+          margin: '1rem 0',
+          boxShadow: '0 0 10px #ccc',
+          background: 'rgba(255, 255, 255, 0.1)',
+          borderRadius: '10px',
+          padding: '1rem',
+          boxSizing: 'border-box',
+          justifyContent: 'center',
+          flexWrap: 'wrap',
+        }}
+      >
+        <Chip
+          sx={{ background: 'white', outline: 'solid 1px #ccc' }}
+          label={MOSTRAR_TODOS}
+          onClick={() => handleCategoryFilter(MOSTRAR_TODOS, search)}
+        />
+        {uniqueCategories.map((category) => (
+          <Chip
+            sx={{ background: getRandomColorFromString(category, search) }}
+            key={category}
+            label={category}
+            onClick={() => handleCategoryFilter(category, search)}
+          />
+        ))}
+      </Box>
+    );
   };
 
   return (
@@ -113,7 +161,8 @@ const ProductPage = () => {
         <Box
           sx={{
             margin: '1rem  auto 4rem',
-            maxWidth: '400px',
+            width: { xs: '350px', md: '400px' },
+            maxWidth: { xs: '100%', md: '400px' },
             background: 'white',
           }}
         >
@@ -128,10 +177,19 @@ const ProductPage = () => {
         </Box>
       )}
 
+      {/* Categories */}
+      {generateCategories()}
+
       {/* products container */}
       <Box
         id="product-cards-container"
-        sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, minHeight: '500px' }}
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: 4,
+          minHeight: '500px',
+          justifyContent: 'center',
+        }}
       >
         {!isLoading &&
           filteredProducts.map((product) => {

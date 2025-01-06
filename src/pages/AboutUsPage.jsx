@@ -2,8 +2,10 @@ import { Box, Typography, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import PageContainer from '../components/PageContainer';
 import PageHeader from '../components/PageHeader';
+import useDeviceType from '../utils/isMobile';
 
 const AboutUsPage = () => {
+  const { isMobile } = useDeviceType();
   return (
     <PageContainer>
       <PageHeader />
@@ -35,6 +37,7 @@ const AboutUsPage = () => {
         <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
           <Button
             variant="contained"
+            size={isMobile ? 'small' : 'large'}
             color="primary"
             component={Link}
             to="/products"
@@ -43,6 +46,7 @@ const AboutUsPage = () => {
           </Button>
           <Button
             variant="outlined"
+            size={isMobile ? 'small' : 'large'}
             color="secondary"
             component={Link}
             to="/contactus"

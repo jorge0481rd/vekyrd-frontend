@@ -3,7 +3,7 @@ import PageContainer from '../../../components/PageContainer';
 import PageHeader from '../../../components/PageHeader';
 import { fetchSalesReport } from '../../../helpers/reports';
 import CustomAgGrid from '../shared/CustomAgGrid';
-import { columnDefs } from './colDefs';
+import { getColumnDefs } from './colDefs';
 import { getFromDate } from '../../../utils/getFromDate';
 import {
   Accordion,
@@ -19,6 +19,7 @@ import ChartCategory from './ChartCategory';
 import { summarizeCategories } from './helpers/summarizeCategories';
 import ChartSalesTrend from './ChartSalesTrend';
 import DatePickerComponent from '../shared/DatePicker1';
+import useDeviceType from '../../../utils/isMobile';
 
 const SalesReportPage = () => {
   const [salesData, setSalesData] = useState([]);
@@ -28,6 +29,8 @@ const SalesReportPage = () => {
     new Date().toISOString().split('T')[0]
   );
   const [categoriesSummary, setCategoriesSummary] = useState([]);
+  const isMobile = useDeviceType().isMobile;
+  const columnDefs = getColumnDefs(isMobile);
 
   const getSales = async () => {
     setIsLoading(true);
@@ -94,13 +97,23 @@ const SalesReportPage = () => {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              width: '100%',
+              overflow: 'hidden',
+            }}
+          >
             <ChartCategory
               info={categoriesSummary}
               title={`Ventas por categoría (${getFromDate(date_start).date} - ${
                 getFromDate(date_end).date
               })`}
-              sx={{ flex: 1, height: '300px', width: '400px' }}
+              sx={{
+                flex: 2,
+                width: '100%',
+              }}
             />
             {salesData && salesData.length > 0 && (
               <ChartSalesTrend
@@ -108,7 +121,10 @@ const SalesReportPage = () => {
                 title={`Ventas del mes (${getFromDate(date_start).date} - ${
                   getFromDate(date_end).date
                 })`}
-                sx={{ flex: 2, height: '300px', width: '400px' }}
+                sx={{
+                  flex: 2,
+                  width: '100px',
+                }}
               />
             )}
           </Box>

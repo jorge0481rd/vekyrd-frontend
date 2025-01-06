@@ -23,7 +23,6 @@ const IsloadingFallback = ({ isLoadingText }) => {
       <Box
         className="fallback-backgrouund"
         sx={{
-          backgroundColor: '#ffffff',
           position: 'absolute',
           top: '3rem',
           left: 0,
@@ -37,7 +36,12 @@ const IsloadingFallback = ({ isLoadingText }) => {
       <Typography variant="h6" sx={{ marginBottom: '3rem' }}>
         {isLoadingText}
       </Typography>
-      <CircularProgress />
+      <CircularProgress
+        size={100}
+        color="info"
+        thickness={0.3}
+        variant="indeterminate"
+      />
     </Box>
   );
 };

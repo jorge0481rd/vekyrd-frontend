@@ -15,7 +15,9 @@ const PageHeader = ({
       sx={{
         width: '100%',
         margin: '1rem',
+        padding: '1rem',
         position: 'relative',
+        boxSizing: 'border-box',
       }}
     >
       {isLoading && (

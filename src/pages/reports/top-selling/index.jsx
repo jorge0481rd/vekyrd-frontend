@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react';
 import PageContainer from '../../../components/PageContainer';
 import PageHeader from '../../../components/PageHeader';
 import CustomAgGrid from '../shared/CustomAgGrid';
-import { columnDefsTopSelling } from './colDefs';
+import { getColumnDefsTopSelling } from './colDefs';
 import { fetchTopSellingProductsReport } from '../../../helpers/reports';
 import { Box, Button } from '@mui/material';
 import { TextField } from '@mui/material';
 import DatePickerComponent from '../shared/DatePicker1';
 import { getFromDate } from '../../../utils/getFromDate';
+import useDeviceType from '../../../utils/isMobile';
 
 const TopSellingProductsReportPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -17,6 +18,8 @@ const TopSellingProductsReportPage = () => {
     new Date().toISOString().split('T')[0]
   );
   const [amount_records, setAmount_records] = useState(10);
+  const isMobile = useDeviceType().isMobile;
+  const columnDefsTopSelling = getColumnDefsTopSelling(isMobile);
 
   const getTopSelling = async (body) => {
     setIsLoading(true);

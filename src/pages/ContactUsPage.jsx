@@ -1,6 +1,7 @@
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
 import { apiSendContactUs } from '../api/api';
+import ContactInfo from '../components/shared/contact-info';
 
 const ContactUsPage = () => {
   const [email, setEmail] = useState('');
@@ -97,6 +98,7 @@ const ContactUsPage = () => {
           </Button>
         </Box>
       </form>
+      <ContactInfo />
     </Box>
   );
 };

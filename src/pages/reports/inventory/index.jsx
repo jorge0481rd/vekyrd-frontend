@@ -2,7 +2,11 @@ import { useEffect, useState } from 'react';
 import PageContainer from '../../../components/PageContainer';
 import PageHeader from '../../../components/PageHeader';
 import CustomAgGrid from '../shared/CustomAgGrid';
-import { columnDefsInventory, columnDefsInventoryHistory } from './colDefs';
+import useDeviceType from '../../../utils/isMobile';
+import {
+  getColumnDefsInventoryHistory,
+  getColumnDefsInventory,
+} from './colDefs';
 import {
   fetchInventoryHistoryReport,
   fetchInventoryReport,
@@ -20,6 +24,10 @@ const InvetoryReportPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [inventoryData, setInventoryData] = useState([]);
   const [inventoryHistoryData, setInventoryHistoryData] = useState([]);
+
+  const isMobile = useDeviceType().isMobile;
+  const columnDefsInventory = getColumnDefsInventory(isMobile);
+  const columnDefsInventoryHistory = getColumnDefsInventoryHistory(isMobile);
 
   const getInventory = async () => {
     setIsLoading(true);

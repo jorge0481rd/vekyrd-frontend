@@ -30,10 +30,19 @@ import PageContainer from './components/PageContainer';
 import PageHeader from './components/PageHeader';
 import { Box } from '@mui/material';
 import NavigationButton from './components/navigation-button';
+import TestPage from './pages/TestPage';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#ac0089',
+    },
+    secondary: {
+      main: '#00a40f',
+    },
+  },
   components: {
     MuiTextField: {
       styleOverrides: {
@@ -57,6 +66,7 @@ const App = () => {
         <Router>
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/test" element={<TestPage />} />
             <Route path="/home" element={<HomePage />} />
             <Route path="/about-us" element={<AboutUsPage />} />
             <Route

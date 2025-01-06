@@ -7,13 +7,16 @@ const currencyFormatter = (params) => {
 
 // prettier-ignore
 export const columnDefs = [
-	{ headerName: "Order ID", 			field: "order_id", 					 sortable: true, filter: true },
-	{ headerName: "Date", 					field: "created_at", 				 sortable: true, filter: true, valueFormatter: dateFormatter },
-	{ headerName: "User ID", 				field: "user_id", 					 sortable: true, filter: true },
-	{ headerName: "Payment Method", field: "payment_method", 		 sortable: true, filter: true },
-	{ headerName: "Product ID", 		field: "product_id", 				 sortable: true, filter: true },
-	{ headerName: "Quantity", 			field: "quantity", 					 sortable: true, filter: true },
-	{ headerName: "Product Name", 	field: "name", 							 sortable: true, filter: true },
-	{ headerName: "Category", 			field: "category",					 sortable: true, filter: true },
-	{ headerName: "Price", 					field: "price", 						 sortable: true, filter: true, valueFormatter: currencyFormatter },
+	{ headerName: "Pedido", 			      field: "order_id", 			 mobile:true,  sortable: true, filter: true },
+	{ headerName: "Fecha", 					field: "created_at", 				 mobile:false, sortable: true, filter: true, valueFormatter: dateFormatter },
+	{ headerName: "Usuario", 				field: "user_id", 					 mobile:false, sortable: true, filter: true },
+	{ headerName: "Método de pago", field: "payment_method", 		 mobile:false, sortable: true, filter: true },
+	{ headerName: "Cantidad", 			field: "quantity", 					 mobile:false, sortable: true, filter: true },
+	{ headerName: "Id. Prod.", 		  field: "product_id", 				 mobile:false, sortable: true, filter: true },
+	{ headerName: "Producto", 	    field: "name", 							 mobile:true, sortable: true, filter: true },
+	{ headerName: "Categoría", 			field: "category",					 mobile:false, sortable: true, filter: true },
+	{ headerName: "Precio", 				field: "price", 						 mobile:true, sortable: true, filter: true, valueFormatter: currencyFormatter },
 ];
+
+export const getColumnDefs = (isMobile) =>
+  columnDefs.filter((col) => (isMobile ? col.mobile : col));
