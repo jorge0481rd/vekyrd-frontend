@@ -18,6 +18,16 @@ import { postQuestionnaire } from '../helpers/questionnare';
 import ProductCardHorizontal from '../components/ProductCard/ProductCardHorizontal';
 import randomlyFormatParagraph from '../helpers/randomlyFormatParragraph';
 
+const classes = {
+  radioGroup: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 2,
+    flexWrap: 'wrap',
+  },
+};
+
 const QuestionnairePage = () => {
   const [hideRecommendations, setHideRecommendations] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -107,6 +117,7 @@ const QuestionnairePage = () => {
           <RadioGroup
             value={hairType}
             onChange={(e) => setHairType(e.target.value)}
+            sx={classes.radioGroup}
           >
             <FormControlLabel value="liso" control={<Radio />} label="Liso" />
             <FormControlLabel
@@ -133,6 +144,7 @@ const QuestionnairePage = () => {
         </Typography>
         <FormControl component="fieldset">
           <RadioGroup
+            sx={classes.radioGroup}
             value={hairLength}
             onChange={(e) => setHairLength(e.target.value)}
           >
