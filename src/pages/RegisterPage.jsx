@@ -6,7 +6,7 @@ import PageContainer from '../components/PageContainer';
 import PageHeader from '../components/PageHeader';
 
 const RegisterPage = () => {
-  const [username, setUsername] = useState('jorge0481rd');
+  const [username, setUsername] = useState('jorge2');
   const [email, setEmail] = useState('jorge0481rd@gmail.com');
   const [password, setPassword] = useState('moreno81');
   const [error, setError] = useState(null);

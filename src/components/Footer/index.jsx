@@ -54,7 +54,7 @@ const Footer = () => {
             </Typography>
             <Box>
               <Link
-                href="https://www.facebook.com"
+                href="https://www.facebook.com/profile.php?id=100064147778470"
                 target="_blank"
                 rel="noopener"
                 color="inherit"
@@ -65,24 +65,13 @@ const Footer = () => {
             </Box>
             <Box>
               <Link
-                href="https://www.instagram.com"
+                href="https://www.instagram.com/vekyrd/?hl=es"
                 target="_blank"
                 rel="noopener"
                 color="inherit"
                 underline="hover"
               >
                 Instagram
-              </Link>
-            </Box>
-            <Box>
-              <Link
-                href="https://www.twitter.com"
-                target="_blank"
-                rel="noopener"
-                color="inherit"
-                underline="hover"
-              >
-                Twitter
               </Link>
             </Box>
           </Grid>

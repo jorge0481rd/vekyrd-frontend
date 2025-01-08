@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom';
 
 const ContactInfo = () => {
   return (
-    <Box sx={{ marginTop: 4, textAlign: 'center', fontSize: '0.8rem' }}>
+    <Box
+      sx={{ marginTop: 4, textAlign: 'center', fontSize: '0.8rem', flex: 1 }}
+    >
       <Typography variant="body1" fontWeight={700} gutterBottom>
         Dirección
       </Typography>

@@ -73,7 +73,7 @@ const App = () => {
               path="/contactus"
               element={
                 <PageContainer>
-                  <PageHeader title="Contáctanos">
+                  <PageHeader>
                     <Box
                       sx={{
                         display: 'flex',
