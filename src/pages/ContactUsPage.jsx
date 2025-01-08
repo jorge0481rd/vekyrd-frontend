@@ -53,7 +53,7 @@ const ContactUsPage = () => {
           en escribirnos. Estamos aquí para ayudarte.
         </Typography>
         <Box
-          id="contact-info-cards"
+          className="contact-info-cards"
           sx={{
             display: 'flex',
             flexDirection: { xs: 'column', md: 'row' },
@@ -202,6 +202,33 @@ const ContactUsPage = () => {
               </Button>
             </Box>
           </form>
+        </Box>
+        <Box
+          className="contact-info-cards"
+          sx={{
+            display: 'flex',
+            flexDirection: { xs: 'column', md: 'row' },
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: 2,
+            margin: '2rem',
+            zIndex: 1,
+          }}
+        >
+          <ContactCard Icon={InstagramIcon} title="Instagram">
+            <Typography variant="body1">
+              <a href="https://www.instagram.com/vekyrd/?hl=es">
+                Visítanos en Instagram
+              </a>
+            </Typography>
+          </ContactCard>
+          <ContactCard Icon={FacebookIcon} title="Facebook">
+            <Typography variant="body1">
+              <a href="https://www.facebook.com/profile.php?id=100064147778470">
+                Visítanos en Facebook
+              </a>
+            </Typography>
+          </ContactCard>
         </Box>
       </Box>
     </Stack>
