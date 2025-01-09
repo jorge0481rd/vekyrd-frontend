@@ -123,7 +123,13 @@ const ContactUsPage = () => {
               Envíanos tu mensaje
             </Typography>
             <TextField
-              label="Nombre"
+              label={
+                <Typography
+                  sx={{ background: '#ffffff', padding: 0.5, borderRadius: 1 }}
+                >
+                  Nombre
+                </Typography>
+              }
               name="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -132,7 +138,13 @@ const ContactUsPage = () => {
               sx={{ marginBottom: 2 }}
             />
             <TextField
-              label="Correo Electrónico"
+              label={
+                <Typography
+                  sx={{ background: '#ffffff', padding: 0.5, borderRadius: 1 }}
+                >
+                  Correo Electrónico
+                </Typography>
+              }
               name="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -141,7 +153,13 @@ const ContactUsPage = () => {
               sx={{ marginBottom: 2 }}
             />
             <TextField
-              label="Teléfono (opcional)"
+              label={
+                <Typography
+                  sx={{ background: '#ffffff', padding: 0.5, borderRadius: 1 }}
+                >
+                  Teléfono (opcional)
+                </Typography>
+              }
               name="phone"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
@@ -150,7 +168,13 @@ const ContactUsPage = () => {
               sx={{ marginBottom: 2 }}
             />
             <TextField
-              label="Detalles Adicionales (opcional)"
+              label={
+                <Typography
+                  sx={{ background: '#ffffff', padding: 0.5, borderRadius: 1 }}
+                >
+                  Detalles Adicionales (opcional)
+                </Typography>
+              }
               name="additionalDetails"
               value={additionalDetails}
               onChange={(e) => setAdditionalDetails(e.target.value)}
@@ -161,7 +185,13 @@ const ContactUsPage = () => {
               sx={{ marginBottom: 2 }}
             />
             <TextField
-              label="Mensaje"
+              label={
+                <Typography
+                  sx={{ background: '#ffffff', padding: 0.5, borderRadius: 1 }}
+                >
+                  Mensaje
+                </Typography>
+              }
               name="message"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
@@ -197,6 +227,9 @@ const ContactUsPage = () => {
                 variant="outlined"
                 color="#ffffff"
                 disabled={!name || !email || !message}
+                onClick={() =>
+                  handleSubmit(name, email, phone, additionalDetails, message)
+                }
               >
                 Enviar
               </Button>
@@ -211,8 +244,8 @@ const ContactUsPage = () => {
             justifyContent: 'center',
             alignItems: 'center',
             gap: 2,
-            margin: '2rem',
             zIndex: 1,
+            margin: '2rem 0',
           }}
         >
           <ContactCard Icon={InstagramIcon} title="Instagram">

@@ -31,6 +31,7 @@ const DisplayRandomProducts = ({ quantity = 3 }) => {
         flexDirection: 'column',
         gap: 2,
         justifyContent: 'center',
+        marginBottom: 4,
         alignItems: 'center',
         width: '100%',
       }}

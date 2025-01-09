@@ -33,6 +33,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import CommentIcon from '@mui/icons-material/Comment';
 import MenuIcon from '@mui/icons-material/Menu';
 import DividerLine from '../shared/DividerLine';
+import vekylogo from './vekylogo.png';
 
 const Navbar = () => {
   const { isAuthenticated, logout, cartCount, getUserRoles, getUsername } =
@@ -83,9 +84,16 @@ const Navbar = () => {
             flexWrap: 'wrap',
           }}
         >
-          <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            VekyRD
-          </Typography>
+          <img
+            style={{
+              width: '77px',
+              height: 'auto',
+              position: 'absolute',
+              left: '1rem',
+            }}
+            src={vekylogo}
+            alt=""
+          />
           <Button
             color="inherit"
             component={Link}
@@ -302,7 +310,11 @@ const Navbar = () => {
       {/* Mobile Navbar */}
       <AppBar sx={{ display: { xs: 'flex', md: 'none' }, padding: 2 }}>
         <Toolbar sx={{ justifyContent: 'space-between' }}>
-          <Typography variant="h6">VekyRD</Typography>
+          <img
+            style={{ width: '77px', height: 'auto' }}
+            src={vekylogo}
+            alt=""
+          />
           <IconButton color="inherit" onClick={toggleMobileDrawer}>
             <MenuIcon />
           </IconButton>

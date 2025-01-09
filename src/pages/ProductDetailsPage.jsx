@@ -15,10 +15,18 @@ const ProductDetailPage = () => {
   const [product, setProduct] = useState(null);
   const [error, setError] = useState(null);
   const [isProductInCart, setIsProductInCart] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const maxTextLength = 350;
 
-  const getFormattedParagraph = (product) => {
+  const getFormattedParagraph = (product, isExpanded) => {
     const paragraph = product.description_large;
-    return randomlyFormatParagraph(paragraph);
+    if (isExpanded) {
+      return randomlyFormatParagraph(paragraph);
+    } else {
+      return (
+        randomlyFormatParagraph(paragraph).slice(0, maxTextLength) + ' ...'
+      );
+    }
   };
 
   useEffect(() => {
@@ -67,9 +75,20 @@ const ProductDetailPage = () => {
           <Box sx={{ width: '100%', maxWidth: '400px' }}>
             <div
               dangerouslySetInnerHTML={{
-                __html: getFormattedParagraph(product),
+                __html: getFormattedParagraph(product, isExpanded),
               }}
             />
+            <Box
+              sx={{
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'flex-end',
+              }}
+            >
+              <Button variant="text" onClick={() => setIsExpanded(!isExpanded)}>
+                {isExpanded ? 'Ver menos' : 'Ver más'}
+              </Button>
+            </Box>
           </Box>
           <PictureCarrousel
             pictures={[product.imageurl1, product.imageurl2, product.imageurl3]}

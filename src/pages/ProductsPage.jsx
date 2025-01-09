@@ -10,7 +10,6 @@ import {
   getProductsInCart,
 } from '../helpers/cartHelpers';
 import { useLocation } from 'react-router-dom';
-import { useAppContext } from '../context/AppContext';
 import { getRandomColorFromString } from '../utils/colors';
 
 const ProductPage = () => {
@@ -21,7 +20,6 @@ const ProductPage = () => {
   const [search, setSearch] = useState('');
 
   const location = useLocation();
-  const { isAuthenticated } = useAppContext();
   const MOSTRAR_TODOS = 'Todos';
 
   useEffect(() => {

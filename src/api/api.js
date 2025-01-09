@@ -113,7 +113,7 @@ export const apiLogout = async () => {
 
 // products
 export const apiFetchProducts = async () => {
-  const response = (await api.get('http://localhost:5000/products')) || [];
+  const response = await api.get('http://localhost:5000/products');
   return response.data;
 };
 

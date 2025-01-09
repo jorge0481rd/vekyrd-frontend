@@ -11,10 +11,11 @@ const ContactCard = ({ Icon, title, children }) => {
         justifyContent: 'center',
         height: '150px',
         width: '200px',
-        boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+        boxShadow: '0 4px 10px rgba(4px, 3px, 0, 0.1)',
         borderRadius: '8px',
         padding: '2rem',
-        backgroundColor: '#ffffff',
+        backgroundColor: 'rgba(255, 235, 235, 0.97)',
+        outline: 'solid 1px rgba(190, 190, 190, 0.5)',
       }}
     >
       {<Icon sx={{ color: 'primary.main', fontSize: '3rem' }} />}
