@@ -1,4 +1,4 @@
-import { Box, TextField } from '@mui/material';
+import { Box, Button, TextField } from '@mui/material';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -8,11 +8,13 @@ const DatePickerComponent = ({
   setDate_end,
   date_start,
   date_end,
+  updateFunc,
 }) => {
   return (
     <Box
       sx={{
         display: 'flex',
+        flexDirection: { xs: 'column', md: 'row' },
         flexWrap: 'wrap',
         cursor: 'pointer',
         gap: 1,
@@ -59,6 +61,9 @@ const DatePickerComponent = ({
           }
         />
       </Box>
+      <Button variant="contained" onClick={updateFunc}>
+        Actualizar
+      </Button>
     </Box>
   );
 };
@@ -68,6 +73,7 @@ DatePickerComponent.propTypes = {
   setDate_end: PropTypes.func,
   date_start: PropTypes.string,
   date_end: PropTypes.string,
+  updateFunc: PropTypes.func,
 };
 
 export default DatePickerComponent;

@@ -4,7 +4,7 @@ import PageHeader from '../../../components/PageHeader';
 import CustomAgGrid from '../shared/CustomAgGrid';
 import { getColumnDefsTopSelling } from './colDefs';
 import { fetchTopSellingProductsReport } from '../../../helpers/reports';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import { TextField } from '@mui/material';
 import DatePickerComponent from '../shared/DatePicker1';
 import { getFromDate } from '../../../utils/getFromDate';
@@ -21,11 +21,15 @@ const TopSellingProductsReportPage = () => {
   const isMobile = useDeviceType().isMobile;
   const columnDefsTopSelling = getColumnDefsTopSelling(isMobile);
 
-  const getTopSelling = async (body) => {
+  const getTopSelling = async () => {
     setIsLoading(true);
 
     try {
-      const data = await fetchTopSellingProductsReport(body);
+      const data = await fetchTopSellingProductsReport({
+        date_start,
+        date_end,
+        amount_records,
+      });
       setTopSellingProductsData(data);
     } catch (error) {
       console.error('Error fetching top-selling products data:', error);
@@ -63,6 +67,7 @@ const TopSellingProductsReportPage = () => {
           setDate_end={setDate_end}
           date_start={date_start}
           date_end={date_end}
+          updateFunc={getTopSelling}
         />
 
         <TextField
@@ -72,15 +77,6 @@ const TopSellingProductsReportPage = () => {
           onChange={(e) => setAmount_records(e.target.value)}
           sx={{ background: '#ffffff' }}
         />
-
-        <Button
-          variant="contained"
-          onClick={() =>
-            getTopSelling({ date_start, date_end, amount_records })
-          }
-        >
-          Actualizar
-        </Button>
       </Box>
 
       {/* Top-selling products table */}

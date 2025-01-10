@@ -13,8 +13,8 @@ export const fetchSalesReport = async (params) => {
   return data;
 };
 
-export const fetchPendingOrdersReport = async () => {
-  const data = await apiFetchPendingOrdersReport();
+export const fetchPendingOrdersReport = async (params) => {
+  const data = await apiFetchPendingOrdersReport(params);
   return data;
 };
 
@@ -28,8 +28,17 @@ export const fetchInventoryHistoryReport = async (params) => {
   return response.data;
 };
 
-export const fetchTopSellingProductsReport = async (body) => {
-  const data = await apiFetchTopSellingProductsReport(body);
+export const fetchTopSellingProductsReport = async ({
+  date_start,
+  date_end,
+  amount_records,
+}) => {
+  const data = await apiFetchTopSellingProductsReport({
+    date_start,
+    date_end,
+    amount_records,
+  });
+
   return data;
 };
 

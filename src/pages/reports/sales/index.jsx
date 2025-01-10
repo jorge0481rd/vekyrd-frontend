@@ -10,7 +10,6 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
-  Button,
   Typography,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -47,6 +46,17 @@ const SalesReportPage = () => {
     }
   };
 
+  const trendTitle = (
+    <Box>
+      <Typography variant="h6" sx={{ textAlign: 'center', width: '100%' }}>
+        Ventas del mes
+      </Typography>
+      <Typography variant="body1" sx={{ textAlign: 'center', width: '100%' }}>
+        {getFromDate(date_start).longDate} - {getFromDate(date_end).longDate}
+      </Typography>
+    </Box>
+  );
+
   useEffect(() => {
     getSales();
   }, []);
@@ -63,26 +73,13 @@ const SalesReportPage = () => {
       <PageHeader title="Reporte de Ventas" isLoading={isLoading}></PageHeader>
 
       {/* Date pickers */}
-      <Box
-        sx={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: 2,
-          marginTop: 2,
-          alignItems: 'center',
-        }}
-      >
-        <DatePickerComponent
-          setDate_start={setDate_start}
-          setDate_end={setDate_end}
-          date_start={date_start}
-          date_end={date_end}
-        />
-
-        <Button variant="contained" onClick={getSales}>
-          Actualizar
-        </Button>
-      </Box>
+      <DatePickerComponent
+        setDate_start={setDate_start}
+        setDate_end={setDate_end}
+        date_start={date_start}
+        date_end={date_end}
+        updateFunc={getSales}
+      />
 
       {/* charts */}
       <Accordion defaultExpanded sx={{ marginTop: 4 }}>
@@ -112,18 +109,15 @@ const SalesReportPage = () => {
               })`}
               sx={{
                 flex: 2,
-                width: '100%',
+                width: '200px',
               }}
             />
             {salesData && salesData.length > 0 && (
               <ChartSalesTrend
                 info={salesData}
-                title={`Ventas del mes (${getFromDate(date_start).date} - ${
-                  getFromDate(date_end).date
-                })`}
                 sx={{
                   flex: 2,
-                  width: '100px',
+                  width: '200px',
                 }}
               />
             )}
@@ -132,14 +126,26 @@ const SalesReportPage = () => {
       </Accordion>
 
       {/* AG grid */}
-      <CustomAgGrid
-        colDefs={columnDefs}
-        rowData={salesData}
-        title={`${getFromDate(date_start).longDate} - ${
-          getFromDate(date_end).longDate
-        }`}
-        width="100%"
-      />
+      <Accordion defaultExpanded sx={{ marginTop: 4 }}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+          sx={{ borderBottom: '1px solid #cecece' }}
+        >
+          <Typography variant="h6" sx={{ textAlign: 'center', width: '100%' }}>
+            Ver / ocultar Tabla
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <CustomAgGrid
+            colDefs={columnDefs}
+            rowData={salesData}
+            title={trendTitle}
+            width="100%"
+          />
+        </AccordionDetails>
+      </Accordion>
     </PageContainer>
   );
 };

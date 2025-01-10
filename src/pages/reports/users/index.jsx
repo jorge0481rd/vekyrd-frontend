@@ -12,9 +12,9 @@ import {
 } from '@mui/material';
 import DatePickerComponent from '../shared/DatePicker1';
 import ActiveUsersChart from './active-users-chart';
-import CustomAgGrid from '../shared/CustomAgGrid';
 import { coldefsActiveUsers, coldefsLogins } from './colDefs';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import CustomAgGrid from '../shared/CustomAgGrid/';
 
 const UsersReportPage = () => {
   const [isLoading, setIsLoading] = useState(false);

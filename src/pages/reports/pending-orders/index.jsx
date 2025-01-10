@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import PageContainer from '../../../components/PageContainer';
 import PageHeader from '../../../components/PageHeader';
-import { Box, Button } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import DatePickerComponent from '../shared/DatePicker1';
 import { fetchPendingOrdersReport } from '../../../helpers/reports';
 import CustomAgGrid from '../shared/CustomAgGrid';
 import { getColumnDefsPendingOrders } from './colDefs';
 import useDeviceType from '../../../utils/isMobile';
+import { getFromDate } from '../../../utils/getFromDate';
 
 const PendingOrdersReportPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -21,7 +22,10 @@ const PendingOrdersReportPage = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetchPendingOrdersReport();
+      const response = await fetchPendingOrdersReport({
+        date_start: date_start,
+        date_end: date_end,
+      });
 
       setPendingOrdersData(response);
     } catch (error) {
@@ -55,20 +59,30 @@ const PendingOrdersReportPage = () => {
           setDate_end={setDate_end}
           date_start={date_start}
           date_end={date_end}
+          updateFunc={getPendingOrdersReport}
         />
-
-        <Button
-          variant="contained"
-          onClick={() => getPendingOrdersReport({ date_start, date_end })}
-        >
-          Actualizar
-        </Button>
       </Box>
       {/* Pending orders  table */}
       <CustomAgGrid
         colDefs={colDefsPendingOrders}
         rowData={pendingOrdersData}
-        title="Pending Orders"
+        title={
+          <Box>
+            <Typography
+              variant="h6"
+              sx={{ textAlign: 'center', width: '100%' }}
+            >
+              Reporte de órdenes pendientes
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{ textAlign: 'center', width: '100%' }}
+            >
+              {getFromDate(date_start).longDate} -{' '}
+              {getFromDate(date_end).longDate}
+            </Typography>
+          </Box>
+        }
         width="100%"
       />
     </PageContainer>

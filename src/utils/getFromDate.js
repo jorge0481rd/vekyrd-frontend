@@ -24,6 +24,11 @@ export function getFromDate(dateStr) {
     'Sábado',
   ];
 
+  // if we don't add time, the date returned is off by one day
+  if (!dateStr.includes('T')) {
+    dateStr += 'T00:00:00';
+  }
+
   const date = new Date(dateStr);
 
   const d = date.getDate();

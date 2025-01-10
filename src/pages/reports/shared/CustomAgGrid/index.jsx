@@ -1,6 +1,7 @@
 import { AgGridReact } from 'ag-grid-react';
 import { Box, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
+import { localeEs } from './config';
 
 const CustomAgGrid = ({ colDefs, rowData, title }) => {
   const gridOptions = {
@@ -20,6 +21,7 @@ const CustomAgGrid = ({ colDefs, rowData, title }) => {
         domLayout="autoHeight"
         pagination={true}
         gridOptions={gridOptions}
+        localeText={localeEs}
       />
     </Box>
   );

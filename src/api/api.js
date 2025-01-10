@@ -224,9 +224,10 @@ export const apiFetchSalesReport = async (params) => {
   return response.data;
 };
 
-export const apiFetchPendingOrdersReport = async () => {
+export const apiFetchPendingOrdersReport = async (params) => {
   const response = await api.get(
-    `http://localhost:5000/reports/pending-orders`
+    `http://localhost:5000/reports/pending-orders`,
+    { params }
   );
   return response.data;
 };
