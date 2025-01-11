@@ -33,7 +33,7 @@ export function getFromDate(dateStr) {
 
   const d = date.getDate();
   const day_number = date.getDay();
-  const m = date.getMonth();
+  const m = date.getMonth() + 1;
   const y = date.getFullYear();
 
   return {

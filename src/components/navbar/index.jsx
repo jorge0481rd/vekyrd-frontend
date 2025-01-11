@@ -40,6 +40,7 @@ const Navbar = () => {
     useAppContext();
 
   const [anchorEl, setAnchorEl] = useState(null);
+  const [userAnchorEl, setUserAnchorEl] = useState(null);
 
   // Handle opening the menu
   const handleMenuClick = (event) => {
@@ -49,6 +50,16 @@ const Navbar = () => {
   // Handle closing the menu
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  // Open user menu
+  const openUserMenu = (event) => {
+    setUserAnchorEl(event.currentTarget);
+  };
+
+  // close user menu
+  const closeUserMenu = () => {
+    setUserAnchorEl(null);
   };
 
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -65,8 +76,7 @@ const Navbar = () => {
 
   return (
     <>
-      {/* Desktop Navbar */}
-
+      {/* DESKTOP Navbar */}
       <AppBar
         sx={{
           position: 'fixed',
@@ -97,6 +107,7 @@ const Navbar = () => {
           <Button
             color="inherit"
             component={Link}
+            size="small"
             to="/"
             startIcon={<HomeIcon />}
           >
@@ -124,6 +135,7 @@ const Navbar = () => {
           <Button
             color="inherit"
             component={Link}
+            size="small"
             to="/about-us"
             startIcon={<Diversity3Icon />}
           >
@@ -132,6 +144,7 @@ const Navbar = () => {
           <Button
             color="inherit"
             component={Link}
+            size="small"
             to="/questionnare"
             startIcon={<ChecklistIcon />}
           >
@@ -140,6 +153,7 @@ const Navbar = () => {
           <Button
             sx={{ color: 'yellow' }}
             component={Link}
+            size="small"
             to="/products"
             startIcon={<ShoppingBasketIcon />}
           >
@@ -148,6 +162,7 @@ const Navbar = () => {
           <Button
             color="inherit"
             component={Link}
+            size="small"
             to="/cart"
             startIcon={<ShoppingCartIcon />}
           >
@@ -158,6 +173,7 @@ const Navbar = () => {
           <Button
             color="inherit"
             component={Link}
+            size="small"
             to="/contactus"
             startIcon={<CallIcon />}
           >
@@ -167,6 +183,7 @@ const Navbar = () => {
             <Button
               color="inherit"
               component={Link}
+              size="small"
               to="/login"
               startIcon={<LoginIcon />}
             >
@@ -180,6 +197,7 @@ const Navbar = () => {
               <Button
                 color="inherit"
                 component={Link}
+                size="small"
                 to="/wishlist"
                 startIcon={<FavoriteIcon />}
               >
@@ -203,6 +221,7 @@ const Navbar = () => {
                   >
                     <MenuItem
                       component={Link}
+                      size="small"
                       to="/reports/sales"
                       onClick={handleMenuClose}
                     >
@@ -213,6 +232,7 @@ const Navbar = () => {
                     </MenuItem>
                     <MenuItem
                       component={Link}
+                      size="small"
                       to="/reports/top-selling"
                       onClick={handleMenuClose}
                     >
@@ -223,6 +243,7 @@ const Navbar = () => {
                     </MenuItem>
                     <MenuItem
                       component={Link}
+                      size="small"
                       to="/reports/pending-orders"
                       onClick={handleMenuClose}
                     >
@@ -233,6 +254,7 @@ const Navbar = () => {
                     </MenuItem>
                     <MenuItem
                       component={Link}
+                      size="small"
                       to="/reports/inventory"
                       onClick={handleMenuClose}
                       divider
@@ -244,6 +266,7 @@ const Navbar = () => {
                     </MenuItem>
                     <MenuItem
                       component={Link}
+                      size="small"
                       to="/reports/users"
                       onClick={handleMenuClose}
                     >
@@ -252,6 +275,7 @@ const Navbar = () => {
                     </MenuItem>
                     <MenuItem
                       component={Link}
+                      size="small"
                       to="/reports/reviews"
                       onClick={handleMenuClose}
                     >
@@ -262,6 +286,7 @@ const Navbar = () => {
                     </MenuItem>
                     <MenuItem
                       component={Link}
+                      size="small"
                       to="/reports/contactus"
                       onClick={handleMenuClose}
                       divider
@@ -271,6 +296,7 @@ const Navbar = () => {
                     </MenuItem>
                     <MenuItem
                       component={Link}
+                      size="small"
                       to="/products/inventory"
                       onClick={handleMenuClose}
                     >
@@ -278,6 +304,7 @@ const Navbar = () => {
                     </MenuItem>
                     <MenuItem
                       component={Link}
+                      size="small"
                       to="/products/add-new-product"
                       onClick={handleMenuClose}
                     >
@@ -285,6 +312,7 @@ const Navbar = () => {
                     </MenuItem>
                     <MenuItem
                       component={Link}
+                      size="small"
                       to="/users/roles"
                       onClick={handleMenuClose}
                     >
@@ -295,19 +323,55 @@ const Navbar = () => {
               )}
               <Button
                 color="inherit"
-                component={Link}
-                onClick={logout}
-                title="Cerrar sesión"
-                startIcon={<LogoutIcon />}
+                onClick={openUserMenu}
+                startIcon={<PersonIcon />}
+                sx={{
+                  color: 'yellow',
+                  fontWeight: 'bold',
+                }}
               >
-                Salir {`(${getUsername()})`}
+                Hola {`(${getUsername()})`}
               </Button>
+
+              {/* user menu  */}
+              <Menu
+                anchorEl={userAnchorEl}
+                open={Boolean(userAnchorEl)}
+                onClose={closeUserMenu}
+                MenuListProps={{
+                  'aria-labelledby': 'user-button',
+                }}
+                sx={{
+                  '& .MuiPopover-paper': {
+                    backgroundColor: '#ffffff',
+                    padding: '4px',
+                  },
+                }}
+              >
+                <Button
+                  color="inherit"
+                  component={Link}
+                  to="/profile"
+                  startIcon={<PersonIcon />}
+                  sx={{ justifyContent: 'start', width: '100%' }}
+                >
+                  Mi Perfil
+                </Button>
+                <Button
+                  color="inherit"
+                  onClick={logout}
+                  startIcon={<LogoutIcon />}
+                  sx={{ justifyContent: 'start', width: '100%' }}
+                >
+                  Salir ({getUsername()})
+                </Button>
+              </Menu>
             </>
           )}
         </Toolbar>
       </AppBar>
 
-      {/* Mobile Navbar */}
+      {/* MOBILE Navbar */}
       <AppBar sx={{ display: { xs: 'flex', md: 'none' }, padding: 2 }}>
         <Toolbar sx={{ justifyContent: 'space-between' }}>
           <img
@@ -321,6 +385,7 @@ const Navbar = () => {
         </Toolbar>
       </AppBar>
 
+      {/* MOBILE main drawer */}
       <Drawer anchor="left" open={mobileOpen} onClose={toggleMobileDrawer}>
         <Box
           sx={{
@@ -328,6 +393,7 @@ const Navbar = () => {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'start',
+            padding: '1rem',
           }}
           role="presentation"
           onClick={toggleMobileDrawer}
@@ -340,6 +406,7 @@ const Navbar = () => {
           <Button
             color="inherit"
             component={Link}
+            size="small"
             to="/"
             startIcon={<HomeIcon />}
           >
@@ -348,6 +415,7 @@ const Navbar = () => {
           <Button
             color="inherit"
             component={Link}
+            size="small"
             to="/about-us"
             startIcon={<Diversity3Icon />}
           >
@@ -356,6 +424,7 @@ const Navbar = () => {
           <Button
             color="inherit"
             component={Link}
+            size="small"
             to="/questionnare"
             startIcon={<ChecklistIcon />}
           >
@@ -364,6 +433,7 @@ const Navbar = () => {
           <Button
             color="warning"
             component={Link}
+            size="small"
             to="/products"
             startIcon={<ShoppingBasketIcon />}
           >
@@ -372,6 +442,7 @@ const Navbar = () => {
           <Button
             color="inherit"
             component={Link}
+            size="small"
             to="/cart"
             startIcon={<ShoppingCartIcon />}
           >
@@ -382,6 +453,7 @@ const Navbar = () => {
           <Button
             color="inherit"
             component={Link}
+            size="small"
             to="/contactus"
             startIcon={<CallIcon />}
           >
@@ -394,6 +466,7 @@ const Navbar = () => {
                 <Button
                   color="inherit"
                   component={Link}
+                  size="small"
                   onClick={(e) => {
                     e.stopPropagation();
                     toggleToolsDrawer();
@@ -405,7 +478,17 @@ const Navbar = () => {
               )}
               <Button
                 color="inherit"
+                component={Link}
+                to="/profile"
+                startIcon={<PersonIcon />}
+                sx={{ justifyContent: 'start', width: '100%' }}
+              >
+                Mi Perfil
+              </Button>
+              <Button
+                color="inherit"
                 onClick={logout}
+                startIcon={<LogoutIcon />}
                 sx={{ justifyContent: 'start', width: '100%' }}
               >
                 Salir ({getUsername()})
@@ -416,6 +499,7 @@ const Navbar = () => {
             <Button
               color="inherit"
               component={Link}
+              size="small"
               to="/login"
               sx={{ justifyContent: 'start', width: '100%' }}
             >
@@ -425,6 +509,7 @@ const Navbar = () => {
         </Box>
       </Drawer>
 
+      {/* MOBILE tools drawer */}
       <Drawer
         id="tools-drawer"
         anchor="left"
@@ -447,6 +532,7 @@ const Navbar = () => {
           <Button
             color="inherit"
             component={Link}
+            size="small"
             to="/reports/sales"
             sx={{ justifyContent: 'start', width: '100%' }}
           >
@@ -456,6 +542,7 @@ const Navbar = () => {
           <Button
             color="inherit"
             component={Link}
+            size="small"
             to="/reports/top-selling"
             sx={{ justifyContent: 'start', width: '100%' }}
           >
@@ -465,6 +552,7 @@ const Navbar = () => {
           <Button
             color="inherit"
             component={Link}
+            size="small"
             to="/reports/pending-orders"
             sx={{ justifyContent: 'start', width: '100%' }}
           >
@@ -476,6 +564,7 @@ const Navbar = () => {
           <Button
             color="inherit"
             component={Link}
+            size="small"
             to="/reports/inventory"
             sx={{ justifyContent: 'start', width: '100%' }}
           >
@@ -485,6 +574,7 @@ const Navbar = () => {
           <DividerLine />
           <MenuItem
             component={Link}
+            size="small"
             to="/products/inventory"
             onClick={handleMenuClose}
           >
@@ -492,6 +582,7 @@ const Navbar = () => {
           </MenuItem>
           <MenuItem
             component={Link}
+            size="small"
             to="/products/add-new-product"
             onClick={handleMenuClose}
           >
@@ -499,6 +590,7 @@ const Navbar = () => {
           </MenuItem>
           <MenuItem
             component={Link}
+            size="small"
             to="/users/roles"
             onClick={handleMenuClose}
           >

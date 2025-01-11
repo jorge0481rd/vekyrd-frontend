@@ -7,6 +7,7 @@
 
 ## Pending
 
+- implement user profile (save credit card, etc.)
 - Include screenshots in the User Manual.
 - Finalize Chapter IV.
 - Ensure all updates are consistent across the platform.

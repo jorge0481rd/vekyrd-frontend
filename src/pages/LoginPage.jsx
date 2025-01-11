@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import { useAppContext } from '../context/AppContext';
 
 const LoginPage = () => {
-  const [username, setUsername] = useState('jorge02');
+  const [username, setUsername] = useState('jorge0481rd');
   const [password, setPassword] = useState('moreno81');
   const [error, setError] = useState(null);
 

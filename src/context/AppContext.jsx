@@ -56,6 +56,7 @@ export const AppProvider = ({ children }) => {
       localStorage.setItem('isAuthenticated', true);
       localStorage.setItem('token', response.token);
       localStorage.setItem('refreshToken', response.refreshToken);
+      localStorage.setItem('user', JSON.stringify(response.user));
       const decoded = jwtDecode(response.token);
       const roles = decoded.roles;
       localStorage.setItem('roles', roles);

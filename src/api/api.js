@@ -201,6 +201,21 @@ export const apiFetchUsers = async () => {
   return response.data;
 };
 
+export const apiFetchOneUser = async () => {
+  const response = await api.get(`http://localhost:5000/users/currentUser`);
+  return response.data;
+};
+
+export const apiUpdateUserProfile = async (updateData) => {
+  const response = await api.put(
+    `http://localhost:5000/users/updateUserProfile`,
+    {
+      updateData,
+    }
+  );
+  return response.data;
+};
+
 export const apiUpdateUserroles = async (users) => {
   const response = await api.put(`http://localhost:5000/users/roles`, {
     users,

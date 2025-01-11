@@ -31,6 +31,7 @@ import PageHeader from './components/PageHeader';
 import { Box } from '@mui/material';
 import NavigationButton from './components/navigation-button';
 import TestPage from './pages/TestPage';
+import UserProfilePage from './pages/ProfilePage';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -104,6 +105,7 @@ const App = () => {
             <Route path="/cart" element={<CartPage />} />
             <Route path="/wishlist" element={<WishlistPage />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/profile" element={<UserProfilePage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/questionnare" element={<QuestionnairePage />} />
             <Route
