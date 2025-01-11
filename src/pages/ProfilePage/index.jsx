@@ -13,6 +13,8 @@ import {
 import { apiFetchOneUser, apiUpdateUserProfile } from '../../api/api';
 import LabelBg from '../../components/shared/LabelWithBg';
 import { getFromDate } from '../../utils/getFromDate';
+import InputMask from 'react-input-mask';
+import { isCardNumberValid, isExpirationDateValid } from './card-validation';
 
 const UserProfilePage = () => {
   const [loading, setLoading] = useState(true);
@@ -25,13 +27,13 @@ const UserProfilePage = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [address, setAddress] = useState('');
   const [cardNumber, setCardNumber] = useState('');
+  const [newCardNumber, setNewCardNumber] = useState('');
   const [expirationDate, setExpirationDate] = useState('');
   const [cvv, setCvv] = useState('');
 
   const getOneUser = async () => {
     try {
       const data = await apiFetchOneUser();
-      const cardNumber = `**** **** **** ${data.card_number.substring(12, 16)}`;
 
       const monthNumber = getFromDate(data.expiration_date).m;
       const yearNumber = getFromDate(data.expiration_date).y;
@@ -40,7 +42,7 @@ const UserProfilePage = () => {
       setUsername(data.username || '');
       setFirstName(data.first_name || '');
       setLastName(data.last_name || '');
-      setCardNumber(cardNumber || '');
+      setCardNumber(data.card_number || '');
       setExpirationDate(expirationDate || '');
       setCvv(data.cvv || '');
       setPhoneNumber(data.phone_number || '');
@@ -63,14 +65,27 @@ const UserProfilePage = () => {
     const year = expirationDate.split('/')[1];
     const newExpirationDate = `${year}-${month}-01T00:00:00Z`;
 
+    if (
+      !isCardNumberValid(newCardNumber) ||
+      !isExpirationDateValid(expirationDate)
+    ) {
+      setErrorMessage(
+        'No se pudo guardar el Número de tarjeta o fecha de expiración por ser no válidos.'
+      );
+    }
+    const saveCardNumber =
+      isCardNumberValid(newCardNumber) && isExpirationDateValid(expirationDate);
+
     const updatedData = {
       first_name: firstName,
       last_name: lastName,
       phone_number: phoneNumber,
       address,
-      card_number: cardNumber,
-      expiration_date: newExpirationDate,
       cvv: cvv,
+      ...(saveCardNumber && {
+        card_number: newCardNumber,
+        expiration_date: newExpirationDate,
+      }),
     };
 
     try {
@@ -86,12 +101,12 @@ const UserProfilePage = () => {
 
   return (
     <PageContainer>
-      <PageHeader title="Mi perfil">
+      <PageHeader title={username}>
         <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
           <NavigationButton href="/products" text="Productos ►" />
         </Box>
       </PageHeader>
-      <Stack spacing={3}>
+      <Stack spacing={3} sx={{ alignItems: 'center' }}>
         {loading ? (
           <CircularProgress />
         ) : (
@@ -107,6 +122,7 @@ const UserProfilePage = () => {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
             <Typography variant="h4" gutterBottom>
@@ -151,14 +167,22 @@ const UserProfilePage = () => {
                 fullWidth
                 sx={{ marginBottom: 2 }}
               />
-              <TextField
-                label={<LabelBg>Teléfono</LabelBg>}
+              <InputMask
+                mask="(999) 999-9999"
                 value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                variant="outlined"
-                fullWidth
-                sx={{ marginBottom: 2 }}
-              />
+                onChange={(e) =>
+                  setPhoneNumber(e.target.value.replace(/[^0-9]/g, ''))
+                }
+              >
+                {() => (
+                  <TextField
+                    label={<LabelBg>Teléfono</LabelBg>}
+                    variant="outlined"
+                    fullWidth
+                    sx={{ marginBottom: 2 }}
+                  />
+                )}
+              </InputMask>
               <TextField
                 label={<LabelBg>Dirección</LabelBg>}
                 value={address}
@@ -178,13 +202,28 @@ const UserProfilePage = () => {
                 }}
               >
                 <Typography variant="h6">Tarjeta de crédito</Typography>
-                <TextField
-                  label={<LabelBg>Número de tarjeta</LabelBg>}
-                  value={cardNumber}
-                  onChange={(e) => setCardNumber(e.target.value)}
-                  variant="outlined"
-                  fullWidth
-                />
+                <Typography
+                  variant="caption"
+                  textAlign="left"
+                  sx={{ width: '100%' }}
+                >
+                  Número actual: {cardNumber}
+                </Typography>
+                <InputMask
+                  mask="9999 9999 9999 9999"
+                  value={newCardNumber}
+                  onChange={(e) =>
+                    setNewCardNumber(e.target.value.replace(/[^0-9]/g, ''))
+                  }
+                >
+                  {() => (
+                    <TextField
+                      label={<LabelBg>Número de tarjeta</LabelBg>}
+                      variant="outlined"
+                      fullWidth
+                    />
+                  )}
+                </InputMask>
                 <TextField
                   label={<LabelBg>Fecha de Expiración</LabelBg>}
                   value={expirationDate}
@@ -199,15 +238,6 @@ const UserProfilePage = () => {
                   variant="outlined"
                   fullWidth
                 />
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={() => {
-                    // Agregar la lógica para manejar la acción del botón
-                  }}
-                >
-                  Guardar
-                </Button>
               </Box>
 
               <Button
