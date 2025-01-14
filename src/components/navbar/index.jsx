@@ -11,7 +11,7 @@ import {
   Drawer,
   Box,
 } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAppContext } from '../../context/AppContext';
 import { useState } from 'react';
 import HomeIcon from '@mui/icons-material/Home';
@@ -41,6 +41,7 @@ const Navbar = () => {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [userAnchorEl, setUserAnchorEl] = useState(null);
+  const navigate = useNavigate();
 
   // Handle opening the menu
   const handleMenuClick = (event) => {
@@ -90,8 +91,8 @@ const Navbar = () => {
           sx={{
             display: 'flex',
             justifyContent: 'end',
-
             flexWrap: 'wrap',
+            padding: '0.7rem',
           }}
         >
           <img
@@ -100,8 +101,10 @@ const Navbar = () => {
               height: 'auto',
               position: 'absolute',
               left: '1rem',
+              cursor: 'pointer',
             }}
             src={vekylogo}
+            onClick={() => navigate('/')}
             alt=""
           />
           <Button
@@ -110,6 +113,9 @@ const Navbar = () => {
             size="small"
             to="/"
             startIcon={<HomeIcon />}
+            sx={{
+              marginLeft: '6rem',
+            }}
           >
             Inicio
           </Button>

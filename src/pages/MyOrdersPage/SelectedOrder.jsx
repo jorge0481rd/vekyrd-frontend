@@ -38,8 +38,8 @@ const SelectedOrder = ({ data, open, handleClose }) => {
           position: 'absolute',
           top: '6rem',
           left: '50%',
-          transform: 'translateX(-50%) scale(0.8)',
-          backgroundColor: '#cccccc',
+          transform: 'translateX(-50%)',
+          backgroundColor: '#ffffff',
           width: '100%',
           maxWidth: '90%',
           maxHeight: '80%',
@@ -87,6 +87,7 @@ const SelectedOrder = ({ data, open, handleClose }) => {
             top: '2rem',
             overflow: 'auto',
             justifyContent: 'center',
+            transform: 'scale(0.8)',
           }}
         >
           {products &&
