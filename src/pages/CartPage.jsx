@@ -1,4 +1,4 @@
-import { Box, Button, List, Paper, Typography } from '@mui/material';
+import { Box, Button, List, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import PageContainer from '../components/PageContainer';
@@ -101,10 +101,23 @@ const CartPage = () => {
       )}
 
       {!isEmptyCart && !isLoading && (
-        <>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'column',
+            gap: 2,
+          }}
+        >
           <Typography variant="h5" gutterBottom textAlign="center">
             Resumen del pedido
           </Typography>
+          <img
+            src="toldo.jpg"
+            alt="Toldo"
+            style={{ width: '100%', maxWidth: '400px' }}
+          />
           <Box
             id="order-summary-container"
             sx={{
@@ -122,7 +135,7 @@ const CartPage = () => {
             </List>
             <OrderDetails />
           </Box>
-        </>
+        </Box>
       )}
       <DisplayRandomProducts />
     </PageContainer>

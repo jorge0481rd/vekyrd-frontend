@@ -97,7 +97,7 @@ const Navbar = () => {
         >
           <img
             style={{
-              width: '77px',
+              width: '100px',
               height: 'auto',
               position: 'absolute',
               left: '1rem',
@@ -390,7 +390,7 @@ const Navbar = () => {
       <AppBar sx={{ display: { xs: 'flex', md: 'none' }, padding: 2 }}>
         <Toolbar sx={{ justifyContent: 'space-between' }}>
           <img
-            style={{ width: '77px', height: 'auto' }}
+            style={{ width: '100px', height: 'auto' }}
             src={vekylogo}
             alt=""
           />
@@ -499,6 +499,15 @@ const Navbar = () => {
                 sx={{ justifyContent: 'start', width: '100%' }}
               >
                 Mi Perfil
+              </Button>
+              <Button
+                color="inherit"
+                component={Link}
+                to="/my-orders"
+                startIcon={<ShoppingBasketIcon />}
+                sx={{ justifyContent: 'start', width: '100%' }}
+              >
+                Mis Pedidos
               </Button>
               <Button
                 color="inherit"

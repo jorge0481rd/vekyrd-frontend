@@ -15,7 +15,9 @@ const PageContainer = ({ children, sx }) => {
         justifyContent: 'space-between',
         alignItems: 'center',
         width: '100%',
-        backgroundColor: '#ffffff',
+        backgroundColor: '#eeeeee',
+        backgroundImage: 'url(bg-pattern.png)',
+        backgroundRepeat: 'repeat',
         ...sx,
       }}
     >
@@ -25,10 +27,11 @@ const PageContainer = ({ children, sx }) => {
           flex: 1,
           height: '100%',
           boxSizing: 'border-box',
-          padding: '1rem',
+          padding: '1rem 3rem',
           width: '100%',
           maxWidth: '1200px',
           margin: 'auto',
+          backgroundColor: '#ffffff',
         }}
       >
         {children}
