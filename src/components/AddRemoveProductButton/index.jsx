@@ -4,7 +4,12 @@ import PropTypes from 'prop-types';
 import { useAppContext } from '../../context/AppContext';
 import { useEffect, useState } from 'react';
 
-const AddRemoveProductButton = ({ product, isAlreadyIncart, onClick }) => {
+const AddRemoveProductButton = ({
+  product,
+  isAlreadyIncart,
+  onClick,
+  buyAgain = false,
+}) => {
   const [isInCart, setIsInCart] = useState(false);
 
   const { addOrRemoveToCart } = useAppContext();
@@ -17,6 +22,17 @@ const AddRemoveProductButton = ({ product, isAlreadyIncart, onClick }) => {
     addOrRemoveToCart(product);
     setIsInCart((prev) => !prev);
     onClick && onClick();
+  };
+
+  const getCaption = () => {
+    if (buyAgain) {
+      return isInCart ? (
+        'Quitar'
+      ) : (
+        <span style={{ fontSize: '0.8rem' }}>Comprar de Nuevo</span>
+      );
+    }
+    return isInCart ? 'Quitar' : 'Añadir';
   };
   return (
     <Box sx={{ position: 'relative', display: 'flex' }}>
@@ -40,7 +56,7 @@ const AddRemoveProductButton = ({ product, isAlreadyIncart, onClick }) => {
           flex: 1,
         }}
       >
-        {isInCart ? 'Quitar' : 'Añadir'}
+        {getCaption()}
       </Button>
     </Box>
   );
@@ -50,6 +66,7 @@ AddRemoveProductButton.propTypes = {
   product: PropTypes.object.isRequired,
   isAlreadyIncart: PropTypes.bool.isRequired,
   onClick: PropTypes.func,
+  buyAgain: PropTypes.bool,
 };
 
 export default AddRemoveProductButton;

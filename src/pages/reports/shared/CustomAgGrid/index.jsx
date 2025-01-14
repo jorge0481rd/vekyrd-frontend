@@ -30,7 +30,7 @@ const CustomAgGrid = ({ colDefs, rowData, title }) => {
 CustomAgGrid.propTypes = {
   colDefs: PropTypes.array.isRequired,
   rowData: PropTypes.array.isRequired,
-  width: PropTypes.string.isRequired,
+  width: PropTypes.string,
   title: PropTypes.string,
 };
 

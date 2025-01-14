@@ -165,6 +165,15 @@ export const apiFetchWishlist = async () => {
   }
 };
 
+export const apiFetchCartByOrder = async (orderHash) => {
+  try {
+    const response = await api.get(`http://localhost:5000/cart/${orderHash}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching products by order:', error);
+  }
+};
+
 // wishlist
 export const apiAddToWishlist = async (productId) => {
   const response = await api.post(
@@ -203,6 +212,11 @@ export const apiFetchUsers = async () => {
 
 export const apiFetchOneUser = async () => {
   const response = await api.get(`http://localhost:5000/users/currentUser`);
+  return response.data;
+};
+
+export const apiFetchUserOrders = async () => {
+  const response = await api.get(`http://localhost:5000/orders/userOrders`);
   return response.data;
 };
 

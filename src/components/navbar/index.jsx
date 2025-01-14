@@ -359,6 +359,15 @@ const Navbar = () => {
                 </Button>
                 <Button
                   color="inherit"
+                  component={Link}
+                  to="/my-orders"
+                  startIcon={<ShoppingBasketIcon />}
+                  sx={{ justifyContent: 'start', width: '100%' }}
+                >
+                  Mis Pedidos
+                </Button>
+                <Button
+                  color="inherit"
                   onClick={logout}
                   startIcon={<LogoutIcon />}
                   sx={{ justifyContent: 'start', width: '100%' }}

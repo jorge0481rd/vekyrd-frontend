@@ -7,7 +7,8 @@ const currencyFormatter = (params) => {
 
 // prettier-ignore
 export const columnDefs = [
-	{ headerName: "Pedido", 			      field: "order_id", 			 mobile:true,  sortable: true, filter: true },
+	{ headerName: "Pedido", 			  field: "order_id", 			 		 mobile:true,  sortable: true, filter: true },
+	{ headerName: "Hash", 			    field: "order_hash", 				 mobile:false,  sortable: true, filter: true },
 	{ headerName: "Fecha", 					field: "created_at", 				 mobile:false, sortable: true, filter: true, valueFormatter: dateFormatter },
 	{ headerName: "Usuario", 				field: "user_id", 					 mobile:false, sortable: true, filter: true },
 	{ headerName: "Método de pago", field: "payment_method", 		 mobile:false, sortable: true, filter: true },

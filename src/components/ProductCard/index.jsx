@@ -8,7 +8,12 @@ import RatingStarsSelector from '../Reviews/RatingStarsSelector';
 import WishListIcon from './WishListIcon';
 
 const ProductCard = memo(
-  ({ product, isProductInCart, disableLinkToDetails = false }) => {
+  ({
+    product,
+    isProductInCart,
+    disableLinkToDetails = false,
+    buyAgain = false,
+  }) => {
     const { name, description, price, imageurl1, average_rating } = product;
     const [isInCart, setIsInCart] = useState(isProductInCart);
 
@@ -143,6 +148,7 @@ const ProductCard = memo(
           product={product}
           isAlreadyIncart={isInCart}
           onClick={() => setIsInCart((prev) => !prev)}
+          buyAgain={buyAgain}
         />
       </Card>
     );
@@ -155,6 +161,7 @@ ProductCard.propTypes = {
   product: PropTypes.object.isRequired,
   isProductInCart: PropTypes.bool.isRequired,
   disableLinkToDetails: PropTypes.bool,
+  buyAgain: PropTypes.bool,
 };
 
 export default ProductCard;

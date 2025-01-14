@@ -32,6 +32,7 @@ import { Box } from '@mui/material';
 import NavigationButton from './components/navigation-button';
 import TestPage from './pages/TestPage';
 import UserProfilePage from './pages/ProfilePage';
+import MyOrdersPage from './pages/MyOrdersPage';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -106,6 +107,7 @@ const App = () => {
             <Route path="/wishlist" element={<WishlistPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/profile" element={<UserProfilePage />} />
+            <Route path="/my-orders" element={<MyOrdersPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/questionnare" element={<QuestionnairePage />} />
             <Route
