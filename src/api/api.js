@@ -146,6 +146,13 @@ export const apiCreateProduct = async (productData) => {
   }
 };
 
+export const apiToggleActiveStatus = async (productId, currentActiveStatus) => {
+  const response = await api.put(
+    `http://localhost:5000/products/toggleActiveStatus/${productId}?currentActiveStatus=${currentActiveStatus}`
+  );
+  return response.data;
+};
+
 export const apiFetchReviews = async (productId) => {
   const response = await api.get(`http://localhost:5000/reviews/${productId}`);
   return response.data;

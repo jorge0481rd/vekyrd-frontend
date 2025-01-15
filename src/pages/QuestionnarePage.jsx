@@ -34,6 +34,9 @@ const QuestionnairePage = () => {
 
   const [hairType, setHairType] = useState('rizado');
   const [hairLength, setHairLength] = useState('largo');
+  const [dyeHairFrequency, setDyeHairFrequency] =
+    useState('Sí, frecuentemente');
+  const [mainConcern, setMainConcern] = useState('Caída excesiva');
   const [scalpCondition, setScalpCondition] = useState('saludable');
   const [currentIssues, setCurrentIssues] = useState('resequedad por el calor');
   const [goals, setGoals] = useState('quiero un spray para cuidarlo del calor');
@@ -104,9 +107,13 @@ const QuestionnairePage = () => {
 
       <Box
         sx={{
-          maxWidth: '600px',
+          width: '100%',
           padding: '1rem',
           boxSizing: 'border-box',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
       >
         {/* Tipo de cabello */}
@@ -139,7 +146,7 @@ const QuestionnairePage = () => {
         </FormControl>
 
         {/* Longitud del cabello */}
-        <Typography variant="h6" sx={{ marginTop: '1rem' }}>
+        <Typography variant="h6" sx={{ marginTop: '3rem' }}>
           2. ¿Qué tan largo es tu cabello?
         </Typography>
         <FormControl component="fieldset">
@@ -154,9 +161,71 @@ const QuestionnairePage = () => {
           </RadioGroup>
         </FormControl>
 
+        {/* ¿Sueles teñir o tratar químicamente tu cabello? */}
+        <Typography variant="h6" sx={{ marginTop: '3rem' }}>
+          3. ¿Sueles teñir o tratar químicamente tu cabello?
+        </Typography>
+        <FormControl component="fieldset">
+          <RadioGroup
+            sx={classes.radioGroup}
+            value={dyeHairFrequency}
+            onChange={(e) => setDyeHairFrequency(e.target.value)}
+          >
+            <FormControlLabel
+              value="Sí, frecuentemente"
+              control={<Radio />}
+              label="Sí, frecuentemente"
+            />
+            <FormControlLabel
+              value="Ocasionalmente"
+              control={<Radio />}
+              label="Ocasionalmente"
+            />
+            <FormControlLabel
+              value="No, nunca"
+              control={<Radio />}
+              label="No, nunca"
+            />
+          </RadioGroup>
+        </FormControl>
+
+        {/* ¿Cuál es tu mayor preocupación relacionada con tu cabello? */}
+        <Typography variant="h6" sx={{ marginTop: '3rem' }}>
+          4. ¿Cuál es tu mayor preocupación relacionada con tu cabello?
+        </Typography>
+        <FormControl component="fieldset">
+          <RadioGroup
+            sx={classes.radioGroup}
+            value={mainConcern}
+            onChange={(e) => setMainConcern(e.target.value)}
+          >
+            <FormControlLabel
+              value="Caída excesiva"
+              control={<Radio />}
+              label="Caída excesiva"
+            />
+            <FormControlLabel value="Frizz" control={<Radio />} label="Frizz" />
+            <FormControlLabel
+              value="Falta de volumen"
+              control={<Radio />}
+              label="Falta de volumen"
+            />
+            <FormControlLabel
+              value="Daño por calor o tratamiento químico"
+              control={<Radio />}
+              label="Daño por calor o tratamiento químico"
+            />
+            <FormControlLabel
+              value="Falta de volumen"
+              control={<Radio />}
+              label="Falta de volumen"
+            />
+          </RadioGroup>
+        </FormControl>
+
         {/* Condición del cuero cabelludo */}
-        <Typography variant="h6" sx={{ marginTop: '1rem' }}>
-          3. ¿Cuál es la condición de tu cuero cabelludo?
+        <Typography variant="h6" sx={{ marginTop: '3rem' }}>
+          5. ¿Cuál es la condición de tu cuero cabelludo?
         </Typography>
         <TextField
           fullWidth
@@ -168,8 +237,8 @@ const QuestionnairePage = () => {
         />
 
         {/* Problemas actuales */}
-        <Typography variant="h6" sx={{ marginTop: '1rem' }}>
-          4. ¿Qué problemas específicos tiene tu cabello?
+        <Typography variant="h6" sx={{ marginTop: '3rem' }}>
+          6. ¿Qué problemas específicos tiene tu cabello?
         </Typography>
         <TextField
           fullWidth
@@ -181,8 +250,8 @@ const QuestionnairePage = () => {
         />
 
         {/* Objetivos */}
-        <Typography variant="h6" sx={{ marginTop: '1rem' }}>
-          5. ¿Qué resultados esperas conseguir?
+        <Typography variant="h6" sx={{ marginTop: '3rem' }}>
+          7. ¿Qué resultados esperas conseguir?
         </Typography>
         <TextField
           fullWidth
@@ -233,7 +302,7 @@ const QuestionnairePage = () => {
           justifyContent: 'center',
           padding: 2,
           boxSizing: 'border-box',
-          flexWrap: 'wrap',
+          flexWrap: { xs: 'wrap', md: 'nowrap' },
         }}
       >
         <Box

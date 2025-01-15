@@ -1,14 +1,25 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import ProductThumbnail from '../ProductCard/ProductThumbnail';
-import { Box, Button, TextField, Typography } from '@mui/material';
+import {
+  Stack,
+  Box,
+  Button,
+  TextField,
+  Typography,
+  DialogActions,
+  DialogContent,
+} from '@mui/material';
 import { updateInventory } from '../../helpers/productHelpers';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import { apiToggleActiveStatus } from '../../api/api';
 
 const classes = {
   container: {
     border: '1px solid #ccc',
     borderRadius: 2,
-    width: '350px',
+    width: '300px',
     margin: 2,
     background: '#ffffff',
   },
@@ -56,6 +67,8 @@ const InventoryCard = ({ product }) => {
   const [stock, setStock] = useState(0);
   const [price, setPrice] = useState(10);
   const [disableSave, setDisableSave] = useState(true);
+  const [openRemoveProduct, setOpenRemoveProduct] = useState(false);
+  const active = product.active;
 
   useEffect(() => {
     setStock(product.stock);
@@ -77,6 +90,18 @@ const InventoryCard = ({ product }) => {
     setDisableSave(true);
   };
 
+  const openRemoveProductDialog = async () => {
+    setOpenRemoveProduct(true);
+  };
+
+  const toggleActiveStatus = async () => {
+    const id = product.id;
+    const active = product.active;
+
+    await apiToggleActiveStatus(id, active);
+    setOpenRemoveProduct(false);
+  };
+
   return (
     <Box sx={classes.container}>
       <Box sx={classes.header}>
@@ -90,17 +115,25 @@ const InventoryCard = ({ product }) => {
           size="medium"
         />
       </Box>
-      <Box sx={classes.info}>
-        <Typography variant="body1">
-          En stock:
-          {product.stock > 0 ? (
-            product.stock
-          ) : (
-            <Box sx={{ color: 'red', display: 'inline' }}>Agotado</Box>
-          )}
-        </Typography>
-        <Typography variant="body2">Precio: ${product.price}</Typography>
-      </Box>
+      <Typography
+        variant="body1"
+        sx={{ margin: 2, textAlign: 'center', fontWeight: 700 }}
+      >
+        {!active && 'Desactivado'}
+      </Typography>
+      {active && (
+        <Box sx={classes.info}>
+          <Typography variant="body1">
+            En stock:
+            {product.stock > 0 ? (
+              product.stock
+            ) : (
+              <Box sx={{ color: 'red', display: 'inline' }}>Agotado</Box>
+            )}
+          </Typography>
+          <Typography variant="body2">Precio: ${product.price}</Typography>
+        </Box>
+      )}
       <Box sx={classes.actions}>
         <TextField
           label="cambiar precio"
@@ -117,16 +150,61 @@ const InventoryCard = ({ product }) => {
           onChange={onChangeStock}
           sx={{ marginTop: 1 }}
         />
-        <Button
-          variant="contained"
-          color="primary"
-          size="medium"
-          sx={classes.actionsRowBtn}
-          onClick={() => handleClick(product.id, stock, price)}
-          disabled={disableSave}
-        >
-          Guardar cambios
-        </Button>
+        <Stack direction="row" spacing={3} sx={{ marginTop: 1 }}>
+          {active && (
+            <>
+              <Button
+                variant="text"
+                size="small"
+                sx={{ ...classes.actionsRowBtn, color: 'red' }}
+                onClick={() => openRemoveProductDialog(product.id)}
+              >
+                Desactivar
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                size="medium"
+                sx={classes.actionsRowBtn}
+                onClick={() => handleClick(product.id, stock, price)}
+                disabled={disableSave}
+              >
+                Guardar cambios
+              </Button>
+            </>
+          )}
+          {!active && (
+            <Button
+              variant="contained"
+              size="small"
+              sx={{
+                ...classes.actionsRowBtn,
+                backgroundColor: 'green',
+                width: '100%',
+              }}
+              onClick={() => openRemoveProductDialog(product.id)}
+            >
+              Activar
+            </Button>
+          )}
+        </Stack>
+        {/* confirmation dialog to remove product */}
+        <Dialog onClose={null} open={openRemoveProduct}>
+          <DialogTitle>Desactivar producto</DialogTitle>
+          <DialogContent>
+            <Typography variant="body1" sx={{ marginBottom: 2 }}>
+              ¿Estás seguro de que deseas desactivar este producto?
+            </Typography>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpenRemoveProduct(false)} color="primary">
+              Cancelar
+            </Button>
+            <Button onClick={toggleActiveStatus} color="primary">
+              Sí
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Box>
     </Box>
   );
