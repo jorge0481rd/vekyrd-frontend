@@ -10,7 +10,7 @@ import {
   Stack,
   CircularProgress,
 } from '@mui/material';
-import { apiFetchOneUser, apiCreateCreditCard, apiUpdateUserProfile, apiRemoveCreditCard } from '../../api/api';
+import { apiFetchOneUser, apiCreateCreditCard, apiUpdateUserProfile, apiRemoveCreditCard, apiGetCreditCard } from '../../api/api';
 import LabelBg from '../../components/shared/LabelWithBg';
 import { getFromDate } from '../../utils/getFromDate';
 import InputMask from 'react-input-mask';
@@ -30,30 +30,32 @@ const UserProfilePage = () => {
   const [editingCreditcard, setEditingCreditcard] = useState(false);
   const [hasCreditcard, setHasCreditcard] = useState(false);
   const [cardNumber, setCardNumber] = useState('');
-  const [newCardNumber, setNewCardNumber] = useState('');
+  const [cardAddress, setCardAddress] = useState('');
   const [expirationDate, setExpirationDate] = useState('');
   const [cvv, setCvv] = useState('');
 
   const getOneUser = async () => {
     try {
-      const data = await apiFetchOneUser();
+      const userData = await apiFetchOneUser();
+      setUsername(userData.username || '');
+      setFirstName(userData.first_name || '');
+      setLastName(userData.last_name || '');
+      setPhoneNumber(userData.phone_number || '');
+      setAddress(userData.address || '');
 
-      if (data.creditcard) {
+      const creditCardData = await apiGetCreditCard();
+
+      if (creditCardData) {
         setHasCreditcard(true);
-        const monthNumber = getFromDate(data.creditcard.expiration_date).m;
-        const yearNumber = getFromDate(data.creditcard.expiration_date).y;
+        const monthNumber = getFromDate(creditCardData.expiration_date).m;
+        const yearNumber = getFromDate(creditCardData.expiration_date).y;
         const expirationDate = `${monthNumber}/${yearNumber}`;
-        setCardNumber(data.creditcard.card_number || '');
+        setCardNumber(creditCardData.card_number || '');
         setExpirationDate(expirationDate || '');
-        setCvv(data.creditcard.cvv || '');
+        setCvv(creditCardData.cvv || '');
       }
 
 
-      setUsername(data.username || '');
-      setFirstName(data.first_name || '');
-      setLastName(data.last_name || '');
-      setPhoneNumber(data.phone_number || '');
-      setAddress(data.address || '');
       setLoading(false);
     } catch (error) {
       console.error('Error fetching user profile:', error);
@@ -107,7 +109,7 @@ const UserProfilePage = () => {
   };
 
   const createCreditCard = async ({
-    newCardNumber,
+    cardNumber,
     expirationDate,
     cvv,
     cardholderName
@@ -119,7 +121,7 @@ const UserProfilePage = () => {
     console.log({ expirationDate, month, year, newExpirationDate });
 
     if (
-      !isCardNumberValid(newCardNumber) ||
+      !isCardNumberValid(cardNumber) ||
       !isExpirationDateValid(expirationDate)
     ) {
       setErrorMessage(
@@ -129,7 +131,7 @@ const UserProfilePage = () => {
 
     try {
       await apiCreateCreditCard({
-        card_number: newCardNumber,
+        card_number: cardNumber,
         expiration_date: newExpirationDate,
         cvv: cvv,
         cardholder_name: cardholderName
@@ -307,6 +309,15 @@ const UserProfilePage = () => {
                     >
                       Editar
                     </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      size="small"
+                      sx={{ marginTop: 2 }}
+                      onClick={() => apiGetCreditCard()}
+                    >
+                      Actualizar
+                    </Button>
                   </Box>
                 </>)}
                 {/* create/update credit card form  */}
@@ -329,6 +340,14 @@ const UserProfilePage = () => {
                 </>}
 
                 {editingCreditcard && (<>
+                  <TextField
+                    label={<LabelBg>Direccion</LabelBg>}
+                    variant="outlined"
+                    fullWidth
+                    onChange={e => setCardAddress(e.target.value)}
+                    value={cardAddress}
+                  />
+
                   <InputMask
                     mask="9999 9999 9999 9999"
                     value={cardNumber}
@@ -344,6 +363,7 @@ const UserProfilePage = () => {
                       />
                     )}
                   </InputMask>
+                  {/* for the year, it will always start with 20 and the user will only be able to input the last 2 digits */}
                   <InputMask
                     mask="99/9999"
                     value={expirationDate}
@@ -378,7 +398,7 @@ const UserProfilePage = () => {
                       color="primary"
                       sx={{ marginTop: 2 }}
                       onClick={() => createCreditCard({
-                        newCardNumber,
+                        cardNumber,
                         expirationDate,
                         cvv,
                         cardholderName: `${firstName} ${lastName}`
