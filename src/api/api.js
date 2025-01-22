@@ -218,8 +218,19 @@ export const apiFetchUsers = async () => {
 };
 
 export const apiFetchOneUser = async () => {
-  const response = await api.get(`http://localhost:5000/users/currentUser`);
-  return response.data;
+  
+  const userResponse = await api.get(`http://localhost:5000/users/currentUser`);
+  const userData = userResponse.data;
+
+  const creditcardResponse = await api.get(`http://localhost:5000/users/getCreditCard`);
+  const creditcardData = creditcardResponse.data;
+
+  const response = {
+    ...userData,
+    creditcard: creditcardData
+  };
+
+  return response;    
 };
 
 export const apiFetchUserOrders = async () => {
@@ -241,6 +252,18 @@ export const apiUpdateUserroles = async (users) => {
   const response = await api.put(`http://localhost:5000/users/roles`, {
     users,
   });
+  return response.data;
+};
+
+export const apiCreateCreditCard = async (creditcardInfo) => {
+  const response = await api.post(`http://localhost:5000/users/createCreditCard`, {
+    ...creditcardInfo,
+  });
+  return response.data;
+};
+
+export const apiRemoveCreditCard = async () => {
+  const response = await api.delete(`http://localhost:5000/users/removeCreditCard`);
   return response.data;
 };
 

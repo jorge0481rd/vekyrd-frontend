@@ -19,9 +19,4 @@
 - Add enough data for the reports dates range to be inclusive.
 
 Título del Caso:
-Captura de Pantalla:
-Componentes de la Pantalla (con descripciones):
-Flujo de Interacción:
-Anotaciones/Diagramas:
-Notas de Diseño:
-Consideraciones Técnicas:
+~~Captura de Pantalla:~~

@@ -146,7 +146,7 @@ const UserRolesPage = () => {
               display: 'flex',
               flexWrap: 'wrap',
               gap: 2,
-              justifyContent: 'space-between',
+              justifyContent: 'space-evenly',
             }}
           >
             {filteredUsers.map((user) => (
