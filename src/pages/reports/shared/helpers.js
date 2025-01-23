@@ -12,3 +12,7 @@ export const currencyFormatter = (params) => {
 export const percentageFormatter = (params) => {
   return `${parseFloat(params.value).toFixed(2)}%`;
 };
+
+export function formatCardNumber(cardNumber) {
+  return cardNumber.replace(/(\d{4})(?=\d)/g, '$1-');
+}

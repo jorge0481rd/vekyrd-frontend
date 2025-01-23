@@ -6,7 +6,7 @@ import {
   Box,
   CircularProgress,
 } from '@mui/material';
-import { apiCreateOrder, apiPayment } from '../api/api';
+import { apiCreateOrder, apiGetCreditCard, apiPayment } from '../api/api';
 import PageContainer from '../components/PageContainer';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppContext } from '../context/AppContext';
@@ -16,6 +16,7 @@ import Cards from 'react-credit-cards-2';
 import 'react-credit-cards-2/dist/es/styles-compiled.css';
 import { validatePaymentCardForm } from '../helpers/validatePaymentCardForm';
 import { getCartFromLocalStorage } from '../helpers/cartHelpers';
+import { getFromDate } from '../utils/getFromDate';
 
 const OrderPage = () => {
   const [orderHash, setOrderHash] = useState('');
@@ -24,10 +25,10 @@ const OrderPage = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const [confirmationHash, setConfirmationHash] = useState('');
   const [cardDetails, setCardDetails] = useState({
-    name: 'JORGE LOPEZ',
-    number: '4342252563634126',
-    expiry: '12/25',
-    cvc: '123',
+    name: '',
+    number: '',
+    expiry: '',
+    cvc: '',
     focus: false,
   });
 
@@ -44,6 +45,28 @@ const OrderPage = () => {
   const { isAuthenticated, resetPurchase } = useAppContext();
 
   const navigate = useNavigate();
+
+  const getCreditCard = async () => {
+    setIsLoading(true);
+    const creditCardData = await apiGetCreditCard();
+
+    if (creditCardData) {
+      const { cardholder_name, card_number, expiration_date, cvv } = creditCardData;
+      const monthNumber = getFromDate(expiration_date).m;
+      const yearNumber = getFromDate(expiration_date).y;
+      const expirationDate = `${monthNumber}/${yearNumber}`;
+
+      setCardDetails({
+        name: cardholder_name || '',
+        number: card_number || '',
+        expiry: expirationDate,
+        cvc: cvv || '',
+        focus: false,
+      });
+    }
+
+    setIsLoading(false);
+  };
 
   useEffect(() => {
     const items = orderDetails && orderDetails.items;
@@ -72,11 +95,16 @@ const OrderPage = () => {
         console.log(error);
       }
     };
-    
+
     const orderDetailsLength = Object.values(orderDetails).length;
 
     orderDetailsLength > 0 && createOrder(orderDetails);
   }, [isAuthenticated, navigate, orderDetails]);
+
+  useEffect(() => {
+    console.log('getCreditCard()')
+    getCreditCard()
+  }, []);
 
   const handleShippingInputChange = (e) => {
     const { name, value } = e.target;

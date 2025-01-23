@@ -15,6 +15,7 @@ import LabelBg from '../../components/shared/LabelWithBg';
 import { getFromDate } from '../../utils/getFromDate';
 import InputMask from 'react-input-mask';
 import { isCardNumberValid, isExpirationDateValid } from './card-validation';
+import { formatCardNumber } from '../reports/shared/helpers';
 
 const UserProfilePage = () => {
   const [loading, setLoading] = useState(true);
@@ -27,12 +28,14 @@ const UserProfilePage = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [address, setAddress] = useState('');
 
-  const [editingCreditcard, setEditingCreditcard] = useState(false);
-  const [hasCreditcard, setHasCreditcard] = useState(false);
   const [cardNumber, setCardNumber] = useState('');
-  const [cardAddress, setCardAddress] = useState('');
   const [expirationDate, setExpirationDate] = useState('');
   const [cvv, setCvv] = useState('');
+  const [cardHolderName, setCardHolderName] = useState('');
+  const [billingAddress, setBillingAddress] = useState('');
+
+  const [editingCreditcard, setEditingCreditcard] = useState(false);
+  const [hasCreditcard, setHasCreditcard] = useState(false);
 
   const getOneUser = async () => {
     try {
@@ -50,7 +53,10 @@ const UserProfilePage = () => {
         const monthNumber = getFromDate(creditCardData.expiration_date).m;
         const yearNumber = getFromDate(creditCardData.expiration_date).y;
         const expirationDate = `${monthNumber}/${yearNumber}`;
-        setCardNumber(creditCardData.card_number || '');
+
+        setCardHolderName(creditCardData.cardholder_name || '');
+        setBillingAddress(creditCardData.billing_address || '');
+        setCardNumber(formatCardNumber(creditCardData.card_number || ''));
         setExpirationDate(expirationDate || '');
         setCvv(creditCardData.cvv || '');
       }
@@ -108,11 +114,12 @@ const UserProfilePage = () => {
     }
   };
 
-  const createCreditCard = async ({
+  const saveCreditCard = async ({
     cardNumber,
     expirationDate,
     cvv,
-    cardholderName
+    cardholderName,
+    billingAddress
   }) => {
     // add firt month to the expiration date
     const month = expirationDate.split('/')[0];
@@ -134,7 +141,8 @@ const UserProfilePage = () => {
         card_number: cardNumber,
         expiration_date: newExpirationDate,
         cvv: cvv,
-        cardholder_name: cardholderName
+        cardholder_name: cardholderName,
+        billing_address: billingAddress
       });
       setHasCreditcard(true);
       setEditingCreditcard(false);
@@ -209,7 +217,7 @@ const UserProfilePage = () => {
                 onChange={(e) => setUsername(e.target.value)}
                 variant="outlined"
                 fullWidth
-                sx={{ marginBottom: 2 }}
+                sx={{ marginBottom: 2, fontSize: '12px' }}
               />
               <TextField
                 label={<LabelBg>Nombre</LabelBg>}
@@ -257,7 +265,6 @@ const UserProfilePage = () => {
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '1rem',
                   flexDirection: 'column',
                   border: 'double 1px #ccc',
                   borderRadius: '8px',
@@ -265,28 +272,42 @@ const UserProfilePage = () => {
                   marginBottom: '2rem',
                 }}
               >
-                <Typography variant="h6">Tarjeta de crédito</Typography>
-
-                {/* if user has credit card, show card number and expiration date and buttons to edit or delete */}
+                {/* credit card display */}
+                <Typography variant="h6" sx={{ margin: '1rem' }}>Tarjeta de crédito</Typography>
                 {hasCreditcard && !editingCreditcard && (<>
                   <Typography
                     variant="caption"
                     textAlign="left"
-                    sx={{ width: '100%', fontSize: '1.3rem' }}
+                    sx={{ width: '100%', fontSize: '1rem' }}
+                  >
+                    {cardHolderName}
+                  </Typography>
+                  <Typography
+                    variant="caption"
+                    textAlign="left"
+                    sx={{ width: '100%', fontSize: '1rem' }}
+                  >
+                    Direccion: {billingAddress}
+                  </Typography>
+                  <Typography
+                    variant="caption"
+                    textAlign="left"
+                    sx={{ width: '100%', fontSize: '1rem' }}
                   >
                     Número: {cardNumber}
                   </Typography>
+
                   <Typography
                     variant="caption"
                     textAlign="left"
-                    sx={{ width: '100%', fontSize: '1.3rem' }}
+                    sx={{ width: '100%', fontSize: '1rem' }}
                   >
-                    Fecha de expiración: {expirationDate}
+                    Expiración: {expirationDate}
                   </Typography>
                   <Typography
                     variant="caption"
                     textAlign="left"
-                    sx={{ width: '100%', fontSize: '1.3rem' }}
+                    sx={{ width: '100%', fontSize: '1rem' }}
                   >
                     CVV: {cvv}
                   </Typography>
@@ -320,12 +341,13 @@ const UserProfilePage = () => {
                     </Button>
                   </Box>
                 </>)}
-                {/* create/update credit card form  */}
+
+                {/* credit card edit   */}
                 {!hasCreditcard && <>
                   <Typography
-                    variant="caption"
+                    variant="h5"
                     textAlign="left"
-                    sx={{ width: '100%', fontSize: '1.3rem' }}
+                    sx={{ width: '100%' }}
                   >
                     No tienes tarjeta de crédito
                   </Typography>
@@ -339,15 +361,21 @@ const UserProfilePage = () => {
                   </Button>
                 </>}
 
-                {editingCreditcard && (<>
+                {editingCreditcard && (<Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                  <TextField
+                    label={<LabelBg>Nombre y apellido</LabelBg>}
+                    variant="outlined"
+                    fullWidth
+                    onChange={e => setCardHolderName(e.target.value)}
+                    value={cardHolderName}
+                  />
                   <TextField
                     label={<LabelBg>Direccion</LabelBg>}
                     variant="outlined"
                     fullWidth
-                    onChange={e => setCardAddress(e.target.value)}
-                    value={cardAddress}
+                    onChange={e => setBillingAddress(e.target.value)}
+                    value={billingAddress}
                   />
-
                   <InputMask
                     mask="9999 9999 9999 9999"
                     value={cardNumber}
@@ -363,7 +391,6 @@ const UserProfilePage = () => {
                       />
                     )}
                   </InputMask>
-                  {/* for the year, it will always start with 20 and the user will only be able to input the last 2 digits */}
                   <InputMask
                     mask="99/9999"
                     value={expirationDate}
@@ -397,20 +424,20 @@ const UserProfilePage = () => {
                       variant="contained"
                       color="primary"
                       sx={{ marginTop: 2 }}
-                      onClick={() => createCreditCard({
+                      onClick={() => saveCreditCard({
                         cardNumber,
                         expirationDate,
                         cvv,
-                        cardholderName: `${firstName} ${lastName}`
+                        cardholderName: `${firstName} ${lastName}`,
+                        billingAddress
                       })}
                       disabled={!isCardNumberValid(cardNumber) || !isExpirationDateValid(expirationDate)}
                     >
                       Guardar tarjeta
                     </Button>
                   </Box>
-                </>)}
+                </Box>)}
               </Box>
-
               {!editingCreditcard && <Button
                 type="submit"
                 variant="contained"
