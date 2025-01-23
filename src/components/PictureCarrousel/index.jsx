@@ -33,6 +33,7 @@ const PictureCarrousel = ({ pictures = [] }) => {
       sx={{
         flex: 1,
         minWidth: '300px',
+        minHeight: '510px',
         position: 'relative',
         backgroundColor: 'gray',
         backgroundImage: `url(${selectedImg})`,

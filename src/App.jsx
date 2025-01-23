@@ -33,6 +33,7 @@ import NavigationButton from './components/navigation-button';
 import TestPage from './pages/TestPage';
 import UserProfilePage from './pages/ProfilePage';
 import MyOrdersPage from './pages/MyOrdersPage';
+import ScrollToTop from './utils/scrollToTop';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -66,6 +67,7 @@ const App = () => {
     <AppProvider>
       <ThemeProvider theme={theme}>
         <Router>
+          <ScrollToTop />
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/test" element={<TestPage />} />

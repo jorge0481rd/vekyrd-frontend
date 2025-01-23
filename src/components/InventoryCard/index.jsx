@@ -69,6 +69,7 @@ const InventoryCard = ({ product }) => {
   const [disableSave, setDisableSave] = useState(true);
   const [openRemoveProduct, setOpenRemoveProduct] = useState(false);
   const active = product.active;
+  const img1 = product.imageurl1;
 
   useEffect(() => {
     setStock(product.stock);
@@ -110,7 +111,7 @@ const InventoryCard = ({ product }) => {
           <Typography variant="body1">SKU: {product.sku}</Typography>
         </Typography>
         <ProductThumbnail
-          imageurl={product.imageurl1}
+          imageurl={img1}
           productId={product.id}
           size="medium"
         />

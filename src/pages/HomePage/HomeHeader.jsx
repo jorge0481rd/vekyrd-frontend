@@ -5,12 +5,12 @@ import { Link } from 'react-router-dom';
 const HomeHeader = () => {
   useEffect(() => {
     const images = document.querySelectorAll('.banner-image');
-    const img1 = images[1];
-    const img0 = images[0];
+    const image1 = images[1];
+    const image0 = images[0];
 
-    img0.style.transform = 'translateX(200px)';
-    img0.style.opacity = 0;
-    img0.imgHidden = true;
+    image0.style.transform = 'translateX(200px)';
+    image0.style.opacity = 0;
+    image0.imgHidden = true;
 
     const invertStatus = (img) => {
       img.imgHidden = !img.imgHidden;
@@ -25,8 +25,8 @@ const HomeHeader = () => {
     };
 
     const interval = setInterval(() => {
-      invertStatus(img0);
-      invertStatus(img1);
+      invertStatus(image0);
+      invertStatus(image1);
     }, 4000);
     return () => clearInterval(interval);
   }, []);

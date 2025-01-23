@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ProductThumbnail from '../ProductCard/ProductThumbnail';
+import removeNumberIndexFromImgPath from '../../helpers/removeNumberIndexFromImgPath';
 
 const listItemStyle = {
   display: 'flex',
@@ -24,6 +25,7 @@ const listItemStyle = {
 
 function CartItem({ index, item }) {
   const { name, price, quantity, productId, imageurl1 } = item;
+  const img1 = removeNumberIndexFromImgPath(imageurl1);
   const { updateQuantity, addOrRemoveToCart } = useAppContext();
   const [removed, setRemoved] = useState(false);
   const [localQty, setLocalQty] = useState(1);
@@ -48,7 +50,7 @@ function CartItem({ index, item }) {
   return (
     <Box key={index}>
       <ListItem sx={listItemStyle}>
-        <ProductThumbnail imageurl={imageurl1} productId={productId} />
+        <ProductThumbnail imageurl={img1} productId={productId} />
         <ListItemText
           primary={name}
           secondary={`Precio: $${price}`}

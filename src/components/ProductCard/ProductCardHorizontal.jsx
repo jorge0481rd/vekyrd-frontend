@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import { memo, useEffect, useState } from 'react';
 import AddRemoveProductButton from '../AddRemoveProductButton/';
 import RatingStarsSelector from '../Reviews/RatingStarsSelector';
+import removeNumberIndexFromImgPath from '../../helpers/removeNumberIndexFromImgPath';
 
 const ProductCardHorizontal = memo(({ product, isProductInCart }) => {
   const { name, description, price, imageurl1, average_rating } = product;
+  const img1 = removeNumberIndexFromImgPath(imageurl1);
   const [isInCart, setIsInCart] = useState(isProductInCart);
 
   useEffect(() => {
@@ -37,7 +39,7 @@ const ProductCardHorizontal = memo(({ product, isProductInCart }) => {
         }}
       >
         <img
-          src={imageurl1}
+          src={img1}
           alt={product.name}
           style={{
             transition: 'all 0.3s ease-in-out',

@@ -9,6 +9,7 @@ import ProductCard from '../components/ProductCard';
 import PictureCarrousel from '../components/PictureCarrousel';
 import randomlyFormatParagraph from '../helpers/randomlyFormatParragraph';
 import Reviews from '../components/Reviews';
+import removeNumberIndexFromImgPath from '../helpers/removeNumberIndexFromImgPath';
 
 const ProductDetailPage = () => {
   const { productId } = useParams();
@@ -17,6 +18,11 @@ const ProductDetailPage = () => {
   const [isProductInCart, setIsProductInCart] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const maxTextLength = 350;
+  const img1 = removeNumberIndexFromImgPath(product?.imageurl1);
+  const img2 = removeNumberIndexFromImgPath(product?.imageurl2);
+  const img3 = removeNumberIndexFromImgPath(product?.imageurl3);
+  console.log(img1, img2, img3);
+
 
   const getFormattedParagraph = (product, isExpanded) => {
     const paragraph = product.description_large;
@@ -91,7 +97,7 @@ const ProductDetailPage = () => {
             </Box>
           </Box>
           <PictureCarrousel
-            pictures={[product.imageurl1, product.imageurl2, product.imageurl3]}
+            pictures={[img1, img2, img3]}
           />
         </Box>
       )}
