@@ -88,11 +88,11 @@ const OrderPage = () => {
         const cart = getCartFromLocalStorage();
         const order = await apiCreateOrder(cart, orderDetails);
         setOrderHash(order.order_hash);
-      } catch (error) {
-        if (error.response.status === 403) {
+      } catch (err) {
+        if (err.response.status === 403) {
           navigate('/login');
         }
-        console.log(error);
+        console.error(err);
       }
     };
 
@@ -102,7 +102,6 @@ const OrderPage = () => {
   }, [isAuthenticated, navigate, orderDetails]);
 
   useEffect(() => {
-    console.log('getCreditCard()')
     getCreditCard()
   }, []);
 
@@ -133,9 +132,9 @@ const OrderPage = () => {
       } else {
         setErrorMessage('El pago fue rechazado. Intente nuevamente.');
       }
-    } catch (error) {
+    } catch (err) {
       setErrorMessage('Hubo un error al procesar el pago. Intente nuevamente.');
-      console.log(error);
+      console.error(err);
     } finally {
       setIsLoading(false);
     }

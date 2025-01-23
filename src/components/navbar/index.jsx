@@ -10,6 +10,7 @@ import {
   Divider,
   Drawer,
   Box,
+  useMediaQuery,
 } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppContext } from '../../context/AppContext';
@@ -93,6 +94,18 @@ const Navbar = () => {
             justifyContent: 'end',
             flexWrap: 'wrap',
             padding: '0.7rem',
+            fontSize: () => {
+              let fontSize;
+              const isDesktop = useMediaQuery('(min-width:1200px)');
+              const isLaptop = useMediaQuery('(min-width:900px)');
+
+              if (isDesktop) {
+                fontSize = '12px';
+              } else if (isLaptop) {
+                fontSize = '10px';
+              }
+              return fontSize;
+            },
           }}
         >
           <img
@@ -115,6 +128,7 @@ const Navbar = () => {
             startIcon={<HomeIcon />}
             sx={{
               marginLeft: '6rem',
+              fontSize: 'inherit'
             }}
           >
             Inicio
@@ -130,6 +144,7 @@ const Navbar = () => {
                     sx={{
                       color: 'yellow',
                       fontWeight: 'bold',
+                      fontSize: 'inherit'
                     }}
                   >
                     Herramientas
@@ -144,6 +159,7 @@ const Navbar = () => {
             size="small"
             to="/about-us"
             startIcon={<Diversity3Icon />}
+            sx={{ fontSize: 'inherit' }}
           >
             Acerca de Nosotros
           </Button>
@@ -153,11 +169,12 @@ const Navbar = () => {
             size="small"
             to="/questionnare"
             startIcon={<ChecklistIcon />}
+            sx={{ fontSize: 'inherit' }}
           >
             Descubre
           </Button>
           <Button
-            sx={{ color: 'yellow' }}
+            sx={{ color: 'yellow', fontSize: 'inherit' }}
             component={Link}
             size="small"
             to="/products"
@@ -171,6 +188,7 @@ const Navbar = () => {
             size="small"
             to="/cart"
             startIcon={<ShoppingCartIcon />}
+            sx={{ fontSize: 'inherit' }}
           >
             <Badge badgeContent={cartCount} color="secondary">
               Carrito &nbsp;
@@ -182,6 +200,7 @@ const Navbar = () => {
             size="small"
             to="/contactus"
             startIcon={<CallIcon />}
+            sx={{ fontSize: 'inherit' }}
           >
             Contáctanos
           </Button>
@@ -192,6 +211,7 @@ const Navbar = () => {
               size="small"
               to="/login"
               startIcon={<LoginIcon />}
+              sx={{ fontSize: 'inherit' }}
             >
               Iniciar session
             </Button>
@@ -206,6 +226,7 @@ const Navbar = () => {
                 size="small"
                 to="/wishlist"
                 startIcon={<FavoriteIcon />}
+                sx={{ fontSize: 'inherit' }}
               >
                 Lista de favoritos
               </Button>
@@ -334,6 +355,7 @@ const Navbar = () => {
                 sx={{
                   color: 'yellow',
                   fontWeight: 'bold',
+                  fontSize: 'inherit'
                 }}
               >
                 Hola {`(${getUsername()})`}
