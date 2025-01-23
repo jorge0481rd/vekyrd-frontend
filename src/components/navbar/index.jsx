@@ -100,7 +100,7 @@ const Navbar = () => {
               const isLaptop = useMediaQuery('(min-width:900px)');
 
               if (isDesktop) {
-                fontSize = '12px';
+                fontSize = '13px';
               } else if (isLaptop) {
                 fontSize = '10px';
               }

@@ -2,7 +2,7 @@ import { Box, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const NavigationButton = ({ onClick = null, href = null, text }) => {
+const NavigationButton = ({ onClick = null, href = null, text, justifyContent = 'flex-end' }) => {
   return (
     <Box
       sx={{
@@ -10,7 +10,7 @@ const NavigationButton = ({ onClick = null, href = null, text }) => {
         textAlign: 'right',
         width: '100%',
         display: 'flex',
-        justifyContent: 'flex-end',
+        justifyContent
       }}
     >
       <Button

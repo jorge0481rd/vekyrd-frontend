@@ -146,9 +146,9 @@ export const apiCreateProduct = async (productData) => {
   }
 };
 
-export const apiToggleActiveStatus = async (productId, currentActiveStatus) => {
+export const apiChangeActiveStatus = async (productId, newStatus) => {
   const response = await api.put(
-    `http://localhost:5000/products/toggleActiveStatus/${productId}?currentActiveStatus=${currentActiveStatus}`
+    `http://localhost:5000/products/changeActiveStatus/${productId}?newStatus=${newStatus}`
   );
   return response.data;
 };
@@ -217,9 +217,9 @@ export const apiFetchUsers = async () => {
   return response.data;
 };
 
-export const apiFetchOneUser = async () => {  
+export const apiFetchOneUser = async () => {
   const response = await api.get(`http://localhost:5000/users/currentUser`);
-  return response.data;  
+  return response.data;
 };
 
 export const apiFetchUserOrders = async () => {

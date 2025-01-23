@@ -13,7 +13,8 @@ import {
 import { updateInventory } from '../../helpers/productHelpers';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
-import { apiToggleActiveStatus } from '../../api/api';
+import { apiChangeActiveStatus } from '../../api/api';
+import removeNumberIndexFromImgPath from '../../helpers/removeNumberIndexFromImgPath';
 
 const classes = {
   container: {
@@ -67,9 +68,9 @@ const InventoryCard = ({ product }) => {
   const [stock, setStock] = useState(0);
   const [price, setPrice] = useState(10);
   const [disableSave, setDisableSave] = useState(true);
-  const [openRemoveProduct, setOpenRemoveProduct] = useState(false);
-  const active = product.active;
-  const img1 = product.imageurl1;
+  const [openActiveStatusDialog, setOpenActiveStatusDialog] = useState(false);
+  const [activeStatus, setActiveStatus] = useState(product.active);
+  const img1 = removeNumberIndexFromImgPath(product.imageurl1);
 
   useEffect(() => {
     setStock(product.stock);
@@ -91,16 +92,11 @@ const InventoryCard = ({ product }) => {
     setDisableSave(true);
   };
 
-  const openRemoveProductDialog = async () => {
-    setOpenRemoveProduct(true);
-  };
-
-  const toggleActiveStatus = async () => {
+  const toggleActiveStatus = async (newStatus) => {
     const id = product.id;
-    const active = product.active;
-
-    await apiToggleActiveStatus(id, active);
-    setOpenRemoveProduct(false);
+    await apiChangeActiveStatus(id, newStatus);
+    setActiveStatus(prev => !prev);
+    setOpenActiveStatusDialog(false);
   };
 
   return (
@@ -120,9 +116,9 @@ const InventoryCard = ({ product }) => {
         variant="body1"
         sx={{ margin: 2, textAlign: 'center', fontWeight: 700 }}
       >
-        {!active && 'Desactivado'}
+        {!activeStatus && 'Desactivado'}
       </Typography>
-      {active && (
+      {activeStatus && (
         <Box sx={classes.info}>
           <Typography variant="body1">
             En stock:
@@ -135,6 +131,9 @@ const InventoryCard = ({ product }) => {
           <Typography variant="body2">Precio: ${product.price}</Typography>
         </Box>
       )}
+      <Typography variant="body1">
+        <Box sx={{ color: 'orange', display: 'inline', margin: '1rem', opacity: (stock > 0) && (stock < 10) ? 1 : 0 }}>Quedan pocos</Box>
+      </Typography>
       <Box sx={classes.actions}>
         <TextField
           label="cambiar precio"
@@ -152,13 +151,13 @@ const InventoryCard = ({ product }) => {
           sx={{ marginTop: 1 }}
         />
         <Stack direction="row" spacing={3} sx={{ marginTop: 1 }}>
-          {active && (
+          {activeStatus && (
             <>
               <Button
                 variant="text"
                 size="small"
                 sx={{ ...classes.actionsRowBtn, color: 'red' }}
-                onClick={() => openRemoveProductDialog(product.id)}
+                onClick={() => setOpenActiveStatusDialog(true)}
               >
                 Desactivar
               </Button>
@@ -174,7 +173,7 @@ const InventoryCard = ({ product }) => {
               </Button>
             </>
           )}
-          {!active && (
+          {!activeStatus && (
             <Button
               variant="contained"
               size="small"
@@ -183,25 +182,25 @@ const InventoryCard = ({ product }) => {
                 backgroundColor: 'green',
                 width: '100%',
               }}
-              onClick={() => openRemoveProductDialog(product.id)}
+              onClick={() => setOpenActiveStatusDialog(true)}
             >
               Activar
             </Button>
           )}
         </Stack>
         {/* confirmation dialog to remove product */}
-        <Dialog onClose={null} open={openRemoveProduct}>
+        <Dialog onClose={null} open={openActiveStatusDialog}>
           <DialogTitle>Desactivar producto</DialogTitle>
           <DialogContent>
             <Typography variant="body1" sx={{ marginBottom: 2 }}>
-              ¿Estás seguro de que deseas desactivar este producto?
+              ¿Estás seguro de que deseas <span style={{ color: 'red', fontWeight: 'bold' }}>{activeStatus ? 'desactivar' : 'activar'}</span> este producto?
             </Typography>
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => setOpenRemoveProduct(false)} color="primary">
+            <Button onClick={() => setOpenActiveStatusDialog(false)} color="primary">
               Cancelar
             </Button>
-            <Button onClick={toggleActiveStatus} color="primary">
+            <Button onClick={() => toggleActiveStatus(!activeStatus)} color="primary">
               Sí
             </Button>
           </DialogActions>
