@@ -48,11 +48,16 @@ const AddRemoveProductButton = ({
       </Box>
 
       <Button
-        variant={isInCart ? 'text' : 'contained'}
+        variant='contained'
         onClick={() => handleAddOrRemove(product)}
         sx={{
           color: isInCart ? 'red' : 'white',
+          background: isInCart ? 'rgba(255, 255, 255, 0.6)' : (theme) => theme.palette.primary.main,
           margin: 1,
+          transition: 'all 0.3s ease-in-out',
+          transform: isInCart ? 'translateX(-30%)' : 'none',
+          textAlign: isInCart ? 'right' : 'center',
+          paddingLeft: isInCart ? '50%' : '10%',
           flex: 1,
         }}
       >

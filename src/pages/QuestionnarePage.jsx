@@ -117,7 +117,7 @@ const QuestionnairePage = () => {
         }}
       >
         {/* Tipo de cabello */}
-        <Typography variant="h6">
+        <Typography variant="h6" fontWeight={'bold'}>
           1. ¿Cómo describirías tu tipo de cabello?
         </Typography>
         <FormControl component="fieldset">
@@ -146,7 +146,7 @@ const QuestionnairePage = () => {
         </FormControl>
 
         {/* Longitud del cabello */}
-        <Typography variant="h6" sx={{ marginTop: '3rem' }}>
+        <Typography variant="h6" sx={{ marginTop: '3rem' }} fontWeight={'bold'}>
           2. ¿Qué tan largo es tu cabello?
         </Typography>
         <FormControl component="fieldset">
@@ -162,7 +162,7 @@ const QuestionnairePage = () => {
         </FormControl>
 
         {/* ¿Sueles teñir o tratar químicamente tu cabello? */}
-        <Typography variant="h6" sx={{ marginTop: '3rem' }}>
+        <Typography variant="h6" sx={{ marginTop: '3rem' }} fontWeight={'bold'}>
           3. ¿Sueles teñir o tratar químicamente tu cabello?
         </Typography>
         <FormControl component="fieldset">
@@ -190,7 +190,7 @@ const QuestionnairePage = () => {
         </FormControl>
 
         {/* ¿Cuál es tu mayor preocupación relacionada con tu cabello? */}
-        <Typography variant="h6" sx={{ marginTop: '3rem' }}>
+        <Typography variant="h6" sx={{ marginTop: '3rem' }} fontWeight={'bold'}>
           4. ¿Cuál es tu mayor preocupación relacionada con tu cabello?
         </Typography>
         <FormControl component="fieldset">
@@ -224,7 +224,7 @@ const QuestionnairePage = () => {
         </FormControl>
 
         {/* Condición del cuero cabelludo */}
-        <Typography variant="h6" sx={{ marginTop: '3rem' }}>
+        <Typography variant="h6" sx={{ marginTop: '3rem' }} fontWeight={'bold'}>
           5. ¿Cuál es la condición de tu cuero cabelludo?
         </Typography>
         <TextField
@@ -237,7 +237,7 @@ const QuestionnairePage = () => {
         />
 
         {/* Problemas actuales */}
-        <Typography variant="h6" sx={{ marginTop: '3rem' }}>
+        <Typography variant="h6" sx={{ marginTop: '3rem' }} fontWeight={'bold'}>
           6. ¿Qué problemas específicos tiene tu cabello?
         </Typography>
         <TextField
@@ -250,7 +250,7 @@ const QuestionnairePage = () => {
         />
 
         {/* Objetivos */}
-        <Typography variant="h6" sx={{ marginTop: '3rem' }}>
+        <Typography variant="h6" sx={{ marginTop: '3rem' }} fontWeight={'bold'}>
           7. ¿Qué resultados esperas conseguir?
         </Typography>
         <TextField

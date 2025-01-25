@@ -36,6 +36,33 @@ import MenuIcon from '@mui/icons-material/Menu';
 import DividerLine from '../shared/DividerLine';
 import vekylogo from './vekylogo.png';
 
+const classes = {
+  desktopButton: {
+    fontSize: 'inherit',
+    transition: 'all 330ms ease-in-out',
+    margin: '0 4px',
+    position: 'relative',
+    '&::after': {
+      content: '""',
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      width: '100%',
+      height: '1px',
+      backgroundColor: 'rgba(255, 255, 255, 0)',
+      transition: 'all 200ms ease-in-out',
+      transform: 'translateY(3px)',
+    },
+    '&:hover': {
+      '&::after': {
+        backgroundColor: 'rgba(255, 255, 255, 1)',
+        transform: 'translateY(0)',
+      },
+      color: '#fff'
+    },
+  }
+}
+
 const Navbar = () => {
   const { isAuthenticated, logout, cartCount, getUserRoles, getUsername } =
     useAppContext();
@@ -126,10 +153,7 @@ const Navbar = () => {
             size="small"
             to="/"
             startIcon={<HomeIcon />}
-            sx={{
-              marginLeft: '6rem',
-              fontSize: 'inherit'
-            }}
+            sx={{ ...classes.desktopButton }}
           >
             Inicio
           </Button>
@@ -144,7 +168,8 @@ const Navbar = () => {
                     sx={{
                       color: 'yellow',
                       fontWeight: 'bold',
-                      fontSize: 'inherit'
+                      fontSize: 'inherit',
+                      ...classes.desktopButton
                     }}
                   >
                     Herramientas
@@ -159,7 +184,7 @@ const Navbar = () => {
             size="small"
             to="/about-us"
             startIcon={<Diversity3Icon />}
-            sx={{ fontSize: 'inherit' }}
+            sx={{ ...classes.desktopButton }}
           >
             Acerca de Nosotros
           </Button>
@@ -169,12 +194,12 @@ const Navbar = () => {
             size="small"
             to="/questionnare"
             startIcon={<ChecklistIcon />}
-            sx={{ fontSize: 'inherit' }}
+            sx={{ ...classes.desktopButton }}
           >
             Descubre
           </Button>
           <Button
-            sx={{ color: 'yellow', fontSize: 'inherit' }}
+            sx={{ color: 'yellow', ...classes.desktopButton }}
             component={Link}
             size="small"
             to="/products"
@@ -188,7 +213,7 @@ const Navbar = () => {
             size="small"
             to="/cart"
             startIcon={<ShoppingCartIcon />}
-            sx={{ fontSize: 'inherit' }}
+            sx={{ ...classes.desktopButton }}
           >
             <Badge badgeContent={cartCount} color="secondary">
               Carrito &nbsp;
@@ -200,7 +225,7 @@ const Navbar = () => {
             size="small"
             to="/contactus"
             startIcon={<CallIcon />}
-            sx={{ fontSize: 'inherit' }}
+            sx={{ ...classes.desktopButton }}
           >
             Contáctanos
           </Button>
@@ -211,7 +236,7 @@ const Navbar = () => {
               size="small"
               to="/login"
               startIcon={<LoginIcon />}
-              sx={{ fontSize: 'inherit' }}
+              sx={{ ...classes.desktopButton }}
             >
               Iniciar session
             </Button>
@@ -226,7 +251,7 @@ const Navbar = () => {
                 size="small"
                 to="/wishlist"
                 startIcon={<FavoriteIcon />}
-                sx={{ fontSize: 'inherit' }}
+                sx={{ ...classes.desktopButton }}
               >
                 Lista de favoritos
               </Button>
@@ -355,7 +380,7 @@ const Navbar = () => {
                 sx={{
                   color: 'yellow',
                   fontWeight: 'bold',
-                  fontSize: 'inherit'
+                  ...classes.desktopButton
                 }}
               >
                 Hola {`(${getUsername()})`}
