@@ -1,6 +1,4 @@
 import { Box } from '@mui/material';
-import Navbar from './navbar';
-import Footer from './Footer';
 import PropTypes from 'prop-types';
 
 const PageContainer = ({ children, sx }) => {
@@ -21,7 +19,6 @@ const PageContainer = ({ children, sx }) => {
         ...sx,
       }}
     >
-      <Navbar />
       <Box
         sx={{
           flex: 1,
@@ -36,10 +33,10 @@ const PageContainer = ({ children, sx }) => {
       >
         {children}
       </Box>
-      <Footer />
     </Box>
   );
 };
+
 
 PageContainer.propTypes = {
   children: PropTypes.node.isRequired,

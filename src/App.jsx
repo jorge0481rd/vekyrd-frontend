@@ -23,7 +23,7 @@ import PageHeader from './components/PageHeader';
 import PendingOrdersReportPage from './pages/reports/pending-orders';
 import ProductDetailPage from './pages/ProductDetailsPage';
 import ProductsPage from './pages/ProductsPage';
-import QuestionnairePage from './pages/QuestionnarePage';
+import QuestionnairePage from './pages/QuestionnairePage';
 import RegisterPage from './pages/RegisterPage';
 import ReviewsReportPage from './pages/reports/reviews';
 import SalesReportPage from './pages/reports/sales';
@@ -34,6 +34,8 @@ import UserProfilePage from './pages/ProfilePage';
 import UserRolesPage from './pages/UserRolesPage';
 import UsersReportPage from './pages/reports/users';
 import WishlistPage from './pages/WishlistPage';
+import Navbar from './components/navbar';
+import Footer from './components/Footer';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -67,6 +69,7 @@ const App = () => {
     <AppProvider>
       <ThemeProvider theme={theme}>
         <Router>
+          <Navbar />
           <ScrollToTop />
           <Routes>
             <Route path="/" element={<HomePage />} />
@@ -193,6 +196,7 @@ const App = () => {
               }
             />
           </Routes>
+          <Footer />
         </Router>
       </ThemeProvider>
     </AppProvider>
