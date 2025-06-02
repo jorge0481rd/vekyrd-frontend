@@ -34,7 +34,7 @@ export function getFromDate(dateStr) {
   const d = date.getDate();
   const day_number = date.getDay();
   const m = String(date.getMonth() + 1).padStart(2, '0'); // Ensure month is two digits
-  const y = date.getFullYear();
+  const y = String(date.getFullYear());
 
   return {
     d,

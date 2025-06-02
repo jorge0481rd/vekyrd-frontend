@@ -10,9 +10,19 @@ const Form = () => {
     const [additionalDetails, setAdditionalDetails] = useState('');
     const [message, setMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+    const [editing, setEditing] = useState(false);
 
-    const handleSubmit = (e) => {
-        e.preventDefault(); // Prevents page refresh
+    const editField = (e, setterFunction) => {
+        const value = e.target.value;
+        if (value !== '') {
+            setEditing(true);
+        }
+
+        setterFunction(value);
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         const formData = {
             name,
             email,
@@ -20,16 +30,19 @@ const Form = () => {
             additionalDetails,
             message,
         };
-        apiSendContactUs(formData);
+        const response = await apiSendContactUs(formData);
 
-        setSuccessMessage(
-            '¡Gracias por contactarnos! Nos pondremos en contacto pronto.'
-        );
-        setEmail('');
-        setName('');
-        setPhone('');
-        setAdditionalDetails('');
-        setMessage('');
+        if (response.status !== 201) {
+            setEmail('');
+            setName('');
+            setPhone('');
+            setAdditionalDetails('');
+            setMessage('');
+            setEditing(false);
+            setSuccessMessage(
+                '¡Gracias por contactarnos! Nos pondremos en contacto pronto.'
+            );
+        }
     };
 
     return (
@@ -64,7 +77,7 @@ const Form = () => {
                     }
                     name="name"
                     value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={(e) => editField(e, setName)}
                     variant="outlined"
                     fullWidth
                     sx={{ marginBottom: 2 }}
@@ -79,7 +92,7 @@ const Form = () => {
                     }
                     name="email"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => editField(e, setEmail)}
                     variant="outlined"
                     fullWidth
                     sx={{ marginBottom: 2 }}
@@ -94,7 +107,7 @@ const Form = () => {
                     }
                     name="phone"
                     value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    onChange={(e) => editField(e, setPhone)}
                     variant="outlined"
                     fullWidth
                     sx={{ marginBottom: 2 }}
@@ -109,7 +122,7 @@ const Form = () => {
                     }
                     name="additionalDetails"
                     value={additionalDetails}
-                    onChange={(e) => setAdditionalDetails(e.target.value)}
+                    onChange={(e) => editField(e, setAdditionalDetails)}
                     variant="outlined"
                     fullWidth
                     multiline
@@ -126,7 +139,7 @@ const Form = () => {
                     }
                     name="message"
                     value={message}
-                    onChange={(e) => setMessage(e.target.value)}
+                    onChange={(e) => editField(e, setMessage)}
                     variant="outlined"
                     fullWidth
                     multiline
@@ -134,7 +147,14 @@ const Form = () => {
                     sx={{ marginBottom: 2 }}
                 />
                 {successMessage && (
-                    <Typography color="primary" sx={{ marginBottom: 2 }}>
+                    <Typography color="primary" sx={{
+                        marginBottom: 2,
+                        color: 'white',
+                        fontSize: '1.5rem',
+                        transition: 'all 0.3s ease',
+                        opacity: editing ? 0 : 1,
+                        transform: `translateY(${editing ? 10 : 0}px)`,
+                    }}>
                         {successMessage}
                     </Typography>
                 )}
@@ -159,9 +179,7 @@ const Form = () => {
                         variant="outlined"
                         color="#ffffff"
                         disabled={!name || !email || !message}
-                        onClick={() =>
-                            handleSubmit(name, email, phone, additionalDetails, message)
-                        }
+                        onClick={handleSubmit}
                     >
                         Enviar
                     </Button>

@@ -8,7 +8,7 @@ import {
   removeFromWishlist,
 } from '../../helpers/productHelpers';
 
-const WishListIcon = ({ product }) => {
+const WishListIcon = ({ product, top = "1rem", right = "1rem", left = null, bottom = null }) => {
   const [liked, setLiked] = useState(product.isInWishlist);
 
   const handleClick = async () => {
@@ -36,12 +36,15 @@ const WishListIcon = ({ product }) => {
       onClick={() => handleClick(product)}
       sx={{
         position: 'absolute',
-        top: '1rem',
-        right: '1rem',
+        ...(top && { top }),
+        ...(right && { right }),
+        ...(left && { left }),
+        ...(bottom && { bottom }),
         outline: 'solid 1px rgba(0, 0, 0, 0)',
         width: '20px',
         height: '20px',
         cursor: 'pointer',
+        zIndex: 10,
       }}
     >
       <FavoriteIcon
@@ -68,6 +71,10 @@ const WishListIcon = ({ product }) => {
 
 WishListIcon.propTypes = {
   product: PropTypes.object.isRequired,
+  top: PropTypes.string,
+  right: PropTypes.string,
+  left: PropTypes.string,
+  bottom: PropTypes.string,
 };
 
 export default WishListIcon;

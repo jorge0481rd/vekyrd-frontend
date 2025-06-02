@@ -16,3 +16,7 @@ export const percentageFormatter = (params) => {
 export function formatCardNumber(cardNumber) {
   return cardNumber.replace(/(\d{4})(?=\d)/g, '$1-');
 }
+
+export function formattedStrPrice(price) {
+  return parseFloat(price).toFixed(2);
+}

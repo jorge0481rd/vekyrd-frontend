@@ -116,9 +116,8 @@ const ProductPage = () => {
         sx={{
           display: 'flex',
           gap: 4,
-          margin: '1rem 0',
-          boxShadow: '0 0 10px #ccc',
-          background: 'rgba(255, 255, 255, 0.1)',
+          margin: '1rem 0 2rem',
+          borderBottom: 'dashed 1px #ccc',
           borderRadius: '10px',
           padding: '1rem',
           boxSizing: 'border-box',
@@ -158,7 +157,7 @@ const ProductPage = () => {
       {!isLoading && (
         <Box
           sx={{
-            margin: '1rem  auto 4rem',
+            margin: '1rem  auto 2rem',
             width: { xs: '350px', md: '400px' },
             maxWidth: { xs: '100%', md: '400px' },
             background: 'white',

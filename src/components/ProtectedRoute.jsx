@@ -4,24 +4,24 @@ import { useAppContext } from '../context/AppContext';
 import { useLocation } from 'react-router-dom';
 
 const ProtectedRoute = ({ children, allowedRoles = [] }) => {
-  const { getUserRoles } = useAppContext();
-  const location = useLocation();  
+	const { getUserRoles } = useAppContext();
+	const location = useLocation();
 
-  const roleComplaint = getUserRoles().some((role) =>
-    allowedRoles.includes(role)
-  );
+	const roleComplaint = getUserRoles().some((role) =>
+		allowedRoles.includes(role)
+	);
 
-  const isAuthenticated = localStorage.getItem('isAuthenticated') || false; // check it here, because it's not available but after the userEffect is executed
-  if (!isAuthenticated || !roleComplaint) {
-    return <Navigate to="/login" state={{ returnUrl: location.pathname }} />;
-  }
+	const isAuthenticated = localStorage.getItem('isAuthenticated') || false;
+	if (!isAuthenticated || !roleComplaint) {
+		return <Navigate to="/login" state={{ returnUrl: location.pathname }} />;
+	}
 
-  return children;
+	return children;
 };
 
 ProtectedRoute.propTypes = {
-  children: PropTypes.node.isRequired,
-  allowedRoles: PropTypes.arrayOf(PropTypes.string),
+	children: PropTypes.node.isRequired,
+	allowedRoles: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default ProtectedRoute;

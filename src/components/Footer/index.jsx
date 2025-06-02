@@ -10,6 +10,9 @@ const Footer = () => {
         padding: '20px 0',
         mt: 4,
         width: '100%',
+        "@media print": {
+          display: "none",
+        },
       }}
     >
       <Container maxWidth="lg">

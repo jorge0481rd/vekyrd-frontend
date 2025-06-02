@@ -4,6 +4,7 @@ import { memo, useEffect, useState } from 'react';
 import AddRemoveProductButton from '../AddRemoveProductButton/';
 import RatingStarsSelector from '../Reviews/RatingStarsSelector';
 import removeNumberIndexFromImgPath from '../../helpers/removeNumberIndexFromImgPath';
+import WishListIcon from './WishListIcon';
 
 const ProductCardHorizontal = memo(({ product, isProductInCart }) => {
   const { name, description, price, imageurl1, average_rating } = product;
@@ -30,6 +31,7 @@ const ProductCardHorizontal = memo(({ product, isProductInCart }) => {
       sx={cardStyles}
       elevation={isInCart ? 1 : 0}
     >
+      <WishListIcon product={product} top="1rem" left="1rem" />
       <Box
         sx={{
           display: 'flex',

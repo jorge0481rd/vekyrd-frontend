@@ -31,6 +31,7 @@ NavigationButton.propTypes = {
   onClick: PropTypes.func,
   href: PropTypes.string,
   text: PropTypes.string.isRequired,
+  justifyContent: PropTypes.string
 };
 
 export default NavigationButton;

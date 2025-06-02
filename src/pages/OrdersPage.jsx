@@ -17,6 +17,7 @@ import 'react-credit-cards-2/dist/es/styles-compiled.css';
 import { validatePaymentCardForm } from '../helpers/validatePaymentCardForm';
 import { getCartFromLocalStorage } from '../helpers/cartHelpers';
 import { getFromDate } from '../utils/getFromDate';
+import NavigationButton from '../components/navigation-button';
 
 const OrderPage = () => {
   const [orderHash, setOrderHash] = useState('');
@@ -53,7 +54,7 @@ const OrderPage = () => {
     if (creditCardData) {
       const { cardholder_name, card_number, expiration_date, cvv } = creditCardData;
       const monthNumber = getFromDate(expiration_date).m;
-      const yearNumber = getFromDate(expiration_date).y;
+      const yearNumber = getFromDate(expiration_date).y.slice(-2);
       const expirationDate = `${monthNumber}/${yearNumber}`;
 
       setCardDetails({
@@ -153,6 +154,13 @@ const OrderPage = () => {
   if (successMessage)
     return (
       <PageContainer>
+        <PageHeader
+          title=""
+          isLoading={isLoading}
+          isLoadingText="Cargando..."
+        >
+          <NavigationButton href="/products" text="Productos ►" justifyContent="flex-end" />
+        </PageHeader>
         <Box
           sx={{
             display: 'flex',
@@ -205,11 +213,7 @@ const OrderPage = () => {
         <Typography variant="body1" gutterBottom sx={{ textAlign: 'right' }}>
           Pedido #: {orderHash}
         </Typography>
-        <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
-          <Button component={Link} variant="contained" to="/cart">
-            ◄ Carrito
-          </Button>
-        </Box>
+        <NavigationButton href="/cart" text="◄ Carrito" justifyContent="flex-start" />
       </PageHeader>
       <Box
         id="payment-forms-container"

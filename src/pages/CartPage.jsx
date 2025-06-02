@@ -47,7 +47,7 @@ const CartPage = () => {
   return (
     <PageContainer>
       <PageHeader title="Carrito" isLoading={isLoading}>
-        <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
+        <Box sx={{ display: 'flex', gap: 2, justifyContent: 'space-between' }}>
           <Button
             component={Link}
             color="secondary"
