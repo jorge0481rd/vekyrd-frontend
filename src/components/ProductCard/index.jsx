@@ -30,7 +30,8 @@ const ProductCard = memo(
 			<Card
 				className="product-card-container"
 				sx={{
-					width: '200px',
+					width: { xs: '100%', sm: '200px' },
+					maxWidth: '300px',
 					backgroundColor: isInCart ? '#f4ffdf' : 'white',
 					borderRadius: '10px',
 					position: 'relative',
@@ -47,18 +48,24 @@ const ProductCard = memo(
 					elevation={isInCart ? 1 : 0}
 					sx={{ position: 'relative', overflow: 'hidden' }}
 				>
-					<img
-						width={200}
-						height={218}
-						src={img1}
-						alt={product.name}
-						style={{
-							transition: 'all 0.3s ease-in-out',
-							transform: isInCart
-								? 'scale(1.5) rotate(3deg) translateY(30px)'
-								: 'scale(1) rotate(0deg)',
+					<Box
+						sx={{
+							width: { xs: '100%', sm: '200px' }
 						}}
-					/>
+					>
+						<img
+							width="100%"
+							height="auto"
+							src={img1}
+							alt={product.name}
+							style={{
+								transition: 'all 0.3s ease-in-out',
+								transform: isInCart
+									? 'scale(1.5) rotate(3deg) translateY(30px)'
+									: 'scale(1) rotate(0deg)',
+							}}
+						/>
+					</Box>
 
 					{!disableLinkToDetails && (
 						<Box
@@ -103,7 +110,6 @@ const ProductCard = memo(
 					sx={{
 						margin: '1rem',
 						flex: 1,
-						minHeight: '95px',
 						alignItems: 'center',
 						display: 'flex',
 						justifyContent: 'center',
@@ -115,11 +121,11 @@ const ProductCard = memo(
 						sx={{
 							fontWeight: 700,
 							textAlign: 'center',
-							minHeight: '65px',
 							display: 'flex',
 							alignItems: 'center',
 							justifyContent: 'center',
 							width: '100%',
+							marginBottom: '1rem'
 						}}
 					>
 						{name}
@@ -133,7 +139,6 @@ const ProductCard = memo(
 						sx={{
 							color: 'text.secondary',
 							textAlign: 'center',
-							minHeight: '65px',
 							display: 'flex',
 							alignItems: 'center',
 						}}
