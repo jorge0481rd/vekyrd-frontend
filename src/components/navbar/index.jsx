@@ -74,12 +74,12 @@ const Navbar = () => {
 
 	useEffect(() => {
 		const pathname = location.pathname;
-		const btns = document.querySelectorAll('a');
+		const btns = document.querySelectorAll('.navbar a');
 		btns.forEach((btn) => {
 			if (btn.pathname === pathname) {
 				btn.style.color = 'yellow';
 			} else {
-				btn.style.color = '#ffffff';
+				btn.style.color = 'inherit';
 			}
 		});
 	}, [location.pathname]);
@@ -128,6 +128,7 @@ const Navbar = () => {
 					right: 0,
 					display: { xs: 'none', md: 'flex' },
 				}}
+				className="navbar"
 			>
 				<Toolbar
 					sx={{
@@ -135,8 +136,9 @@ const Navbar = () => {
 						justifyContent: 'end',
 						flexWrap: 'wrap',
 						padding: '0.7rem',
-						fontSize: { xs: '10px', md: '13px' }
+						fontSize: { xs: '10px', md: '11px' }
 					}}
+					className="navbar"
 				>
 					<img
 						style={{
@@ -144,7 +146,7 @@ const Navbar = () => {
 							height: 'auto',
 							position: 'absolute',
 							left: '1rem',
-							cursor: 'pointer',
+							cursor: 'pointer'
 						}}
 						src={vekylogo}
 						onClick={() => navigate('/')}
@@ -156,7 +158,7 @@ const Navbar = () => {
 						size="small"
 						to="/"
 						startIcon={<HomeIcon />}
-						sx={{ ...classes.desktopButton }}
+						sx={{ ...classes.desktopButton, marginLeft: "100px" }}
 					>
 						Inicio
 					</Button>
@@ -441,6 +443,7 @@ const Navbar = () => {
 						style={{ width: '100px', height: 'auto' }}
 						src={vekylogo}
 						alt=""
+						onClick={() => navigate('/')}
 					/>
 					<IconButton color="inherit" onClick={toggleMobileDrawer}>
 						<MenuIcon />
