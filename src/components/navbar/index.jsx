@@ -12,9 +12,9 @@ import {
 	Box,
 	useMediaQuery,
 } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAppContext } from '../../context/AppContext';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import HomeIcon from '@mui/icons-material/Home';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -71,6 +71,20 @@ const Navbar = () => {
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [userAnchorEl, setUserAnchorEl] = useState(null);
 	const navigate = useNavigate();
+	const location = useLocation();
+
+	useEffect(() => {
+		const pathname = location.pathname;
+		const btns = document.querySelectorAll('a');
+		btns.forEach((btn) => {
+			if (btn.pathname === pathname) {
+				btn.style.color = 'yellow';
+			} else {
+				btn.style.color = '#ffffff';
+			}
+		});
+	}, [location.pathname]);
+
 
 	// Handle opening the menu
 	const handleMenuClick = (event) => {
@@ -167,7 +181,6 @@ const Navbar = () => {
 										onClick={handleMenuClick}
 										startIcon={<SettingsIcon />}
 										sx={{
-											color: 'yellow',
 											fontWeight: 'bold',
 											fontSize: 'inherit',
 											...classes.desktopButton
@@ -200,7 +213,7 @@ const Navbar = () => {
 						Descubre
 					</Button>
 					<Button
-						sx={{ color: 'yellow', ...classes.desktopButton }}
+						sx={{ color: "#ffffff", ...classes.desktopButton }}
 						component={Link}
 						size="small"
 						to="/products"
@@ -379,7 +392,6 @@ const Navbar = () => {
 								onClick={openUserMenu}
 								startIcon={<PersonIcon />}
 								sx={{
-									color: 'yellow',
 									fontWeight: 'bold',
 									...classes.desktopButton
 								}}
