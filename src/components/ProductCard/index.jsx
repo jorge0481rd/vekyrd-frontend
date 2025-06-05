@@ -6,7 +6,6 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useNavigate } from 'react-router-dom';
 import RatingStarsSelector from '../Reviews/RatingStarsSelector';
 import WishListIcon from './WishListIcon';
-import removeNumberIndexFromImgPath from '../../helpers/removeNumberIndexFromImgPath';
 import { formattedStrPrice } from '../../pages/reports/shared/helpers';
 
 const ProductCard = memo(
@@ -16,8 +15,7 @@ const ProductCard = memo(
 		disableLinkToDetails = false,
 		buyAgain = false,
 	}) => {
-		const { name, description, price, imageurl, average_rating } = product;
-		const img1 = removeNumberIndexFromImgPath(imageurl);
+		const { name, description, price, images, average_rating } = product;
 		const [isInCart, setIsInCart] = useState(isProductInCart);
 
 		const navigate = useNavigate();
@@ -56,7 +54,7 @@ const ProductCard = memo(
 						<img
 							width="100%"
 							height="auto"
-							src={img1}
+							src={images[0]}
 							alt={product.name}
 							style={{
 								transition: 'all 0.3s ease-in-out',

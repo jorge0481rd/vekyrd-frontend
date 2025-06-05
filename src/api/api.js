@@ -124,19 +124,23 @@ export const getProductDetails = async (productId) => {
 	return response.data;
 };
 
-export const apiPostProductImages = async (formData) => {
-	console.log('formData', formData);
-	try {
-		const response = await api.post(
-			`${BASE_URL}/products/add-new-product/images`,
-			formData
-		);
-		return response;
-	} catch (error) {
-		console.log(error);
-	}
+export const uploadProductImages = async (files, sku) => {
+	const formData = new FormData();
+	files.forEach((file) => {
+		formData.append('images', file);
+	});
+
+	const res = await api.post(
+		`${BASE_URL}/images/upload-product-image/${sku}`,
+		formData
+	);
+
+	console.log(res);
 };
+
+
 export const apiCreateProduct = async (productData) => {
+	1
 	try {
 		const response = await api.post(
 			`${BASE_URL}/products/add-new-product`,
