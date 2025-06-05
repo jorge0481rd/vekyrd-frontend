@@ -16,6 +16,10 @@ const Thumbnail = ({ imgUrl, ...props }) => {
 				borderRadius: '8px',
 				cursor: 'pointer',
 				boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+				transition: 'all 0.05s ease-in-out',
+				'&:hover': {
+					transform: 'scale(1.1) rotate(3deg)'
+				},
 			}}
 		></Box>
 	);

@@ -18,17 +18,20 @@ const ProductDetailPage = () => {
 	const [isProductInCart, setIsProductInCart] = useState(false);
 	const [isExpanded, setIsExpanded] = useState(false);
 	const maxTextLength = 350;
+	const [formattedDescription, setFormattedDescription] = useState(null);
 
-
-	const getFormattedParagraph = (product, isExpanded) => {
-		const paragraph = product.description_large;
-		if (isExpanded) {
-			return randomlyFormatParagraph(paragraph);
-		} else {
-			return (
-				randomlyFormatParagraph(paragraph).slice(0, maxTextLength) + ' ...'
-			);
+	useEffect(() => {
+		if (product) {
+			const formatted = randomlyFormatParagraph(product.description_large);
+			setFormattedDescription(formatted);
 		}
+	}, [product]);
+
+	const getFormattedParagraph = () => {
+		if (!formattedDescription) return '';
+		return isExpanded
+			? formattedDescription
+			: formattedDescription.slice(0, maxTextLength) + ' ...';
 	};
 
 	useEffect(() => {
