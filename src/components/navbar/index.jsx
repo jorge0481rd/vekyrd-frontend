@@ -10,7 +10,6 @@ import {
 	Divider,
 	Drawer,
 	Box,
-	useMediaQuery,
 } from '@mui/material';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAppContext } from '../../context/AppContext';
@@ -136,18 +135,7 @@ const Navbar = () => {
 						justifyContent: 'end',
 						flexWrap: 'wrap',
 						padding: '0.7rem',
-						fontSize: () => {
-							let fontSize;
-							const isDesktop = useMediaQuery('(min-width:1200px)');
-							const isLaptop = useMediaQuery('(min-width:900px)');
-
-							if (isDesktop) {
-								fontSize = '13px';
-							} else if (isLaptop) {
-								fontSize = '10px';
-							}
-							return fontSize;
-						},
+						fontSize: { xs: '10px', md: '13px' }
 					}}
 				>
 					<img
